@@ -10,10 +10,10 @@ import htmlKatex from 'remark-html-katex';
 import hljs from 'remark-highlight.js';
 import html from 'remark-html';
 
-import EditorPane from '../components/EditorPane';
-import PreviewPane from '../components/PreviewPane';
-import { changeShowPreview } from '../reducers/editorReducer';
-import { AppState } from '../types';
+import EditorPane from '../../components/Editor/EditorPane';
+import PreviewPane from '../../components/Editor/PreviewPane';
+import { changeShowPreview } from '../../reducers/editorReducer';
+import { AppState } from '../../types/appState';
 
 const InnerEditor: React.FC<any> = (props: any) => {
   const dispatch = useDispatch();
