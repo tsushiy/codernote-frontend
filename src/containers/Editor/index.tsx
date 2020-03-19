@@ -38,7 +38,7 @@ const EditorContainer: React.FC<any> = (props) => {
       if (note !== undefined) {
         console.log(note);
         setText(note.Text);
-        setPub((note.Public === 1) ? false : true);
+        setPub((note.Public === 2) ? true : false);
       }
     })();
   }, [isFetchTried])
