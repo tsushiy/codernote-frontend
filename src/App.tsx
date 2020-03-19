@@ -47,7 +47,7 @@ const App: React.FC<{}> = () => {
               <Redirect to='/table' />
             </Route>
             <Route exact path='/table' component={ContestTable} />
-            <Route exact path='/note/:problemNo' component={EditorContainer} />
+            <Route exact path='/my/:problemNo' component={EditorContainer} />
           </Switch>
         </div>
       </AuthWrapper>
