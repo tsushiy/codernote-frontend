@@ -1,10 +1,8 @@
 import actionCreatorFactory from 'typescript-fsa';
-import { asyncFactory } from 'typescript-fsa-redux-thunk';
 import { reducerWithInitialState } from 'typescript-fsa-reducers';
 import { EditorState } from '../types/appState';
 
 const actionCreator = actionCreatorFactory();
-const asyncCreator = asyncFactory(actionCreator);
 
 export const changeShowPreview = actionCreator<boolean>("ChangeShowPreview");
 

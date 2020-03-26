@@ -2,7 +2,7 @@ import { Problem, Contest, ProblemMap } from "../types/apiResponse";
 
 export type AuthState = {
   isLoggedIn: boolean;
-  name: string;
+  userName: string;
 };
 
 export type ContestState = {

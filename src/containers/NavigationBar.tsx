@@ -6,9 +6,9 @@ import { AppState } from '../types/appState';
 import firebase from '../utils/firebase';
 
 const NavigationBar: React.FC<{}> = () => {
-  const { name } = useSelector((state: AppState) => state.auth)
+  const { userName } = useSelector((state: AppState) => state.auth)
 
-  const link = (name !== "")
+  const link = (userName !== "")
     ? <a href="# " onClick={() => {
       firebase.auth().signOut();
     }}>Log out</a>

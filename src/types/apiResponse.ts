@@ -100,3 +100,5 @@ const isNoteArray = (array: any): array is Note[] =>
   typeof array === "object" &&
   array !== null &&
   (Object.keys(array).length === 0 || isNote(array[0]));
+
+export const isPublicNote = (note: Note) => note.Public === 2

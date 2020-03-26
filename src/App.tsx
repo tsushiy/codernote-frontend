@@ -1,7 +1,7 @@
 import React, { ReactElement, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
-import { login, logout } from './reducers/authReducer';
+import { setUser, setUserNone } from './reducers/authReducer';
 import { initContestsAndProblems } from './reducers/contestReducer';
 import NavigationBar from './containers/NavigationBar';
 import ContestTable from './containers/Table';
@@ -14,36 +14,23 @@ type WrapperProps = {
 
 const InitWrapper: React.FC<WrapperProps> = props => {
   const dispatch = useDispatch();
-
   useEffect(() => {
     dispatch(initContestsAndProblems());
   }, [])
-
   return props.children
 }
 
 const AuthWrapper: React.FC<WrapperProps> = props => {
   const dispatch = useDispatch();
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
-
   useEffect(() => {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
-        setIsLoggedIn(true)
+        dispatch(setUser());
       } else {
-        setIsLoggedIn(false)
+        dispatch(setUserNone());
       }
     })
   }, [])
-
-  useEffect(() => {
-    if (isLoggedIn) {
-      dispatch(login());
-    } else {
-      dispatch(logout());
-    }
-  }, [isLoggedIn])
-
   return props.children
 }
 

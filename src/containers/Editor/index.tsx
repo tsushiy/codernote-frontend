@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import InnerEditor from './InnerEditor';
 import { AppState } from '../../types/appState';
 import { getMyNote, postMyNote } from '../../utils/apiClient';
+import { isPublicNote } from '../../types/apiResponse';
 
 const EditorContainer: React.FC<any> = (props) => {
   const problemNo = Number(props.match.params.problemNo);
@@ -10,7 +11,7 @@ const EditorContainer: React.FC<any> = (props) => {
   const [text, setText] = useState("");
   const [pub, setPub] = useState(false);
 
-  const { isLoggedIn, name } = useSelector((state: AppState) => state.auth);
+  const { isLoggedIn, userName } = useSelector((state: AppState) => state.auth);
   const { problemMap } = useSelector((state: AppState) => state.contest);
 
   useEffect(() => {
@@ -21,11 +22,10 @@ const EditorContainer: React.FC<any> = (props) => {
     if (isFetchTried) return;
     setIsFetchTried(true);
     (async() => {
-      const note = await getMyNote(problemNo)
+      const note = await getMyNote(problemNo);
       if (note !== undefined) {
-        console.log(note);
         setText(note.Text);
-        setPub((note.Public === 2) ? true : false);
+        setPub(isPublicNote(note));
       }
     })();
   }, [isFetchTried])
@@ -36,10 +36,10 @@ const EditorContainer: React.FC<any> = (props) => {
   }
 
   return (
-    <React.Fragment>
+    <div className="container">
       <h1>{problemMap.get(problemNo)?.Title}</h1>
       <InnerEditor text={text} onSubmitText={onSubmitText}/>
-    </React.Fragment>
+    </div>
   )
 }
 

@@ -4,7 +4,6 @@ import firebase from "../utils/firebase";
 const API_BASE_URL = 'https://apiv1.codernote.tsushiy.com';
 
 const fetchTypedArray = async <T>(url: string, typeGuardFn: (obj: any) => obj is T) => {
-  console.log("fetch", url)
   return fetch(url)
     .then(res =>res.json())
     .then((array: any[]) => array.filter(typeGuardFn))

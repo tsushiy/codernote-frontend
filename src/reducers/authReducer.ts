@@ -2,7 +2,6 @@ import actionCreatorFactory from 'typescript-fsa';
 import { asyncFactory } from 'typescript-fsa-redux-thunk';
 import { reducerWithInitialState } from 'typescript-fsa-reducers';
 import { AuthState } from '../types/appState';
-import firebase from '../utils/firebase';
 import { postLogin } from '../utils/apiClient';
 
 const actionCreator = actionCreatorFactory();
@@ -10,32 +9,23 @@ const asyncCreator = asyncFactory(actionCreator);
 
 export const setIsLoggedIn = actionCreator<boolean>('SetIsLoggedIn');
 export const setUserName = actionCreator<string>('SetUserName');
+export const setUserNone = actionCreator<void>('SetUserNone');
 
-export const login = asyncCreator<void, void>(
-  "Login",
+export const setUser = asyncCreator<void, void>(
+  "SetUser",
   (params, dispatch, getState) => {
-    firebase.auth().currentUser?.getIdToken()
-      .then(() => postLogin())
+    postLogin()
       .then(user => {
         if (user !== undefined) {
-          console.log(user);
           dispatch(setIsLoggedIn(true));
           dispatch(setUserName(user.Name));
         }
       });
   })
 
-export const logout = asyncCreator<void, void>(
-  "Logout",
-  (params, dispatch, getState) => {
-    console.log("logout");
-    dispatch(setIsLoggedIn(false));
-    dispatch(setUserName(""));
-  })
-
 const initialState: AuthState = {
   isLoggedIn: false,
-  name: ""
+  userName: ""
 };
 
 const authReducer = reducerWithInitialState(initialState)
@@ -43,14 +33,16 @@ const authReducer = reducerWithInitialState(initialState)
     ...state,
     isLoggedIn
   }))
-  .case(setUserName, (state, name) => ({
+  .case(setUserName, (state, userName) => ({
     ...state,
-    name
+    userName
   }))
-  .case(login.async.done, state => ({
+  .case(setUserNone, (state) => ({
     ...state,
+    isLoggedIn: false,
+    userName: ""
   }))
-  .case(logout.async.done, state => ({
+  .case(setUser.async.done, state => ({
     ...state,
   }))
 
