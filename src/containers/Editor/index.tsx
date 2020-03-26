@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import InnerEditor from './InnerEditor';
 import { AppState } from '../../types/appState';
-import { cachedProblemArray, cachedContestArray, cachedProblemMap } from '../../utils/cachedApiClient';
-import { Problem, Contest, ProblemNo, ProblemMap } from "../../types/apiResponse";
 import { getMyNote, postMyNote } from '../../utils/apiClient';
 
 const EditorContainer: React.FC<any> = (props) => {
@@ -11,20 +9,9 @@ const EditorContainer: React.FC<any> = (props) => {
   const [isFetchTried, setIsFetchTried] = useState(false);
   const [text, setText] = useState("");
   const [pub, setPub] = useState(false);
-  const [problemMap, setProblemMap] = useState<ProblemMap>(new Map<ProblemNo, Problem>());
 
-  const dispatch = useDispatch();
   const { isLoggedIn, name } = useSelector((state: AppState) => state.auth);
-
-  useEffect(() => {
-    (async() => {
-      const [problemMap] = await Promise.all([
-        cachedProblemMap()
-      ])
-      setProblemMap(problemMap)
-      console.log(problemMap.get(problemNo))
-    })();
-  }, [])
+  const { problemMap } = useSelector((state: AppState) => state.contest);
 
   useEffect(() => {
     setIsFetchTried(false)

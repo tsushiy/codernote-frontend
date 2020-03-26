@@ -1,5 +1,5 @@
-import React from 'react';
-import { Table, Tab, Nav } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Table, Nav } from 'react-bootstrap';
 import TableCell from '../../components/Table/TableCell';
 import { Contest, ProblemMap } from "../../types/apiResponse";
 import styled from "styled-components";
@@ -14,6 +14,7 @@ const AtCoderRegularTable: React.FC<Props> = props => {
     (currentCount, { ProblemNoList }) =>
       Math.max(ProblemNoList.length, currentCount), 0);
   const header = ["A", "B", "C", "D", "E", "F", "F2"].slice(0, maxProblemCount);
+
   return (
     <StyledTable className="table-responsive-sm table-bordered table-hover">
       <thead>
@@ -72,20 +73,17 @@ const AtCoderOthersTable: React.FC<Props> = props => {
 }
 
 const AtCoderTable: React.FC<Props> = props => {
+  const [activeTab, setActiveTab] = useState("abc");
   const contests = props.contests;
   const problemMap = props.problemMap;
 
-  let [abc, arc, agc, others] : [Contest[], Contest[], Contest[], Contest[]] = [[], [], [], []]
-  contests.forEach((contest, k) => {
-    if (contest.ContestID.match(/^abc\d{3}$/)) abc.push(contest)
-    else if (contest.ContestID.match(/^arc\d{3}$/)) arc.push(contest)
-    else if (contest.ContestID.match(/^agc\d{3}$/)) agc.push(contest)
-    else others.push(contest)
-  })
-
   return (
-    <Tab.Container id="atcoder-tabs" defaultActiveKey="abc" transition={false}>
-      <Nav variant="pills" className="flex-row">
+    <React.Fragment>
+      <Nav
+        variant="tabs"
+        className="flex-row"
+        defaultActiveKey="abc"
+        onSelect={(eventKey: string) => setActiveTab(eventKey)}>
         <Nav.Item>
           <Nav.Link eventKey="abc">ABC</Nav.Link>
         </Nav.Item>
@@ -96,24 +94,14 @@ const AtCoderTable: React.FC<Props> = props => {
           <Nav.Link eventKey="agc">AGC</Nav.Link>
         </Nav.Item>
         <Nav.Item>
-          <Nav.Link eventKey="other">Others</Nav.Link>
+          <Nav.Link eventKey="others">Others</Nav.Link>
         </Nav.Item>
       </Nav>
-      <Tab.Content>
-        <Tab.Pane eventKey="abc">
-          <AtCoderRegularTable contests={abc} problemMap={problemMap} />
-        </Tab.Pane>
-        <Tab.Pane eventKey="arc">
-          <AtCoderRegularTable contests={arc} problemMap={problemMap} />
-        </Tab.Pane>
-        <Tab.Pane eventKey="agc">
-          <AtCoderRegularTable contests={agc} problemMap={problemMap} />
-        </Tab.Pane>
-        <Tab.Pane eventKey="other">
-          <AtCoderOthersTable contests={others} problemMap={problemMap} />
-        </Tab.Pane>
-      </Tab.Content>
-    </Tab.Container>
+      {activeTab === "abc" && <AtCoderRegularTable contests={contests.filter(v => v.ContestID.match(/^abc\d{3}$/))} problemMap={problemMap} />}
+      {activeTab === "arc" && <AtCoderRegularTable contests={contests.filter(v => v.ContestID.match(/^arc\d{3}$/))} problemMap={problemMap} />}
+      {activeTab === "agc" && <AtCoderRegularTable contests={contests.filter(v => v.ContestID.match(/^agc\d{3}$/))} problemMap={problemMap} />}
+      {activeTab === "others" && <AtCoderOthersTable contests={contests.filter(v => !v.ContestID.match(/^a[brg]c\d{3}$/))} problemMap={problemMap} />}
+    </React.Fragment>
   )
 }
 
