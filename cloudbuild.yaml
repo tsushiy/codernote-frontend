@@ -2,8 +2,8 @@ steps:
   - name: 'gcr.io/cloud-builders/yarn'
     args: ['install']
   - name: 'gcr.io/cloud-builders/yarn'
-    args: ['run', 'build']
-  - name: 'gcr.io/$PROJECT_ID/firebase'
-    args:
-      - deploy
-      - --only=hosting
+    args: ['add', 'firebase-tools']
+  - name: 'gcr.io/cloud-builders/yarn'
+    args: ['build']
+  - name: 'gcr.io/cloud-builders/yarn'
+    args: ['firebase', 'deploy', '--only', 'hosting', '--project', '$PROJECT_ID', '--token', '$_FIREBASE_TOKEN']
