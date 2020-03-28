@@ -13,7 +13,7 @@ const YukicoderRegularTable: React.FC<Props> = props => {
   props.contests.sort((a, b) => {
     const x = Number(a)
     const y = Number(b)
-    if (x !== NaN && y !== NaN) {
+    if (!isNaN(x) && !isNaN(y)) {
       return x - y
     } else {
       return 0
@@ -61,7 +61,7 @@ const YukicoderOthersTable: React.FC<Props> = props => {
   props.contests.sort((a, b) => {
     const x = Number(a)
     const y = Number(b)
-    if (x !== NaN && y !== NaN) {
+    if (!isNaN(x) && !isNaN(y)) {
       return x - y
     } else {
       return 0

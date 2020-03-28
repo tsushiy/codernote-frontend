@@ -15,15 +15,17 @@ type OuterProps = {
 }
 
 const AOJInnerTable: React.FC<InnerProps> = props => {
-  props.contest.ProblemNoList.sort((a, b) => {
-    const x = Number(props.problemMap.get(a)?.ProblemID)
-    const y = Number(props.problemMap.get(b)?.ProblemID)
-    if (x !== NaN && y !== NaN) {
-      return x - y
-    } else {
-      return 0
-    }
-  })
+  if (props.contest !== undefined) {
+    props.contest.ProblemNoList.sort((a, b) => {
+      const x = Number(props.problemMap.get(a)?.ProblemID)
+      const y = Number(props.problemMap.get(b)?.ProblemID)
+      if (!isNaN(x) && !isNaN(y)) {
+        return x - y
+      } else {
+        return 0
+      }
+    })
+  }
   return (
     <StyledTable className="table-sm table-responsive-sm table-bordered table-hover">
       <thead>
@@ -33,7 +35,7 @@ const AOJInnerTable: React.FC<InnerProps> = props => {
         </tr>
       </thead>
       <tbody>
-        {props.contest.ProblemNoList.map((v, i) => (
+        {props.contest && props.contest.ProblemNoList.map((v, i) => (
           <tr key={i}>
             <th scope="row">{props.problemMap.get(v)?.ProblemID}</th>
             <td>

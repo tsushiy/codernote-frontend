@@ -94,13 +94,17 @@ const AtCoderTable: React.FC<Props> = props => {
           <Nav.Link eventKey="agc">AGC</Nav.Link>
         </Nav.Item>
         <Nav.Item>
+          <Nav.Link eventKey="others-rated">Other Rated</Nav.Link>
+        </Nav.Item>
+        <Nav.Item>
           <Nav.Link eventKey="others">Others</Nav.Link>
         </Nav.Item>
       </Nav>
       {activeTab === "abc" && <AtCoderRegularTable contests={contests.filter(v => v.ContestID.match(/^abc\d{3}$/))} problemMap={problemMap} />}
       {activeTab === "arc" && <AtCoderRegularTable contests={contests.filter(v => v.ContestID.match(/^arc\d{3}$/))} problemMap={problemMap} />}
       {activeTab === "agc" && <AtCoderRegularTable contests={contests.filter(v => v.ContestID.match(/^agc\d{3}$/))} problemMap={problemMap} />}
-      {activeTab === "others" && <AtCoderOthersTable contests={contests.filter(v => !v.ContestID.match(/^a[brg]c\d{3}$/))} problemMap={problemMap} />}
+      {activeTab === "others-rated" && <AtCoderOthersTable contests={contests.filter(v => !v.ContestID.match(/^a[brg]c\d{3}$/) && (v.Rated !== "-"))} problemMap={problemMap} />}
+      {activeTab === "others" && <AtCoderOthersTable contests={contests.filter(v => !v.ContestID.match(/^a[brg]c\d{3}$/) && (v.Rated === "-"))} problemMap={problemMap} />}
     </React.Fragment>
   )
 }

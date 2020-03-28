@@ -15,15 +15,17 @@ type OuterProps = {
 }
 
 const LeetCodeInnerTable: React.FC<InnerProps> = props => {
-  props.contest.ProblemNoList.sort((a, b) => {
-    const x = Number(props.problemMap.get(a)?.FrontendID)
-    const y = Number(props.problemMap.get(b)?.FrontendID)
-    if (x !== NaN && y !== NaN) {
-      return x - y
-    } else {
-      return 0
-    }
-  })
+  if (props.contest !== undefined) {
+    props.contest.ProblemNoList.sort((a, b) => {
+      const x = Number(props.problemMap.get(a)?.FrontendID)
+      const y = Number(props.problemMap.get(b)?.FrontendID)
+      if (!isNaN(x) && !isNaN(y)) {
+        return x - y
+      } else {
+        return 0
+      }
+    })
+  }
   return (
     <StyledTable className="table-sm table-responsive-sm table-bordered table-hover">
       <thead>
@@ -33,7 +35,7 @@ const LeetCodeInnerTable: React.FC<InnerProps> = props => {
         </tr>
       </thead>
       <tbody>
-        {props.contest.ProblemNoList.map((v, i) => (
+        {props.contest && props.contest.ProblemNoList.map((v, i) => (
           <tr key={i}>
             <th scope="row">{props.problemMap.get(v)?.FrontendID}</th>
             <td>
@@ -65,7 +67,7 @@ const LeetCodeTable: React.FC<OuterProps> = props => {
         onSelect={(eventKey: string) => setActiveTab(eventKey)}>
         {categories.map((v, k) => (
           <Nav.Item key={k}>
-            <Nav.Link eventKey={v.toLowerCase()}>{v}</Nav.Link>
+            <Nav.Link eventKey={v.toLowerCase()}>{v.toUpperCase()}</Nav.Link>
           </Nav.Item>
         ))}
       </Nav>
