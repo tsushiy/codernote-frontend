@@ -1,4 +1,4 @@
-import { User, isUser, Note, isNote, NoteList, isNoteList, TagList, isTagList, isContest, isProblem } from "../types/apiResponse";
+import { isUser, isUserDetail, isNote, isNoteList, isTagList, isContest, isProblem } from "../types/apiResponse";
 import firebase from "../utils/firebase";
 
 const API_BASE_URL = 'https://apiv1.codernote.tsushiy.com';
@@ -73,6 +73,46 @@ export const postChangeName = async (name: string) => {
     .then(user => {
       if (isUser(user)) {
         return user;
+      }
+    })
+}
+
+export const getUserSetting = async () => {
+  const token = await firebase.auth().currentUser?.getIdToken()
+  const url = `${API_BASE_URL}/user/setting`;
+  const headers = {
+    "Authorization": `Bearer ${token}`,
+  }
+  return fetch(url, {headers})
+    .then(res => res.json())
+    .then(userDetail => {
+      if (isUserDetail(userDetail)) {
+        return userDetail;
+      }
+    })
+}
+
+export const postUserSetting = async (
+  atcoderId: string, codeforcesId: string, yukicoderId: string, aojId: string, leetcodeId: string) => {
+  const token = await firebase.auth().currentUser?.getIdToken()
+  const url = `${API_BASE_URL}/user/setting`;
+  const method = "POST";
+  const headers = {
+    "Authorization": `Bearer ${token}`,
+    "Contest-Type": 'application/json'
+  }
+  const body = JSON.stringify({
+    AtCoderID: atcoderId,
+    CodeforcesID: codeforcesId,
+    YukicoderID: yukicoderId,
+    AOJID: aojId,
+    LeetCodeID: leetcodeId
+  })
+  return fetch(url, {method, headers, body})
+    .then(res => res.json())
+    .then(userDetail => {
+      if (isUserDetail(userDetail)) {
+        return userDetail;
       }
     })
 }

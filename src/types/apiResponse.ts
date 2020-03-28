@@ -11,12 +11,24 @@ export type User = {
   readonly UpdatedAt: string;
 }
 
+export type UserDetail = {
+  readonly UserID: string;
+  readonly AtCoderID: string;
+  readonly CodeforcesID: string;
+  readonly YukicoderID: string;
+  readonly AOJID: string;
+  readonly LeetCodeID: string;
+}
+
 export type Problem = {
   readonly No: number;
   readonly Domain: string;
   readonly ProblemID: string;
   readonly ContestID: string;
   readonly Title: string;
+  readonly Slug: string;
+  readonly FrontendID: string;
+  readonly Difficulty: string;
 };
 
 export type Contest = {
@@ -26,6 +38,7 @@ export type Contest = {
   readonly Title: string;
   readonly StartTimeSeconds: number;
   readonly DurationSeconds: number;
+  readonly Rated: string;
   readonly ProblemNoList: number[];
 }
 
@@ -54,12 +67,23 @@ typeof user.Name === "string" &&
 typeof user.CreatedAt === "string" &&
 typeof user.UpdatedAt === "string";
 
+export const isUserDetail = (userDetail: any): userDetail is UserDetail =>
+typeof userDetail.UserID === "string" &&
+typeof userDetail.AtCoderID === "string" &&
+typeof userDetail.CodeforcesID === "string" &&
+typeof userDetail.YukicoderID === "string" &&
+typeof userDetail.AOJID === "string" &&
+typeof userDetail.LeetCodeID === "string";
+
 export const isProblem = (problem: any): problem is Problem =>
   typeof problem.No === "number" &&
   typeof problem.Domain === "string" &&
   typeof problem.ProblemID === "string" &&
   typeof problem.ContestID === "string" &&
-  typeof problem.Title === "string";
+  typeof problem.Title === "string" &&
+  typeof problem.Slug === "string" &&
+  typeof problem.FrontendID === "string" &&
+  typeof problem.Difficulty === "string";
 
 export const isContest = (contest: any): contest is Contest =>
   typeof contest.No === "number" &&
@@ -68,6 +92,7 @@ export const isContest = (contest: any): contest is Contest =>
   typeof contest.Title === "string" &&
   typeof contest.StartTimeSeconds === "number" &&
   typeof contest.DurationSeconds === "number" &&
+  typeof contest.Rated === "string" &&
   isNumberArray(contest.ProblemNoList);
 
 export const isNote = (note: any): note is Note =>

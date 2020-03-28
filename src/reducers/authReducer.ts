@@ -13,14 +13,12 @@ export const setUserNone = actionCreator<void>('SetUserNone');
 
 export const setUser = asyncCreator<void, void>(
   "SetUser",
-  (params, dispatch, getState) => {
-    postLogin()
-      .then(user => {
-        if (user !== undefined) {
-          dispatch(setIsLoggedIn(true));
-          dispatch(setUserName(user.Name));
-        }
-      });
+  async (params, dispatch, getState) => {
+    const user = await postLogin()
+    if (user !== undefined) {
+      dispatch(setIsLoggedIn(true));
+      dispatch(setUserName(user.Name));
+    }
   })
 
 const initialState: AuthState = {
