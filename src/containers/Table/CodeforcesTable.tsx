@@ -9,11 +9,11 @@ type Props = {
   problemMap: ProblemMap
 }
 
-const AtCoderRegularTable: React.FC<Props> = props => {
+const CodeforcesRegularTable: React.FC<Props> = props => {
   const maxProblemCount = props.contests.reduce(
     (currentCount, { ProblemNoList }) =>
       Math.max(ProblemNoList.length, currentCount), 0);
-  const header = ["A", "B", "C", "D", "E", "F", "F2"].slice(0, maxProblemCount);
+  const header = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"].slice(0, maxProblemCount);
 
   return (
     <StyledTable className="table-responsive-sm table-bordered table-hover">
@@ -28,7 +28,7 @@ const AtCoderRegularTable: React.FC<Props> = props => {
       <tbody>
         {props.contests.map((contest, i) => (
           <tr key={i}>
-            <th scope="row">{contest.ContestID.toUpperCase()}</th>
+            <th scope="row">{contest.Title.match(/#[0-9]{1,3}/)}</th>
             {header.map((_, j) => (
               <React.Fragment key={j}>
                 {contest.ProblemNoList[j] !== undefined
@@ -48,7 +48,7 @@ const AtCoderRegularTable: React.FC<Props> = props => {
   )
 }
 
-const AtCoderOthersTable: React.FC<Props> = props => {
+const CodeforcesOthersTable: React.FC<Props> = props => {
   return (
     <React.Fragment>
       {props.contests && Object.values(props.contests).map((contest, k) => (
@@ -72,10 +72,27 @@ const AtCoderOthersTable: React.FC<Props> = props => {
   )
 }
 
-const AtCoderTable: React.FC<Props> = props => {
-  const [activeTab, setActiveTab] = useState("abc");
+const CodeforcesTable: React.FC<Props> = props => {
+  const [activeTab, setActiveTab] = useState("cr1");
   const contests = props.contests;
   const problemMap = props.problemMap;
+
+  let [cr1, cr2, cr3, educational, othersRated, others] :
+    [Contest[], Contest[], Contest[], Contest[], Contest[], Contest[]] = [[], [], [], [], [], []];
+  contests.forEach((contest, k) => {
+    if (contest.Title.match(/Round #[0-9]{1,3}/)) {
+      if (contest.Rated.match(/^12$/)) {
+        cr1.push(contest);
+        cr2.push(contest);
+      }
+      else if (contest.Rated.match(/^1$/)) cr1.push(contest)
+      else if (contest.Rated.match(/^2$/)) cr2.push(contest)
+      else if (contest.Rated.match(/^3$/)) cr3.push(contest)
+    }
+    else if (contest.Title.match(/^Educational/)) educational.push(contest)
+    else if (contest.Rated.match(/^-$/)) others.push(contest)
+    else othersRated.push(contest)
+  })
 
   return (
     <React.Fragment>
@@ -85,22 +102,30 @@ const AtCoderTable: React.FC<Props> = props => {
         defaultActiveKey={activeTab}
         onSelect={(eventKey: string) => setActiveTab(eventKey)}>
         <Nav.Item>
-          <Nav.Link eventKey="abc">ABC</Nav.Link>
+          <Nav.Link eventKey="cr1"># Div1</Nav.Link>
         </Nav.Item>
         <Nav.Item>
-          <Nav.Link eventKey="arc">ARC</Nav.Link>
+          <Nav.Link eventKey="cr2"># Div2</Nav.Link>
         </Nav.Item>
         <Nav.Item>
-          <Nav.Link eventKey="agc">AGC</Nav.Link>
+          <Nav.Link eventKey="cr3"># Div3</Nav.Link>
+        </Nav.Item>
+        <Nav.Item>
+          <Nav.Link eventKey="educational">Educational</Nav.Link>
+        </Nav.Item>
+        <Nav.Item>
+          <Nav.Link eventKey="others-rated">Other Rated</Nav.Link>
         </Nav.Item>
         <Nav.Item>
           <Nav.Link eventKey="others">Others</Nav.Link>
         </Nav.Item>
       </Nav>
-      {activeTab === "abc" && <AtCoderRegularTable contests={contests.filter(v => v.ContestID.match(/^abc\d{3}$/))} problemMap={problemMap} />}
-      {activeTab === "arc" && <AtCoderRegularTable contests={contests.filter(v => v.ContestID.match(/^arc\d{3}$/))} problemMap={problemMap} />}
-      {activeTab === "agc" && <AtCoderRegularTable contests={contests.filter(v => v.ContestID.match(/^agc\d{3}$/))} problemMap={problemMap} />}
-      {activeTab === "others" && <AtCoderOthersTable contests={contests.filter(v => !v.ContestID.match(/^a[brg]c\d{3}$/))} problemMap={problemMap} />}
+      {activeTab === "cr1" && <CodeforcesRegularTable contests={cr1} problemMap={problemMap} />}
+      {activeTab === "cr2" && <CodeforcesRegularTable contests={cr2} problemMap={problemMap} />}
+      {activeTab === "cr3" && <CodeforcesRegularTable contests={cr3} problemMap={problemMap} />}
+      {activeTab === "educational" && <CodeforcesOthersTable contests={educational} problemMap={problemMap} />}
+      {activeTab === "others-rated" && <CodeforcesOthersTable contests={othersRated} problemMap={problemMap} />}
+      {activeTab === "others" && <CodeforcesOthersTable contests={others} problemMap={problemMap} />}
     </React.Fragment>
   )
 }
@@ -129,4 +154,4 @@ const StyledTable = styled(Table)`
   }
 `
 
-export default AtCoderTable;
+export default CodeforcesTable;

@@ -9,11 +9,20 @@ type Props = {
   problemMap: ProblemMap
 }
 
-const AtCoderRegularTable: React.FC<Props> = props => {
+const YukicoderRegularTable: React.FC<Props> = props => {
+  props.contests.sort((a, b) => {
+    const x = Number(a)
+    const y = Number(b)
+    if (x !== NaN && y !== NaN) {
+      return x - y
+    } else {
+      return 0
+    }
+  })
   const maxProblemCount = props.contests.reduce(
     (currentCount, { ProblemNoList }) =>
       Math.max(ProblemNoList.length, currentCount), 0);
-  const header = ["A", "B", "C", "D", "E", "F", "F2"].slice(0, maxProblemCount);
+  const header = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"].slice(0, maxProblemCount);
 
   return (
     <StyledTable className="table-responsive-sm table-bordered table-hover">
@@ -48,7 +57,16 @@ const AtCoderRegularTable: React.FC<Props> = props => {
   )
 }
 
-const AtCoderOthersTable: React.FC<Props> = props => {
+const YukicoderOthersTable: React.FC<Props> = props => {
+  props.contests.sort((a, b) => {
+    const x = Number(a)
+    const y = Number(b)
+    if (x !== NaN && y !== NaN) {
+      return x - y
+    } else {
+      return 0
+    }
+  })
   return (
     <React.Fragment>
       {props.contests && Object.values(props.contests).map((contest, k) => (
@@ -72,8 +90,8 @@ const AtCoderOthersTable: React.FC<Props> = props => {
   )
 }
 
-const AtCoderTable: React.FC<Props> = props => {
-  const [activeTab, setActiveTab] = useState("abc");
+const YukicoderTable: React.FC<Props> = props => {
+  const [activeTab, setActiveTab] = useState("regular");
   const contests = props.contests;
   const problemMap = props.problemMap;
 
@@ -85,22 +103,14 @@ const AtCoderTable: React.FC<Props> = props => {
         defaultActiveKey={activeTab}
         onSelect={(eventKey: string) => setActiveTab(eventKey)}>
         <Nav.Item>
-          <Nav.Link eventKey="abc">ABC</Nav.Link>
-        </Nav.Item>
-        <Nav.Item>
-          <Nav.Link eventKey="arc">ARC</Nav.Link>
-        </Nav.Item>
-        <Nav.Item>
-          <Nav.Link eventKey="agc">AGC</Nav.Link>
+          <Nav.Link eventKey="regular">Regular</Nav.Link>
         </Nav.Item>
         <Nav.Item>
           <Nav.Link eventKey="others">Others</Nav.Link>
         </Nav.Item>
       </Nav>
-      {activeTab === "abc" && <AtCoderRegularTable contests={contests.filter(v => v.ContestID.match(/^abc\d{3}$/))} problemMap={problemMap} />}
-      {activeTab === "arc" && <AtCoderRegularTable contests={contests.filter(v => v.ContestID.match(/^arc\d{3}$/))} problemMap={problemMap} />}
-      {activeTab === "agc" && <AtCoderRegularTable contests={contests.filter(v => v.ContestID.match(/^agc\d{3}$/))} problemMap={problemMap} />}
-      {activeTab === "others" && <AtCoderOthersTable contests={contests.filter(v => !v.ContestID.match(/^a[brg]c\d{3}$/))} problemMap={problemMap} />}
+      {activeTab === "regular" && <YukicoderRegularTable contests={contests.filter(v => v.Title.match(/^yukicoder contest/))} problemMap={problemMap} />}
+      {activeTab === "others" && <YukicoderOthersTable contests={contests.filter(v => !v.Title.match(/^yukicoder contest/))} problemMap={problemMap} />}
     </React.Fragment>
   )
 }
@@ -129,4 +139,4 @@ const StyledTable = styled(Table)`
   }
 `
 
-export default AtCoderTable;
+export default YukicoderTable;
