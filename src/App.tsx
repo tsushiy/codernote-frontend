@@ -5,7 +5,7 @@ import { setUser, setUserNone } from './reducers/authReducer';
 import { initContestsAndProblems } from './reducers/contestReducer';
 import NavigationBar from './containers/NavigationBar';
 import ContestTable from './containers/Table';
-import EditorContainer from './containers/Editor';
+import Editor from './containers/Editor';
 import firebase from './utils/firebase';
 
 type WrapperProps = {
@@ -46,7 +46,7 @@ const App: React.FC<{}> = () => {
                 <Redirect to='/table' />
               </Route>
               <Route exact path='/table' component={ContestTable} />
-              <Route exact path='/my/:problemNo' component={EditorContainer} />
+              <Route exact path='/my/:problemNo' component={Editor} />
             </Switch>
           </div>
         </AuthWrapper>

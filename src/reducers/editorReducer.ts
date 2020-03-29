@@ -7,7 +7,7 @@ const actionCreator = actionCreatorFactory();
 export const changeShowPreview = actionCreator<boolean>("ChangeShowPreview");
 
 const initialState: EditorState = {
-  showPreview: false
+  showPreview: true
 };
 
 const editorReducer = reducerWithInitialState(initialState)
