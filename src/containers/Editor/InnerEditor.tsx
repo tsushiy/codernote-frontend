@@ -9,6 +9,8 @@ import math from 'remark-math'
 import htmlKatex from 'remark-html-katex';
 import hljs from 'remark-highlight.js';
 import html from 'remark-html';
+import gh from 'hast-util-sanitize/lib/github.json';
+import merge from 'deepmerge';
 
 import EditorPane from '../../components/Editor/EditorPane';
 import PreviewPane from '../../components/Editor/PreviewPane';
@@ -23,6 +25,12 @@ const InnerEditor: React.FC<any> = (props: any) => {
   const [htmlText, setHtmlText] = useState("");
   const [message, setMessage] = useState("");
 
+  const schema = merge(gh, {
+    attributes: {
+      '*': ['className', 'style']
+    }
+  });
+
   const processor =
     unified()
       .use(markdown)
@@ -30,7 +38,7 @@ const InnerEditor: React.FC<any> = (props: any) => {
       .use(math)
       .use(htmlKatex)
       .use(hljs)
-      .use(html);
+      .use(html, {sanitize: schema});
 
   const compile = (txt: string) => {
     setText(txt);
