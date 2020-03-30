@@ -22,15 +22,11 @@ const Editor: React.FC<Props> = props => {
   const [isPublic, setIsPublic] = useState(false);
 
   const { showPreview } = useSelector((state: AppState) => state.editor)
-  const { isLoggedIn, userName } = useSelector((state: AppState) => state.auth);
+  const { isLoggedIn } = useSelector((state: AppState) => state.auth);
   const { problemMap } = useSelector((state: AppState) => state.contest);
 
   useEffect(() => {
-    setIsFetchTried(false)
-  }, [isLoggedIn])
-
-  useEffect(() => {
-    if (isFetchTried) return;
+    if (isFetchTried || !isLoggedIn) return;
     setIsFetchTried(true);
     (async() => {
       const note = await getMyNote(problemNo);
@@ -39,7 +35,7 @@ const Editor: React.FC<Props> = props => {
         setIsPublic(isPublicNote(note));
       }
     })();
-  }, [isFetchTried])
+  }, [isFetchTried, isLoggedIn, problemNo])
 
   const onSubmitText = async () => {
     await postMyNote(problemNo, rawText, isPublic);

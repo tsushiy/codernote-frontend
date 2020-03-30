@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect, useState } from 'react';
+import React, { ReactElement, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import { setUser, setUserNone } from './reducers/authReducer';
@@ -16,7 +16,7 @@ const InitWrapper: React.FC<WrapperProps> = props => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(initContestsAndProblems());
-  }, [])
+  }, [dispatch])
   return props.children
 }
 
@@ -30,7 +30,7 @@ const AuthWrapper: React.FC<WrapperProps> = props => {
         dispatch(setUserNone());
       }
     })
-  }, [])
+  }, [dispatch])
   return props.children
 }
 
