@@ -1,7 +1,7 @@
 import actionCreatorFactory from 'typescript-fsa';
 import { asyncFactory } from 'typescript-fsa-redux-thunk';
 import { reducerWithInitialState } from 'typescript-fsa-reducers';
-import { ContestState } from '../types/appState';
+import { ProblemState } from '../types/appState';
 import { fetchProblems, fetchContests } from '../utils/apiClient';
 import { Problem, Contest, ProblemNo, ProblemMap } from "../types/apiResponse";
 
@@ -25,13 +25,13 @@ export const initContestsAndProblems = asyncCreator<void, void>(
       });
   })
 
-const initialState: ContestState = {
+const initialState: ProblemState = {
   contests: [],
   problems: [],
   problemMap: new Map<ProblemNo, Problem>()
 };
 
-const contestReducer = reducerWithInitialState(initialState)
+const problemReducer = reducerWithInitialState(initialState)
   .case(setContests, (state, contests) => ({
     ...state,
     contests
@@ -48,4 +48,4 @@ const contestReducer = reducerWithInitialState(initialState)
     ...state,
   }))
 
-export default contestReducer
+export default problemReducer

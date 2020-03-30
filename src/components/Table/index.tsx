@@ -9,7 +9,7 @@ import YukicoderTable from "./YukicoderTable";
 import LeetCodeTable from "./LeetCodeTable";
 
 const ContestTable: React.FC<{}> = () => {
-  const { contests } = useSelector((state: AppState) => state.contest);
+  const { contests } = useSelector((state: AppState) => state.problem);
   const [activeTab, setActiveTab] = useState("atcoder");
 
   return (

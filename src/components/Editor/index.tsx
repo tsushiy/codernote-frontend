@@ -24,7 +24,7 @@ const Editor: React.FC<Props> = props => {
 
   const { showPreview } = useSelector((state: AppState) => state.editor)
   const { isLoggedIn } = useSelector((state: AppState) => state.auth);
-  const { problemMap } = useSelector((state: AppState) => state.contest);
+  const { problemMap } = useSelector((state: AppState) => state.problem);
 
   useEffect(() => {
     if (isFetchTried || !isLoggedIn) return;

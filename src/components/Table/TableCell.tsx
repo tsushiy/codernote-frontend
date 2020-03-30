@@ -9,7 +9,7 @@ type Props = {
 
 const TableCell: React.FC<Props> = (props) => {
   const { problemNo } = props;
-  const { problemMap } = useSelector((state: AppState) => state.contest);
+  const { problemMap } = useSelector((state: AppState) => state.problem);
 
   const title = problemMap.get(problemNo)?.Title;
   const url = `/my/${problemNo}`;

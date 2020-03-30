@@ -15,7 +15,7 @@ type OuterProps = {
 }
 
 const AOJInnerTable: React.FC<InnerProps> = props => {
-  const { problemMap } = useSelector((state: AppState) => state.contest);
+  const { problemMap } = useSelector((state: AppState) => state.problem);
 
   if (props.contest !== undefined) {
     props.contest.ProblemNoList.sort((a, b) => {

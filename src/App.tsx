@@ -2,7 +2,7 @@ import React, { ReactElement, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import { setUser, unsetUser } from './reducers/authReducer';
-import { initContestsAndProblems } from './reducers/contestReducer';
+import { initContestsAndProblems } from './reducers/problemReducer';
 import NavigationBar from './components/NavigationBar';
 import ContestTable from './components/Table';
 import Editor from './components/Editor';
