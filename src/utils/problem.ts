@@ -1,7 +1,7 @@
 import { Problem } from '../types/apiResponse';
 
 export const problemUrl = (problem: Problem | undefined) => {
-  let url = ""
+  let url = "";
   if (problem) {
     switch (problem.Domain) {
       case "atcoder":
@@ -21,5 +21,29 @@ export const problemUrl = (problem: Problem | undefined) => {
         break;
     }
   }
-  return url
+  return url;
+}
+
+export const serviceName = (domain: string | undefined) => {
+  let name = "";
+  if (domain) {
+    switch (domain) {
+      case "atcoder":
+        name = "AtCoder";
+        break;
+      case "codeforces":
+        name = "Codeforces";
+        break;
+      case "yukicoder":
+        name = "yukicoder";
+        break;
+      case "aoj":
+        name = "AOJ";
+        break;
+      case "leetcode":
+        name = "LeetCode";
+        break;
+    }
+  }
+  return name;
 }

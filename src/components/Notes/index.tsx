@@ -5,7 +5,7 @@ import { parse } from 'query-string';
 import { Table } from 'react-bootstrap';
 import styled from "styled-components";
 import { getPublicNotes, getMyNotes } from '../../utils/apiClient';
-import { problemUrl } from '../../utils/problem';
+import { problemUrl, serviceName } from '../../utils/problem';
 import { Note } from '../../types/apiResponse';
 import { AppState } from '../../types/appState';
 
@@ -73,7 +73,7 @@ const NotesPage: React.FC<Props> = props => {
                 </Link>
               </td>
               {!isMyNotes && <td>{note.User.Name}</td>}
-              <td>{note.Problem.Domain.toUpperCase()}</td>
+              <td>{serviceName(note.Problem.Domain)}</td>
               <td>
                 <a href={problemUrl(note.Problem)} target="_blank" rel="noopener noreferrer">
                   {note.Problem.Title}

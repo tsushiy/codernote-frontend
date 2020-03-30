@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Problem } from '../../types/apiResponse';
-import { problemUrl } from '../../utils/problem';
+import { problemUrl, serviceName } from '../../utils/problem';
 
 type Props = {
   problem: Problem | undefined;
@@ -13,7 +13,7 @@ type Props = {
 const NoteHeader: React.FC<Props> = props => {
   return (
     <Container>
-      <h5>{props.problem?.Domain.toUpperCase()}</h5>
+      <h5>{serviceName(props.problem?.Domain)}</h5>
       <div style={{display: "flex"}}>
         <a href={problemUrl(props.problem)} target="_blank" rel="noopener noreferrer">
           <h2>{props.problem?.Title}</h2>
