@@ -2,7 +2,6 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom'
 import styled from "styled-components";
-import { Button } from 'react-bootstrap';
 import { getMyNote, postMyNote } from '../../utils/apiClient';
 import { AppState } from '../../types/appState';
 import { isPublicNote } from '../../types/apiResponse';
@@ -11,6 +10,7 @@ import { setMyNote } from '../../reducers/noteReducer';
 import MarkdownEditor from './MarkdownEditor';
 import EditorPreview from './EditorPreview';
 import EditorFooter from './EditorFooter';
+import EditorHeader from './EditorHeader';
 
 type Props = {} & RouteComponentProps<{problemNo: string}>;
 
@@ -25,7 +25,13 @@ const Editor: React.FC<Props> = props => {
 
   const { showPreview } = useSelector((state: AppState) => state.editor)
   const { isLoggedIn } = useSelector((state: AppState) => state.auth);
-  const { problemMap } = useSelector((state: AppState) => state.problem);
+  const { problemMap, contestMap } = useSelector((state: AppState) => state.problem);
+
+  const problem = problemMap.get(problemNo);
+  let contest;
+  if (problem) {
+    contest = contestMap.get(problem?.Domain + problem?.ContestID);
+  }
 
   useEffect(() => {
     if (isFetchTried || !isLoggedIn) return;
@@ -73,8 +79,7 @@ const Editor: React.FC<Props> = props => {
   return (
     <Container>
       <EditorHeaderContainer>
-        <h5>{problemMap.get(problemNo)?.Title}</h5>
-        <Button onClick={onClickPreview}>Preview</Button>
+        <EditorHeader problem={problemMap.get(problemNo)} contest={contest} onClickPreview={onClickPreview}/>
       </EditorHeaderContainer>
       <MarkdownEditorContainer>
         <MarkdownEditor showPreview={showPreview} rawText={rawText} onChangeText={onChangeText}/>
@@ -102,7 +107,7 @@ const Container = styled.div`
 
 const EditorHeaderContainer = styled.div`
   position: absolute;
-  height: 80px;
+  height: 140px;
   padding-left: 20px;
 `;
 
@@ -110,7 +115,7 @@ const MarkdownEditorContainer = styled.div`
   position: absolute;
   overflow: auto;
   width: calc(100vw - 10px);
-  top: 80px;
+  top: 140px;
   bottom: 42px;
   left: 0;
   border: solid thin #CCC;
@@ -120,7 +125,7 @@ const EditorPreviewContainer = styled.div`
   position: absolute;
   overflow: auto;
   width: 50%;
-  top: 80px;
+  top: 140px;
   bottom: 42px;
   right: 0;
   border: solid thin #CCC;

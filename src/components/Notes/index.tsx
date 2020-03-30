@@ -6,7 +6,7 @@ import { Table } from 'react-bootstrap';
 import styled from "styled-components";
 import { getPublicNotes, getMyNotes } from '../../utils/apiClient';
 import { problemUrl, serviceName } from '../../utils/problem';
-import { Note } from '../../types/apiResponse';
+import { Note, isPublicNote } from '../../types/apiResponse';
 import { AppState } from '../../types/appState';
 
 type Props = {
@@ -19,6 +19,7 @@ const NotesPage: React.FC<Props> = props => {
   const [noteCount, setNoteCount] = useState(0);
   const [notes, setNotes] = useState<Note[]>();
   const { isLoggedIn } = useSelector((state: AppState) => state.auth);
+  const { contestMap } = useSelector((state: AppState) => state.problem);
 
   let page = Number(query.page);
   if (page === 0 || isNaN(page) || page !== Number(page.toFixed())) {
@@ -58,8 +59,10 @@ const NotesPage: React.FC<Props> = props => {
         <thead>
           <tr>
             <th>NoteID</th>
+            {isMyNotes && <th>Public</th>}
             {!isMyNotes && <th>User</th>}
             <th>Service</th>
+            <th>Contest</th>
             <th>Problem</th>
             <th>UpdatedAt</th>
           </tr>
@@ -72,8 +75,12 @@ const NotesPage: React.FC<Props> = props => {
                   {note.ID.slice(0, 8)}
                 </Link>
               </td>
+              {isMyNotes && <td>{isPublicNote(note) ? "public" : ""}</td>}
               {!isMyNotes && <td>{note.User.Name}</td>}
               <td>{serviceName(note.Problem.Domain)}</td>
+              <td>
+                {contestMap.get(note.Problem.Domain + note.Problem.ContestID)?.Title}
+              </td>
               <td>
                 <a href={problemUrl(note.Problem)} target="_blank" rel="noopener noreferrer">
                   {note.Problem.Title}

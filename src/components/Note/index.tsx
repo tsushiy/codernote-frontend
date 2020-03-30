@@ -14,6 +14,11 @@ const NotePage: React.FC<Props> = props => {
   const noteId = props.match.params.noteId;
   const [note, setNote] = useState<Note>();
   const { isLoggedIn } = useSelector((state: AppState) => state.auth);
+  const { contestMap } = useSelector((state: AppState) => state.problem);
+  let contest;
+  if (note) {
+    contest = contestMap.get(note?.Problem.Domain + note?.Problem.ContestID);
+  }
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -38,6 +43,7 @@ const NotePage: React.FC<Props> = props => {
       <HeaderContainer>
         <NoteHeader
           problem={note?.Problem}
+          contest={contest}
           userName={note?.User.Name}
           createdAt={note?.CreatedAt}
           updatedAt={note?.UpdatedAt} />
