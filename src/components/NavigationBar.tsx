@@ -7,7 +7,7 @@ import firebase from '../utils/firebase';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const NavigationBar: React.FC<{}> = () => {
-  const { userName } = useSelector((state: AppState) => state.auth)
+  const { userName } = useSelector((state: AppState) => state.auth);
 
   const link = (userName !== "")
     ? <a href="# " onClick={() => {

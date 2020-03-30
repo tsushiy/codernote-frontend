@@ -11,28 +11,28 @@ const asyncCreator = asyncFactory<AppState>(actionCreator);
 
 export const unsetMyNotes = actionCreator<void>('UnsetMyNotes');
 
-export const setMyNotes = asyncCreator<{}, {myNoteCount: number, myNotesMap: Map<ProblemNo, Note>}>(
+export const setMyNotes = asyncCreator<void, {myNoteCount: number, myNotesMap: Map<ProblemNo, Note>}>(
   "SetMyNotes",
   async (params, dispatch, getState) => {
     const limit = 40000;
     const NoteList = await getMyNotes({limit});
     let myNotesMap = new Map<ProblemNo, Note>();
-    NoteList?.Notes.forEach(v => myNotesMap.set(v.Problem.No, v))
+    NoteList?.Notes.forEach(v => myNotesMap.set(v.Problem.No, v));
     return {
       myNoteCount: NoteList ? NoteList.Count : 0,
       myNotesMap
-    }
+    };
   })
 
 export const setMyNote = asyncCreator<{problemNo: ProblemNo, newNote: Note}, {myNotesMap: Map<ProblemNo, Note>}>(
   "SetMyNote",
   async ({problemNo, newNote}, dispatch, getState) => {
-    const { note } = getState()
+    const { note } = getState();
     let { myNotesMap } = note;
     myNotesMap.set(problemNo, newNote)
     return {
       myNotesMap
-    }
+    };
   })
 
 const initialState: NoteState = {

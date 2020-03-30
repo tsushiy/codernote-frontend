@@ -9,7 +9,7 @@ type Props = {
 
 const MarkdownEditor: React.FC<Props> = props => {
   const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    props.onChangeText(e.target.value)
+    props.onChangeText(e.target.value);
   };
 
   return (

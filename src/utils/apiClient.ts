@@ -13,7 +13,7 @@ export const fetchProblems = () => fetchTypedArray(`${API_BASE_URL}/problems`, i
 export const fetchContests = () => fetchTypedArray(`${API_BASE_URL}/contests?order=-started`, isContest);
 
 export const nonAuthGetNote = async (noteId: string) => {
-  const params = new URLSearchParams({noteId})
+  const params = new URLSearchParams({noteId});
   const url = `${API_BASE_URL}/note?${params}`;
   return fetch(url)
     .then(res => res.json())
@@ -41,7 +41,7 @@ export const getPublicNotes = async ({
     limit: limit.toString(),
     skip: skip.toString(),
     order
-  })
+  });
   const url = `${API_BASE_URL}/notes?${params.toString()}`;
   return fetch(url)
     .then(res => res.json())
@@ -53,12 +53,12 @@ export const getPublicNotes = async ({
 }
 
 export const postLogin = async () => {
-  const token = await firebase.auth().currentUser?.getIdToken()
+  const token = await firebase.auth().currentUser?.getIdToken();
   const url = `${API_BASE_URL}/login`;
   const method = "POST";
   const headers = {
     "Authorization": `Bearer ${token}`
-  }
+  };
   return fetch(url, {method, headers})
     .then(res => res.json())
     .then(user => {
@@ -69,16 +69,16 @@ export const postLogin = async () => {
 }
 
 export const postChangeName = async (name: string) => {
-  const token = await firebase.auth().currentUser?.getIdToken()
+  const token = await firebase.auth().currentUser?.getIdToken();
   const url = `${API_BASE_URL}/user/name`;
   const method = "POST";
   const headers = {
     "Authorization": `Bearer ${token}`,
     "Contest-Type": 'application/json'
-  }
+  };
   const body = JSON.stringify({
     Name: name
-  })
+  });
   return fetch(url, {method, headers, body})
     .then(res => res.json())
     .then(user => {
@@ -89,11 +89,11 @@ export const postChangeName = async (name: string) => {
 }
 
 export const getUserSetting = async () => {
-  const token = await firebase.auth().currentUser?.getIdToken()
+  const token = await firebase.auth().currentUser?.getIdToken();
   const url = `${API_BASE_URL}/user/setting`;
   const headers = {
     "Authorization": `Bearer ${token}`,
-  }
+  };
   return fetch(url, {headers})
     .then(res => res.json())
     .then(userDetail => {
@@ -105,20 +105,20 @@ export const getUserSetting = async () => {
 
 export const postUserSetting = async (
   atcoderId: string, codeforcesId: string, yukicoderId: string, aojId: string, leetcodeId: string) => {
-  const token = await firebase.auth().currentUser?.getIdToken()
+  const token = await firebase.auth().currentUser?.getIdToken();
   const url = `${API_BASE_URL}/user/setting`;
   const method = "POST";
   const headers = {
     "Authorization": `Bearer ${token}`,
     "Contest-Type": 'application/json'
-  }
+  };
   const body = JSON.stringify({
     AtCoderID: atcoderId,
     CodeforcesID: codeforcesId,
     YukicoderID: yukicoderId,
     AOJID: aojId,
     LeetCodeID: leetcodeId
-  })
+  });
   return fetch(url, {method, headers, body})
     .then(res => res.json())
     .then(userDetail => {
@@ -129,12 +129,12 @@ export const postUserSetting = async (
 }
 
 export const authGetNote = async (noteId: string) => {
-  const token = await firebase.auth().currentUser?.getIdToken()
-  const params = new URLSearchParams({noteId})
+  const token = await firebase.auth().currentUser?.getIdToken();
+  const params = new URLSearchParams({noteId});
   const url = `${API_BASE_URL}/user/note?${params}`;
   const headers = {
     "Authorization": `Bearer ${token}`
-  }
+  };
   return fetch(url, {headers})
     .then(res => res.json())
     .then(note => {
@@ -145,11 +145,11 @@ export const authGetNote = async (noteId: string) => {
 }
 
 export const getMyNote = async (problemNo: number) => {
-  const token = await firebase.auth().currentUser?.getIdToken()
+  const token = await firebase.auth().currentUser?.getIdToken();
   const url = `${API_BASE_URL}/user/note/${problemNo}`;
   const headers = {
     "Authorization": `Bearer ${token}`
-  }
+  };
   return fetch(url, {headers})
     .then(res => res.json())
     .then(note => {
@@ -160,16 +160,16 @@ export const getMyNote = async (problemNo: number) => {
 }
 
 export const postMyNote = async (problemNo: number, text: string, isPublic: boolean) => {
-  const token = await firebase.auth().currentUser?.getIdToken()
+  const token = await firebase.auth().currentUser?.getIdToken();
   const url = `${API_BASE_URL}/user/note/${problemNo}`;
   const method = "POST";
   const headers = {
     "Authorization": `Bearer ${token}`
-  }
+  };
   const body = JSON.stringify({
     Text: text,
     Public: isPublic
-  })
+  });
   return fetch(url, {method, headers, body})
 }
 
@@ -180,18 +180,18 @@ export const getMyNotes = async ({
     skip = 0,
     order = "-updated",
   }) => {
-  const token = await firebase.auth().currentUser?.getIdToken()
+  const token = await firebase.auth().currentUser?.getIdToken();
   const params = new URLSearchParams({
     domain,
     tag,
     limit: limit.toString(),
     skip: skip.toString(),
     order
-  })
+  });
   const url = `${API_BASE_URL}/user/notes?${params.toString()}`;
   const headers = {
     "Authorization": `Bearer ${token}`
-  }
+  };
   return fetch(url, {headers})
     .then(res => res.json())
     .then(noteList => {
@@ -202,11 +202,11 @@ export const getMyNotes = async ({
 }
 
 export const getMyNoteTag = async (problemNo: number) => {
-  const token = await firebase.auth().currentUser?.getIdToken()
+  const token = await firebase.auth().currentUser?.getIdToken();
   const url = `${API_BASE_URL}/user/note/${problemNo}/tag`;
   const headers = {
     "Authorization": `Bearer ${token}`
-  }
+  };
   return fetch(url, {headers})
     .then(res => res.json())
     .then(tags => {
@@ -217,27 +217,27 @@ export const getMyNoteTag = async (problemNo: number) => {
 }
 
 export const postMyNoteTag = async (problemNo: number, tag: string) => {
-  const token = await firebase.auth().currentUser?.getIdToken()
+  const token = await firebase.auth().currentUser?.getIdToken();
   const url = `${API_BASE_URL}/user/note/${problemNo}/tag`;
   const method = "POST";
   const headers = {
     "Authorization": `Bearer ${token}`
-  }
+  };
   const body = JSON.stringify({
     Tag: tag,
-  })
+  });
   return fetch(url, {method, headers, body})
 }
 
 export const deleteMyNoteTag = async (problemNo: number, tag: string) => {
-  const token = await firebase.auth().currentUser?.getIdToken()
+  const token = await firebase.auth().currentUser?.getIdToken();
   const url = `${API_BASE_URL}/user/note/${problemNo}/tag`;
   const method = "DELETE";
   const headers = {
     "Authorization": `Bearer ${token}`
-  }
+  };
   const body = JSON.stringify({
     Tag: tag,
-  })
+  });
   return fetch(url, {method, headers, body})
 }

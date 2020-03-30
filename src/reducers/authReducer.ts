@@ -7,17 +7,15 @@ import { postLogin } from '../utils/apiClient';
 const actionCreator = actionCreatorFactory();
 const asyncCreator = asyncFactory(actionCreator);
 
-export const setIsLoggedIn = actionCreator<boolean>('SetIsLoggedIn');
-export const setUserName = actionCreator<string>('SetUserName');
 export const unsetUser = actionCreator<void>('UnsetUser');
 
-export const setUser = asyncCreator<void, void>(
+export const setUser = asyncCreator<void, {isLoggedIn: boolean, userName: string}>(
   "SetUser",
   async (params, dispatch, getState) => {
-    const user = await postLogin()
-    if (user !== undefined) {
-      dispatch(setIsLoggedIn(true));
-      dispatch(setUserName(user.Name));
+    const user = await postLogin();
+    return {
+      isLoggedIn: true,
+      userName: user ? user.Name : ""
     }
   })
 
@@ -27,21 +25,14 @@ const initialState: AuthState = {
 };
 
 const authReducer = reducerWithInitialState(initialState)
-  .case(setIsLoggedIn, (state, isLoggedIn) => ({
-    ...state,
-    isLoggedIn
-  }))
-  .case(setUserName, (state, userName) => ({
-    ...state,
-    userName
-  }))
   .case(unsetUser, state => ({
     ...state,
     isLoggedIn: false,
     userName: ""
   }))
-  .case(setUser.async.done, state => ({
+  .case(setUser.async.done, (state, { result }) => ({
     ...state,
+    ...result
   }))
 
 export default authReducer

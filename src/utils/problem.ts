@@ -8,16 +8,16 @@ export const problemUrl = (problem: Problem | undefined) => {
         url = `https://atcoder.jp/contests/${problem.ContestID}/tasks/${problem.ProblemID}`;
         break;
       case "codeforces":
-        url = `https://codeforces.com/contest/${problem.ContestID}/problem/${problem.ProblemID}`
+        url = `https://codeforces.com/contest/${problem.ContestID}/problem/${problem.ProblemID}`;
         break;
       case "yukicoder":
-        url = `https://yukicoder.me/problems/no/${problem.FrontendID}`
+        url = `https://yukicoder.me/problems/no/${problem.FrontendID}`;
         break;
       case "aoj":
-        url = `https://onlinejudge.u-aizu.ac.jp/problems/${problem.ProblemID}`
+        url = `https://onlinejudge.u-aizu.ac.jp/problems/${problem.ProblemID}`;
         break;
       case "leetcode":
-        url = `https://leetcode.com/problems/${problem.Slug}/`
+        url = `https://leetcode.com/problems/${problem.Slug}/`;
         break;
     }
   }

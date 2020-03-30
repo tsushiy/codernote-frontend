@@ -15,13 +15,13 @@ export const setContestsAndProblems = asyncCreator<void, {contests: Contest[], c
     let contestMap = new Map<{domain: string, contestId: string}, Contest>();
     contests.forEach(v => {
       contestMap.set({domain: v.Domain, contestId: v.ContestID}, v);
-    })
+    });
     const problems = await fetchProblems();
     let problemMap = new Map<ProblemNo, Problem>();
     problems.forEach(v => {
       problemMap.set(v.No, v);
-    })
-    return {contests, contestMap, problems, problemMap}
+    });
+    return {contests, contestMap, problems, problemMap};
   })
 
 const initialState: ProblemState = {
