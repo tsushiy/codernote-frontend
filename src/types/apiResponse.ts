@@ -1,8 +1,7 @@
 export type ProblemNo = number;
-export type ContestNo = number;
 
 export type ProblemMap = Map<ProblemNo, Problem>;
-export type ContestMap = Map<ContestNo, Problem>;
+export type ContestMap = Map<{domain: string, contestId: string}, Contest>;
 
 export type User = {
   readonly UserID: string;

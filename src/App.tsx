@@ -2,7 +2,7 @@ import React, { ReactElement, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import { setUser, unsetUser } from './reducers/authReducer';
-import { initContestsAndProblems } from './reducers/problemReducer';
+import { setContestsAndProblems } from './reducers/problemReducer';
 import { setMyNotes, unsetMyNotes } from './reducers/noteReducer';
 import NavigationBar from './components/NavigationBar';
 import ContestTable from './components/Table';
@@ -18,7 +18,7 @@ type WrapperProps = {
 const InitWrapper: React.FC<WrapperProps> = props => {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(initContestsAndProblems());
+    dispatch(setContestsAndProblems());
   }, [dispatch])
   return props.children
 }
