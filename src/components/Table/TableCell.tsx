@@ -18,13 +18,19 @@ const TableCell: React.FC<Props> = (props) => {
   const problem = problemMap.get(problemNo);
   const title = problem?.Title;
   const editUrl = `/my/${problemNo}`;
+  const viewUrl = noteExists ? `/notes/${myNotesMap.get(problemNo)?.ID}` : ""
 
   return (
     <Container>
       <div>
-        <Link to={editUrl} style={{color: noteExists ? "#39c" : "#555", fontSize: "0.9em", fontWeight: "bold"}}>
+        <Link to={editUrl} style={{color: "#555", fontSize: "0.9em", fontWeight: "bold", paddingRight: "4px"}}>
           Edit
         </Link>
+        {noteExists &&
+          <Link to={viewUrl} style={{color: "#39c", fontSize: "0.9em", fontWeight: "bold", paddingRight: "4px"}}>
+            View
+          </Link>
+        }
       </div>
       <a href={problemUrl(problem)} target="_blank" rel="noopener noreferrer">
         {title}
