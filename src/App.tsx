@@ -1,7 +1,7 @@
 import React, { ReactElement, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
-import { setUser, setUserNone } from './reducers/authReducer';
+import { setUser, unsetUser } from './reducers/authReducer';
 import { initContestsAndProblems } from './reducers/contestReducer';
 import NavigationBar from './components/NavigationBar';
 import ContestTable from './components/Table';
@@ -27,7 +27,7 @@ const AuthWrapper: React.FC<WrapperProps> = props => {
       if (user) {
         dispatch(setUser());
       } else {
-        dispatch(setUserNone());
+        dispatch(unsetUser());
       }
     })
   }, [dispatch])

@@ -9,7 +9,7 @@ const asyncCreator = asyncFactory(actionCreator);
 
 export const setIsLoggedIn = actionCreator<boolean>('SetIsLoggedIn');
 export const setUserName = actionCreator<string>('SetUserName');
-export const setUserNone = actionCreator<void>('SetUserNone');
+export const unsetUser = actionCreator<void>('UnsetUser');
 
 export const setUser = asyncCreator<void, void>(
   "SetUser",
@@ -35,7 +35,7 @@ const authReducer = reducerWithInitialState(initialState)
     ...state,
     userName
   }))
-  .case(setUserNone, (state) => ({
+  .case(unsetUser, state => ({
     ...state,
     isLoggedIn: false,
     userName: ""
