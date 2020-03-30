@@ -24,12 +24,23 @@ export const nonAuthGetNote = async (noteId: string) => {
     })
 }
 
-export const getPublicNotes = async (domain: string, problemNo: number, userName: string, tag: string) => {
+export const getPublicNotes = async ({
+    domain = "",
+    problemNo = 0,
+    userName = "",
+    tag = "",
+    limit = 100,
+    skip = 0,
+    order = "-updated",
+  }) => {
   const params = new URLSearchParams({
     domain,
     problemNo: problemNo.toString(),
     userName,
-    tag
+    tag,
+    limit: limit.toString(),
+    skip: skip.toString(),
+    order
   })
   const url = `${API_BASE_URL}/notes?${params.toString()}`;
   return fetch(url)
