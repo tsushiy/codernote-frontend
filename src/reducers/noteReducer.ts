@@ -14,7 +14,8 @@ export const unsetMyNotes = actionCreator<void>('UnsetMyNotes');
 export const setMyNotes = asyncCreator<{}, {myNoteCount: number, myNotesMap: Map<ProblemNo, Note>}>(
   "SetMyNotes",
   async (params, dispatch, getState) => {
-    const NoteList = await getMyNotes("", "", 50000);
+    const limit = 40000;
+    const NoteList = await getMyNotes({limit});
     let myNotesMap = new Map<ProblemNo, Note>();
     NoteList?.Notes.forEach(v => myNotesMap.set(v.Problem.No, v))
     return {

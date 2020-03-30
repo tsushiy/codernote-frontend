@@ -173,12 +173,20 @@ export const postMyNote = async (problemNo: number, text: string, isPublic: bool
   return fetch(url, {method, headers, body})
 }
 
-export const getMyNotes = async (domain: string, tag: string, limit: number) => {
+export const getMyNotes = async ({
+    domain = "",
+    tag = "",
+    limit = 100,
+    skip = 0,
+    order = "-updated",
+  }) => {
   const token = await firebase.auth().currentUser?.getIdToken()
   const params = new URLSearchParams({
     domain,
     tag,
     limit: limit.toString(),
+    skip: skip.toString(),
+    order
   })
   const url = `${API_BASE_URL}/user/notes?${params.toString()}`;
   const headers = {
