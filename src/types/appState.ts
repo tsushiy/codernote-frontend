@@ -1,4 +1,4 @@
-import { Problem, Contest, ProblemMap, Note } from "../types/apiResponse";
+import { Problem, Contest, ProblemMap, Note, ProblemNo } from "../types/apiResponse";
 
 export type AuthState = {
   isLoggedIn: boolean;
@@ -15,8 +15,14 @@ export type EditorState = {
   showPreview: boolean;
 };
 
+export type NoteState = {
+  myNoteCount: number;
+  myNotesMap: Map<ProblemNo, Note>; // <ProblemNo, Note>
+}
+
 export type AppState = {
   auth: AuthState;
   problem: ProblemState;
   editor: EditorState;
+  note: NoteState;
 };

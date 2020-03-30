@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import { setUser, unsetUser } from './reducers/authReducer';
 import { initContestsAndProblems } from './reducers/problemReducer';
+import { setMyNotes, unsetMyNotes } from './reducers/noteReducer';
 import NavigationBar from './components/NavigationBar';
 import ContestTable from './components/Table';
 import Editor from './components/Editor';
@@ -22,15 +23,19 @@ const InitWrapper: React.FC<WrapperProps> = props => {
 
 const AuthWrapper: React.FC<WrapperProps> = props => {
   const dispatch = useDispatch();
+
   useEffect(() => {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
         dispatch(setUser());
+        dispatch(setMyNotes());
       } else {
         dispatch(unsetUser());
+        dispatch(unsetMyNotes());
       }
     })
   }, [dispatch])
+
   return props.children
 }
 

@@ -7,6 +7,7 @@ import { getMyNote, postMyNote } from '../../utils/apiClient';
 import { AppState } from '../../types/appState';
 import { isPublicNote } from '../../types/apiResponse';
 import { changeShowPreview } from '../../reducers/editorReducer';
+import { setMyNote } from '../../reducers/noteReducer';
 import MarkdownEditor from './MarkdownEditor';
 import EditorPreview from './EditorPreview';
 import EditorFooter from './EditorFooter';
@@ -31,12 +32,13 @@ const Editor: React.FC<Props> = props => {
     setIsFetchTried(true);
     (async() => {
       const note = await getMyNote(problemNo);
-      if (note !== undefined) {
+      if (note !== undefined && note.ID !== "") {
+        dispatch(setMyNote({problemNo, newNote: note}));
         setRawText(note.Text);
         setIsPublic(isPublicNote(note));
       }
     })();
-  }, [isFetchTried, isLoggedIn, problemNo])
+  }, [dispatch, isFetchTried, isLoggedIn, problemNo])
 
   const onSubmitText = async () => {
     try {
