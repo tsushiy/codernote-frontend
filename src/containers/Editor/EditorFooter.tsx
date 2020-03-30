@@ -20,7 +20,7 @@ const Footer: React.FC<Props> = props => {
   return (
     <FooterButtons>
       <Form style={{padding: "0 5px"}}>
-        <Form.Control as="select" custom value={props.isPublic ? "public" : "private"} onChange={onChange}>
+        <Form.Control as="select" custom="true" value={props.isPublic ? "public" : "private"} onChange={onChange}>
           <option value="public">Public</option>
           <option value="private">Private</option>
         </Form.Control>
