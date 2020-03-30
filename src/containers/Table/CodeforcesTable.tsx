@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { Table, Nav } from 'react-bootstrap';
-import TableCell from '../../components/Table/TableCell';
-import { Contest, ProblemMap } from "../../types/apiResponse";
+import TableCell from '../../containers/Table/TableCell';
+import { Contest } from "../../types/apiResponse";
 import styled from "styled-components";
 
 type Props = {
   contests: Contest[]
-  problemMap: ProblemMap
 }
 
 const CodeforcesRegularTable: React.FC<Props> = props => {
@@ -33,10 +32,7 @@ const CodeforcesRegularTable: React.FC<Props> = props => {
               <React.Fragment key={j}>
                 {contest.ProblemNoList[j] !== undefined
                   ? <td key={j}>
-                      <TableCell
-                        title={props.problemMap.get(contest.ProblemNoList[j])?.Title}
-                        problemNo={props.problemMap.get(contest.ProblemNoList[j])?.No}
-                      />
+                      <TableCell problemNo={contest.ProblemNoList[j]} />
                     </td>
                   : null}
               </React.Fragment>
@@ -58,10 +54,7 @@ const CodeforcesOthersTable: React.FC<Props> = props => {
             <tr>
               {contest.ProblemNoList.map((e, i) => (
                 <td key={i}>
-                  <TableCell
-                    title={props.problemMap.get(e)?.Title}
-                    problemNo={props.problemMap.get(e)?.No}
-                  />
+                  <TableCell problemNo={e} />
                 </td>
               ))}
             </tr>
@@ -73,9 +66,8 @@ const CodeforcesOthersTable: React.FC<Props> = props => {
 }
 
 const CodeforcesTable: React.FC<Props> = props => {
+  const { contests } = props;
   const [activeTab, setActiveTab] = useState("cr1");
-  const contests = props.contests;
-  const problemMap = props.problemMap;
 
   let [cr1, cr2, cr3, educational, othersRated, others] :
     [Contest[], Contest[], Contest[], Contest[], Contest[], Contest[]] = [[], [], [], [], [], []];
@@ -120,12 +112,12 @@ const CodeforcesTable: React.FC<Props> = props => {
           <Nav.Link eventKey="others">Others</Nav.Link>
         </Nav.Item>
       </Nav>
-      {activeTab === "cr1" && <CodeforcesRegularTable contests={cr1} problemMap={problemMap} />}
-      {activeTab === "cr2" && <CodeforcesRegularTable contests={cr2} problemMap={problemMap} />}
-      {activeTab === "cr3" && <CodeforcesRegularTable contests={cr3} problemMap={problemMap} />}
-      {activeTab === "educational" && <CodeforcesOthersTable contests={educational} problemMap={problemMap} />}
-      {activeTab === "others-rated" && <CodeforcesOthersTable contests={othersRated} problemMap={problemMap} />}
-      {activeTab === "others" && <CodeforcesOthersTable contests={others} problemMap={problemMap} />}
+      {activeTab === "cr1" && <CodeforcesRegularTable contests={cr1} />}
+      {activeTab === "cr2" && <CodeforcesRegularTable contests={cr2} />}
+      {activeTab === "cr3" && <CodeforcesRegularTable contests={cr3} />}
+      {activeTab === "educational" && <CodeforcesOthersTable contests={educational} />}
+      {activeTab === "others-rated" && <CodeforcesOthersTable contests={othersRated} />}
+      {activeTab === "others" && <CodeforcesOthersTable contests={others} />}
     </React.Fragment>
   )
 }

@@ -1,24 +1,26 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Table, Nav } from 'react-bootstrap';
-import TableCell from '../../components/Table/TableCell';
-import { Contest, ProblemMap } from "../../types/apiResponse";
 import styled from "styled-components";
+import TableCell from '../../containers/Table/TableCell';
+import { Contest } from "../../types/apiResponse";
+import { AppState } from '../../types/appState';
 
 type InnerProps = {
   contest: Contest
-  problemMap: ProblemMap
 }
 
 type OuterProps = {
   contests: Contest[]
-  problemMap: ProblemMap
 }
 
 const AOJInnerTable: React.FC<InnerProps> = props => {
+  const { problemMap } = useSelector((state: AppState) => state.contest);
+
   if (props.contest !== undefined) {
     props.contest.ProblemNoList.sort((a, b) => {
-      const x = Number(props.problemMap.get(a)?.ProblemID)
-      const y = Number(props.problemMap.get(b)?.ProblemID)
+      const x = Number(problemMap.get(a)?.ProblemID)
+      const y = Number(problemMap.get(b)?.ProblemID)
       if (!isNaN(x) && !isNaN(y)) {
         return x - y
       } else {
@@ -26,6 +28,7 @@ const AOJInnerTable: React.FC<InnerProps> = props => {
       }
     })
   }
+
   return (
     <StyledTable className="table-sm table-responsive-sm table-bordered table-hover">
       <thead>
@@ -35,14 +38,11 @@ const AOJInnerTable: React.FC<InnerProps> = props => {
         </tr>
       </thead>
       <tbody>
-        {props.contest && props.contest.ProblemNoList.map((v, i) => (
+        {props.contest && props.contest.ProblemNoList.map((e, i) => (
           <tr key={i}>
-            <th scope="row">{props.problemMap.get(v)?.ProblemID}</th>
+            <th scope="row">{problemMap.get(e)?.ProblemID}</th>
             <td>
-              <TableCell
-                title={props.problemMap.get(v)?.Title}
-                problemNo={props.problemMap.get(v)?.No}
-              />
+              <TableCell problemNo={e} />
             </td>
           </tr>
         ))}
@@ -52,9 +52,8 @@ const AOJInnerTable: React.FC<InnerProps> = props => {
 }
 
 const AOJTable: React.FC<OuterProps> = props => {
+  const { contests } = props;
   const [activeTab, setActiveTab] = useState("joi");
-  const contests = props.contests;
-  const problemMap = props.problemMap;
 
   const courses = ["ITP1", "ALDS1", "ITP2", "DSL", "DPL", "GRL", "CGL", "NTL"]
   const cl = ["JOI","PCK","ICPC","JAG","VPC","UOA"]
@@ -80,13 +79,13 @@ const AOJTable: React.FC<OuterProps> = props => {
       {cl.map((v, k) => (
         <React.Fragment key={k}>
           {activeTab === v.toLowerCase() &&
-            <AOJInnerTable contest={contests.filter(contest => contest.ContestID.match(new RegExp(`^${v}$`)))[0]} problemMap={problemMap} />}
+            <AOJInnerTable contest={contests.filter(contest => contest.ContestID.match(new RegExp(`^${v}$`)))[0]} />}
         </React.Fragment>
       ))}
       {courses.map((v, k) => (
         <React.Fragment key={k}>
           {activeTab === v.toLowerCase() &&
-            <AOJInnerTable contest={contests.filter(contest => contest.ContestID.match(new RegExp(`^${v}$`)))[0]} problemMap={problemMap} />}
+            <AOJInnerTable contest={contests.filter(contest => contest.ContestID.match(new RegExp(`^${v}$`)))[0]} />}
         </React.Fragment>
       ))}
     </React.Fragment>

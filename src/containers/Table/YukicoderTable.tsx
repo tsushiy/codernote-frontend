@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { Table, Nav } from 'react-bootstrap';
-import TableCell from '../../components/Table/TableCell';
-import { Contest, ProblemMap } from "../../types/apiResponse";
+import TableCell from '../../containers/Table/TableCell';
+import { Contest } from "../../types/apiResponse";
 import styled from "styled-components";
 
 type Props = {
   contests: Contest[]
-  problemMap: ProblemMap
 }
 
 const YukicoderRegularTable: React.FC<Props> = props => {
@@ -42,10 +41,7 @@ const YukicoderRegularTable: React.FC<Props> = props => {
               <React.Fragment key={j}>
                 {contest.ProblemNoList[j] !== undefined
                   ? <td key={j}>
-                      <TableCell
-                        title={props.problemMap.get(contest.ProblemNoList[j])?.Title}
-                        problemNo={props.problemMap.get(contest.ProblemNoList[j])?.No}
-                      />
+                      <TableCell problemNo={contest.ProblemNoList[j]} />
                     </td>
                   : null}
               </React.Fragment>
@@ -76,10 +72,7 @@ const YukicoderOthersTable: React.FC<Props> = props => {
             <tr>
               {contest.ProblemNoList.map((e, i) => (
                 <td key={i}>
-                  <TableCell
-                    title={props.problemMap.get(e)?.Title}
-                    problemNo={props.problemMap.get(e)?.No}
-                  />
+                  <TableCell problemNo={e} />
                 </td>
               ))}
             </tr>
@@ -91,9 +84,8 @@ const YukicoderOthersTable: React.FC<Props> = props => {
 }
 
 const YukicoderTable: React.FC<Props> = props => {
+  const { contests } = props;
   const [activeTab, setActiveTab] = useState("regular");
-  const contests = props.contests;
-  const problemMap = props.problemMap;
 
   return (
     <React.Fragment>
@@ -109,8 +101,8 @@ const YukicoderTable: React.FC<Props> = props => {
           <Nav.Link eventKey="others">Others</Nav.Link>
         </Nav.Item>
       </Nav>
-      {activeTab === "regular" && <YukicoderRegularTable contests={contests.filter(v => v.Title.match(/^yukicoder contest/))} problemMap={problemMap} />}
-      {activeTab === "others" && <YukicoderOthersTable contests={contests.filter(v => !v.Title.match(/^yukicoder contest/))} problemMap={problemMap} />}
+      {activeTab === "regular" && <YukicoderRegularTable contests={contests.filter(v => v.Title.match(/^yukicoder contest/))} />}
+      {activeTab === "others" && <YukicoderOthersTable contests={contests.filter(v => !v.Title.match(/^yukicoder contest/))} />}
     </React.Fragment>
   )
 }

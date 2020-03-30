@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { Table, Nav } from 'react-bootstrap';
-import TableCell from '../../components/Table/TableCell';
-import { Contest, ProblemMap } from "../../types/apiResponse";
+import TableCell from '../../containers/Table/TableCell';
+import { Contest } from "../../types/apiResponse";
 import styled from "styled-components";
 
 type Props = {
   contests: Contest[]
-  problemMap: ProblemMap
 }
 
 const AtCoderRegularTable: React.FC<Props> = props => {
@@ -33,10 +32,7 @@ const AtCoderRegularTable: React.FC<Props> = props => {
               <React.Fragment key={j}>
                 {contest.ProblemNoList[j] !== undefined
                   ? <td key={j}>
-                      <TableCell
-                        title={props.problemMap.get(contest.ProblemNoList[j])?.Title}
-                        problemNo={props.problemMap.get(contest.ProblemNoList[j])?.No}
-                      />
+                      <TableCell problemNo={contest.ProblemNoList[j]} />
                     </td>
                   : null}
               </React.Fragment>
@@ -58,10 +54,7 @@ const AtCoderOthersTable: React.FC<Props> = props => {
             <tr>
               {contest.ProblemNoList.map((e, i) => (
                 <td key={i}>
-                  <TableCell
-                    title={props.problemMap.get(e)?.Title}
-                    problemNo={props.problemMap.get(e)?.No}
-                  />
+                  <TableCell problemNo={e} />
                 </td>
               ))}
             </tr>
@@ -73,9 +66,8 @@ const AtCoderOthersTable: React.FC<Props> = props => {
 }
 
 const AtCoderTable: React.FC<Props> = props => {
+  const { contests } = props;
   const [activeTab, setActiveTab] = useState("abc");
-  const contests = props.contests;
-  const problemMap = props.problemMap;
 
   return (
     <React.Fragment>
@@ -100,11 +92,11 @@ const AtCoderTable: React.FC<Props> = props => {
           <Nav.Link eventKey="others">Others</Nav.Link>
         </Nav.Item>
       </Nav>
-      {activeTab === "abc" && <AtCoderRegularTable contests={contests.filter(v => v.ContestID.match(/^abc\d{3}$/))} problemMap={problemMap} />}
-      {activeTab === "arc" && <AtCoderRegularTable contests={contests.filter(v => v.ContestID.match(/^arc\d{3}$/))} problemMap={problemMap} />}
-      {activeTab === "agc" && <AtCoderRegularTable contests={contests.filter(v => v.ContestID.match(/^agc\d{3}$/))} problemMap={problemMap} />}
-      {activeTab === "others-rated" && <AtCoderOthersTable contests={contests.filter(v => !v.ContestID.match(/^a[brg]c\d{3}$/) && (v.Rated !== "-"))} problemMap={problemMap} />}
-      {activeTab === "others" && <AtCoderOthersTable contests={contests.filter(v => !v.ContestID.match(/^a[brg]c\d{3}$/) && (v.Rated === "-"))} problemMap={problemMap} />}
+      {activeTab === "abc" && <AtCoderRegularTable contests={contests.filter(v => v.ContestID.match(/^abc\d{3}$/))} />}
+      {activeTab === "arc" && <AtCoderRegularTable contests={contests.filter(v => v.ContestID.match(/^arc\d{3}$/))} />}
+      {activeTab === "agc" && <AtCoderRegularTable contests={contests.filter(v => v.ContestID.match(/^agc\d{3}$/))} />}
+      {activeTab === "others-rated" && <AtCoderOthersTable contests={contests.filter(v => !v.ContestID.match(/^a[brg]c\d{3}$/) && (v.Rated !== "-"))} />}
+      {activeTab === "others" && <AtCoderOthersTable contests={contests.filter(v => !v.ContestID.match(/^a[brg]c\d{3}$/) && (v.Rated === "-"))} />}
     </React.Fragment>
   )
 }

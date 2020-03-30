@@ -9,8 +9,8 @@ import YukicoderTable from "./YukicoderTable";
 import LeetCodeTable from "./LeetCodeTable";
 
 const ContestTable: React.FC<{}> = () => {
+  const { contests } = useSelector((state: AppState) => state.contest);
   const [activeTab, setActiveTab] = useState("atcoder");
-  const { contests, problems, problemMap } = useSelector((state: AppState) => state.contest);
 
   return (
     <div className="container">
@@ -35,11 +35,11 @@ const ContestTable: React.FC<{}> = () => {
           <Nav.Link eventKey="leetcode">LeetCode</Nav.Link>
         </Nav.Item>
       </Nav>
-      {activeTab === "atcoder" && <AtCoderTable contests={contests.filter(contest => contest.Domain === "atcoder")} problemMap={problemMap} />}
-      {activeTab === "codeforces" && <CodeforcesTable contests={contests.filter(contest => contest.Domain === "codeforces")} problemMap={problemMap} />}
-      {activeTab === "yukicoder" && <YukicoderTable contests={contests.filter(contest => contest.Domain === "yukicoder")} problemMap={problemMap} />}
-      {activeTab === "aoj" && <AOJTable contests={contests.filter(contest => contest.Domain === "aoj")} problemMap={problemMap} />}
-      {activeTab === "leetcode" && <LeetCodeTable contests={contests.filter(contest => contest.Domain === "leetcode")} problemMap={problemMap} />}
+      {activeTab === "atcoder" && <AtCoderTable contests={contests.filter(contest => contest.Domain === "atcoder")} />}
+      {activeTab === "codeforces" && <CodeforcesTable contests={contests.filter(contest => contest.Domain === "codeforces")} />}
+      {activeTab === "yukicoder" && <YukicoderTable contests={contests.filter(contest => contest.Domain === "yukicoder")} />}
+      {activeTab === "aoj" && <AOJTable contests={contests.filter(contest => contest.Domain === "aoj")} />}
+      {activeTab === "leetcode" && <LeetCodeTable contests={contests.filter(contest => contest.Domain === "leetcode")} />}
     </div>
   );
 }
