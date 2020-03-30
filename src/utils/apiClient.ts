@@ -148,7 +148,7 @@ export const getMyNote = async (problemNo: number) => {
     })
 }
 
-export const postMyNote = async (problemNo: number, text: string, pub: boolean) => {
+export const postMyNote = async (problemNo: number, text: string, isPublic: boolean) => {
   const token = await firebase.auth().currentUser?.getIdToken()
   const url = `${API_BASE_URL}/user/note/${problemNo}`;
   const method = "POST";
@@ -157,7 +157,7 @@ export const postMyNote = async (problemNo: number, text: string, pub: boolean) 
   }
   const body = JSON.stringify({
     Text: text,
-    Public: pub
+    Public: isPublic
   })
   return fetch(url, {method, headers, body})
 }
@@ -168,7 +168,7 @@ export const getMyNotes = async (domain: string, tag: string) => {
     domain,
     tag
   })
-  const url = `${API_BASE_URL}/notes?${params.toString()}`;
+  const url = `${API_BASE_URL}/user/notes?${params.toString()}`;
   const headers = {
     "Authorization": `Bearer ${token}`
   }
