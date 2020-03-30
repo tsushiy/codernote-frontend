@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Table, Nav } from 'react-bootstrap';
 import styled from "styled-components";
-import TableCell from '../../containers/Table/TableCell';
+import TableCell from '../../components/Table/TableCell';
 import { Contest } from "../../types/apiResponse";
 import { AppState } from '../../types/appState';
 

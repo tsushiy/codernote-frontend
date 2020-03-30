@@ -3,9 +3,9 @@ import { useDispatch } from 'react-redux';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import { setUser, setUserNone } from './reducers/authReducer';
 import { initContestsAndProblems } from './reducers/contestReducer';
-import NavigationBar from './containers/NavigationBar';
-import ContestTable from './containers/Table';
-import Editor from './containers/Editor';
+import NavigationBar from './components/NavigationBar';
+import ContestTable from './components/Table';
+import Editor from './components/Editor';
 import firebase from './utils/firebase';
 
 type WrapperProps = {

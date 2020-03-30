@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Table, Nav } from 'react-bootstrap';
-import TableCell from '../../containers/Table/TableCell';
+import TableCell from '../../components/Table/TableCell';
 import { Contest } from "../../types/apiResponse";
 import styled from "styled-components";
 
