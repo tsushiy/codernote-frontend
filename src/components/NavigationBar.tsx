@@ -4,6 +4,7 @@ import { Navbar, Nav, Button } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { AppState } from '../types/appState';
 import firebase from '../utils/firebase';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const NavigationBar: React.FC<{}> = () => {
   const { userName } = useSelector((state: AppState) => state.auth)
@@ -26,7 +27,10 @@ const NavigationBar: React.FC<{}> = () => {
         <Nav.Link>Notes</Nav.Link>
       </LinkContainer>
       <Navbar.Collapse className="justify-content-end">
-        <Button variant="outline-primary">{link}</Button>
+        <a href="https://github.com/tsushiy/codernote-frontend" target="_blank">
+          <FontAwesomeIcon icon={['fab', 'github']} size="lg" color="#777" />
+        </a>
+        <Button style={{margin: "0 12px"}} variant="outline-primary">{link}</Button>
       </Navbar.Collapse>
     </Navbar>
   )
