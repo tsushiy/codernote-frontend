@@ -20,6 +20,7 @@ const Editor: React.FC<Props> = props => {
   const [isFetchTried, setIsFetchTried] = useState(false);
   const [rawText, setRawText] = useState("");
   const [isPublic, setIsPublic] = useState(false);
+  const [message, setMessage] = useState("");
 
   const { showPreview } = useSelector((state: AppState) => state.editor)
   const { isLoggedIn } = useSelector((state: AppState) => state.auth);
@@ -38,7 +39,12 @@ const Editor: React.FC<Props> = props => {
   }, [isFetchTried, isLoggedIn, problemNo])
 
   const onSubmitText = async () => {
-    await postMyNote(problemNo, rawText, isPublic);
+    try {
+      await postMyNote(problemNo, rawText, isPublic);
+      setMessage("Successfully submitted.");
+    } catch (error) {
+      setMessage("Failed to submit.");
+    }
     setIsFetchTried(false);
   }
 
@@ -60,20 +66,20 @@ const Editor: React.FC<Props> = props => {
 
   return (
     <Container>
-      <EditorHeader>
+      <EditorHeaderContainer>
         <h5>{problemMap.get(problemNo)?.Title}</h5>
         <Button onClick={onClickPreview}>Preview</Button>
-      </EditorHeader>
+      </EditorHeaderContainer>
       <MarkdownEditorContainer>
         <MarkdownEditor showPreview={showPreview} rawText={rawText} onChangeText={onChangeText}/>
       </MarkdownEditorContainer>
       {showPreview &&
         <EditorPreviewContainer>
-          <EditorPreview rawText={rawText} />
+          <EditorPreview rawText={rawText} setMessage={setMessage}/>
         </EditorPreviewContainer>
       }
       <FooterContainer>
-        <EditorFooter onSubmitText={onSubmitText} onChangePublic={onChangePublic} isPublic={isPublic}/>
+        <EditorFooter onSubmitText={onSubmitText} onChangePublic={onChangePublic} isPublic={isPublic} message={message}/>
       </FooterContainer>
     </Container>
   )
@@ -88,7 +94,7 @@ const Container = styled.div`
   bottom: 0;
 `;
 
-const EditorHeader = styled.div`
+const EditorHeaderContainer = styled.div`
   position: absolute;
   height: 80px;
   padding-left: 20px;

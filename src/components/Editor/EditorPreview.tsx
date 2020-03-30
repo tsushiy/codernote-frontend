@@ -3,30 +3,26 @@ import styled from 'styled-components';
 import { markdownProcessor } from '../../utils/markdownProcessor';
 
 type Props = {
-  rawText: string
+  rawText: string,
+  setMessage: React.Dispatch<React.SetStateAction<string>>
 }
 
 const EditorPreview: React.FC<Props> = props => {
+  const { rawText, setMessage } = props;
   const [htmlText, setHtmlText] = useState("");
-  const [message, setMessage] = useState("");
 
-  const compile = (raw: string) => {
+  useEffect(() => {
     try {
-      const { contents } = markdownProcessor.processSync(raw);
+      const { contents } = markdownProcessor.processSync(rawText);
       setHtmlText(contents as string);
       setMessage("");
     } catch (error) {
       setMessage(error.message);
     }
-  }
-
-  useEffect(() => {
-    compile(props.rawText);
-  })
+  }, [setMessage, rawText, setHtmlText])
 
   return (
     <Container>
-      <ErrorMessage>{message}</ErrorMessage>
       <div
         id="preview"
         dangerouslySetInnerHTML={{ __html: htmlText as string }}
@@ -41,10 +37,6 @@ const Container = styled.div`
   padding-bottom: 12px;
   padding-left: 18px;
   word-wrap: break-word;
-`;
-
-const ErrorMessage = styled.p`
-  color: red;
 `;
 
 export default EditorPreview;
