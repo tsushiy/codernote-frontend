@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { AppState } from '../../types/appState';
+import { problemUrl } from '../../utils/problem';
 
 type Props = {
   problemNo: number
@@ -18,27 +19,6 @@ const TableCell: React.FC<Props> = (props) => {
   const title = problem?.Title;
   const editUrl = `/my/${problemNo}`;
 
-  let problemUrl = "";
-  if (problem) {
-    switch (problem.Domain) {
-      case "atcoder":
-        problemUrl = `https://atcoder.jp/contests/${problem.ContestID}/tasks/${problem.ProblemID}`;
-        break;
-      case "codeforces":
-        problemUrl = `https://codeforces.com/contest/${problem.ContestID}/problem/${problem.ProblemID}`
-        break;
-      case "yukicoder":
-        problemUrl = `https://yukicoder.me/problems/no/${problem.FrontendID}`
-        break;
-      case "aoj":
-        problemUrl = `https://onlinejudge.u-aizu.ac.jp/problems/${problem.ProblemID}`
-        break;
-      case "leetcode":
-        problemUrl = `https://leetcode.com/problems/${problem.Slug}/`
-        break;
-    }
-  }
-
   return (
     <Container>
       <div>
@@ -46,7 +26,7 @@ const TableCell: React.FC<Props> = (props) => {
           Edit
         </Link>
       </div>
-      <a href={problemUrl} target="_blank" rel="noopener noreferrer">
+      <a href={problemUrl(problem)} target="_blank" rel="noopener noreferrer">
         {title}
       </a>
     </Container>

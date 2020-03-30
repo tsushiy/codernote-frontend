@@ -7,6 +7,7 @@ import { setMyNotes, unsetMyNotes } from './reducers/noteReducer';
 import NavigationBar from './components/NavigationBar';
 import ContestTable from './components/Table';
 import Editor from './components/Editor';
+import NotePage from './components/Note';
 import firebase from './utils/firebase';
 
 type WrapperProps = {
@@ -52,6 +53,7 @@ const App: React.FC<{}> = () => {
               </Route>
               <Route exact path='/table' component={ContestTable} />
               <Route exact path='/my/:problemNo' component={Editor} />
+              <Route exact path='/notes/:noteId' component={NotePage} />
             </Switch>
           </div>
         </AuthWrapper>
