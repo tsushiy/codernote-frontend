@@ -68,7 +68,7 @@ const NotesPage: React.FC<Props> = props => {
           {notes && notes.map((note, i) => (
             <tr key={i}>
               <td>
-                <Link to={`notes/${note.ID}`}>
+                <Link to={`/notes/${note.ID}`}>
                   {note.ID.slice(0, 8)}
                 </Link>
               </td>

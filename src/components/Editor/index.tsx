@@ -42,8 +42,12 @@ const Editor: React.FC<Props> = props => {
 
   const onSubmitText = async () => {
     try {
-      await postMyNote(problemNo, rawText, isPublic);
-      setMessage("Successfully submitted.");
+      const res = await postMyNote(problemNo, rawText, isPublic);
+      if (res.status === 200) {
+        setMessage("Successfully submitted.");
+      } else {
+        setMessage("Failed to submit.");
+      }
     } catch (error) {
       setMessage("Failed to submit.");
     }
