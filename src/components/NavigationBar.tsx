@@ -23,8 +23,14 @@ const NavigationBar: React.FC<{}> = () => {
       <LinkContainer to="/">
         <Navbar.Brand>Codernote</Navbar.Brand>
       </LinkContainer>
+      <LinkContainer to="/table">
+        <Nav.Link>Table</Nav.Link>
+      </LinkContainer>
       <LinkContainer to="/notes">
         <Nav.Link>Notes</Nav.Link>
+      </LinkContainer>
+      <LinkContainer to="/my/notes">
+        <Nav.Link>MyNotes</Nav.Link>
       </LinkContainer>
       <Navbar.Collapse className="justify-content-end">
         <a href="https://github.com/tsushiy/codernote-frontend" target="_blank" rel="noopener noreferrer">

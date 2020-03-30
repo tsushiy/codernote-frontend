@@ -53,9 +53,10 @@ const App: React.FC<{}> = () => {
                 <Redirect to='/table' />
               </Route>
               <Route exact path='/table' component={ContestTable} />
-              <Route exact path='/my/:problemNo' component={Editor} />
-              <Route exact path='/notes' component={NotesPage} />
+              <Route exact path='/notes' render={props => <NotesPage isMyNotes={false} {...props} />}/>
               <Route exact path='/notes/:noteId' component={NotePage} />
+              <Route exact path='/my/notes' render={props => <NotesPage isMyNotes={true} {...props} />}/>
+              <Route exact path='/my/:problemNo' component={Editor} />
             </Switch>
           </div>
         </AuthWrapper>

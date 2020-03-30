@@ -1,27 +1,34 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom'
 import { parse } from 'query-string';
 import { Table } from 'react-bootstrap';
 import styled from "styled-components";
-import { getPublicNotes } from '../../utils/apiClient';
+import { getPublicNotes, getMyNotes } from '../../utils/apiClient';
 import { problemUrl } from '../../utils/problem';
 import { Note } from '../../types/apiResponse';
+import { AppState } from '../../types/appState';
 
-type Props = {} & RouteComponentProps;
+type Props = {
+  isMyNotes: boolean;
+} & RouteComponentProps;
 
 const NotesPage: React.FC<Props> = props => {
   const query = parse(props.location.search);
+  const { isMyNotes } = props;
   const [noteCount, setNoteCount] = useState(0);
   const [notes, setNotes] = useState<Note[]>();
+  const { isLoggedIn } = useSelector((state: AppState) => state.auth);
 
   let page = Number(query.page);
   if (page === 0 || isNaN(page) || page !== Number(page.toFixed())) {
     page = 1;
   }
+  const limit = 100;
+  const skip = 100 * (page - 1);
 
   useEffect(() => {
-    const limit = 100;
-    const skip = 100 * (page - 1);
+    if (isMyNotes) return;
     getPublicNotes({skip, limit})
       .then(noteList => {
         if (noteList) {
@@ -29,16 +36,29 @@ const NotesPage: React.FC<Props> = props => {
           setNoteCount(noteList.Count);
         }
       })
-  }, [page])
+  }, [isMyNotes, props, skip, limit])
+
+  useEffect(() => {
+    if (!isMyNotes || !isLoggedIn) return;
+    getMyNotes({skip, limit})
+      .then(noteList => {
+        if (noteList) {
+          setNotes(noteList.Notes);
+          setNoteCount(noteList.Count);
+        }
+      })
+  }, [isLoggedIn, isMyNotes, props, skip, limit])
 
   return (
     <Container>
-      <h1 style={{padding: "18px 22px"}}>Public Notes</h1>
+      <h1 style={{padding: "22px"}}>
+        {isMyNotes ? "My Notes" : "Public Notes"}
+      </h1>
       <Table className="table-responsive-sm table-hover">
         <thead>
           <tr>
             <th>NoteID</th>
-            <th>User</th>
+            {!isMyNotes && <th>User</th>}
             <th>Service</th>
             <th>Problem</th>
             <th>UpdatedAt</th>
@@ -52,7 +72,7 @@ const NotesPage: React.FC<Props> = props => {
                   {note.ID.slice(0, 8)}
                 </Link>
               </td>
-              <td>{note.User.Name}</td>
+              {!isMyNotes && <td>{note.User.Name}</td>}
               <td>{note.Problem.Domain.toUpperCase()}</td>
               <td>
                 <a href={problemUrl(note.Problem)} target="_blank" rel="noopener noreferrer">
