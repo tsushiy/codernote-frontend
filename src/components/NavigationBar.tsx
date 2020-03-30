@@ -27,7 +27,7 @@ const NavigationBar: React.FC<{}> = () => {
         <Nav.Link>Notes</Nav.Link>
       </LinkContainer>
       <Navbar.Collapse className="justify-content-end">
-        <a href="https://github.com/tsushiy/codernote-frontend" target="_blank">
+        <a href="https://github.com/tsushiy/codernote-frontend" target="_blank" rel="noopener noreferrer">
           <FontAwesomeIcon icon={['fab', 'github']} size="lg" color="#777" />
         </a>
         <Button style={{margin: "0 12px"}} variant="outline-primary">{link}</Button>

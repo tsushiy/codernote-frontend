@@ -46,7 +46,7 @@ const TableCell: React.FC<Props> = (props) => {
           Edit
         </Link>
       </div>
-      <a href={problemUrl} target="_blank">
+      <a href={problemUrl} target="_blank" rel="noopener noreferrer">
         {title}
       </a>
     </Container>
