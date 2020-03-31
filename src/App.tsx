@@ -1,15 +1,15 @@
 import React, { ReactElement, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
+import firebase from './utils/firebase';
 import { setUser, unsetUser } from './reducers/authReducer';
 import { setContestsAndProblems } from './reducers/problemReducer';
 import { setMyNotes, unsetMyNotes } from './reducers/noteReducer';
 import NavigationBar from './components/NavigationBar';
-import ContestTable from './components/Table';
-import Editor from './components/Editor';
+import TablePage from './components/Table';
+import EditorPage from './components/Editor';
 import NotesPage from './components/Notes';
 import NotePage from './components/Note';
-import firebase from './utils/firebase';
 
 type WrapperProps = {
   children: ReactElement
@@ -52,11 +52,11 @@ const App: React.FC<{}> = () => {
               <Route exact path='/'>
                 <Redirect to='/table' />
               </Route>
-              <Route exact path='/table' component={ContestTable} />
+              <Route exact path='/table' component={TablePage} />
               <Route exact path='/notes' render={props => <NotesPage isMyNotes={false} {...props} />}/>
               <Route exact path='/notes/:noteId' component={NotePage} />
               <Route exact path='/my/notes' render={props => <NotesPage isMyNotes={true} {...props} />}/>
-              <Route exact path='/my/:problemNo' component={Editor} />
+              <Route exact path='/my/:problemNo' component={EditorPage} />
             </Switch>
           </div>
         </AuthWrapper>

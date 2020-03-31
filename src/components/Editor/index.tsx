@@ -14,7 +14,7 @@ import EditorHeader from './EditorHeader';
 
 type Props = {} & RouteComponentProps<{problemNo: string}>;
 
-const Editor: React.FC<Props> = props => {
+const EditorPage: React.FC<Props> = props => {
   const problemNo = Number(props.match.params.problemNo);
 
   const dispatch = useDispatch();
@@ -140,4 +140,4 @@ const FooterContainer = styled.div`
   bottom: 8px;
 `;
 
-export default Editor;
+export default EditorPage;

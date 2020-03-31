@@ -8,7 +8,7 @@ import AOJTable from "./AOJTable";
 import YukicoderTable from "./YukicoderTable";
 import LeetCodeTable from "./LeetCodeTable";
 
-const ContestTable: React.FC<{}> = () => {
+const TablePage: React.FC<{}> = () => {
   const { contests } = useSelector((state: AppState) => state.problem);
   const [activeTab, setActiveTab] = useState("atcoder");
 
@@ -44,4 +44,4 @@ const ContestTable: React.FC<{}> = () => {
   );
 }
 
-export default ContestTable;
+export default TablePage;
