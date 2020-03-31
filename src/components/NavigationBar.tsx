@@ -33,6 +33,9 @@ const NavigationBar: React.FC<{}> = () => {
         <Nav.Link>MyNotes</Nav.Link>
       </LinkContainer>
       <Navbar.Collapse className="justify-content-end">
+        <LinkContainer to="/settings">
+          <Nav.Link>Settings</Nav.Link>
+        </LinkContainer>
         <a href="https://github.com/tsushiy/codernote-frontend" target="_blank" rel="noopener noreferrer">
           <FontAwesomeIcon icon={['fab', 'github']} size="lg" color="#777" />
         </a>

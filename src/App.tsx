@@ -10,6 +10,7 @@ import TablePage from './components/Table';
 import EditorPage from './components/Editor';
 import NotesPage from './components/Notes';
 import NotePage from './components/Note';
+import SettingsPage from './components/Settings';
 
 type WrapperProps = {
   children: ReactElement
@@ -57,6 +58,7 @@ const App: React.FC<{}> = () => {
               <Route exact path='/notes/:noteId' component={NotePage} />
               <Route exact path='/my/notes' render={props => <NotesPage isMyNotes={true} {...props} />}/>
               <Route exact path='/my/:problemNo' component={EditorPage} />
+              <Route exact path='/settings' component={SettingsPage} />
             </Switch>
           </div>
         </AuthWrapper>

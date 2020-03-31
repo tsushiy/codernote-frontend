@@ -3,6 +3,11 @@ import { Problem, Contest, ProblemMap, ContestMap, Note, ProblemNo } from "../ty
 export type AuthState = {
   isLoggedIn: boolean;
   userName: string;
+  atcoderID: string;
+  codeforcesID: string;
+  yukicoderID: string;
+  aojID: string;
+  leetcodeID: string;
 };
 
 export type ProblemState = {
