@@ -22,14 +22,14 @@ const TableCell: React.FC<Props> = (props) => {
 
   return (
     <Container>
-      <div>
-        <Link to={editUrl} style={{color: "#555", fontSize: "0.9em", fontWeight: "bold", paddingRight: "4px"}}>
+      <div style={{display: "block"}}>
+        <EditButton to={editUrl}>
           Edit
-        </Link>
+        </EditButton>
         {noteExists &&
-          <Link to={viewUrl} style={{color: "#39c", fontSize: "0.9em", fontWeight: "bold", paddingRight: "4px"}}>
+          <ViewButton to={viewUrl}>
             View
-          </Link>
+          </ViewButton>
         }
       </div>
       <a href={problemUrl(problem)} target="_blank" rel="noopener noreferrer">
@@ -42,6 +42,34 @@ const TableCell: React.FC<Props> = (props) => {
 const Container = styled.div`
   display: flex;
   flex-direction: column;
+`;
+
+const EditButton = styled(Link)`
+  &&& {
+    color: #FFF;
+    background-color: #777;
+    white-space: nowrap;
+    font-size: 0.7em;
+    font-weight: bold;
+    padding: 2px 4px;
+    margin-right: 1px;
+    border: solid thin;
+    border-radius: 1em;
+  }
+`;
+
+const ViewButton = styled(Link)`
+  &&& {
+    color: #FFF;
+    background-color: #39c;
+    white-space: nowrap;
+    font-size: 0.7em;
+    font-weight: bold;
+    padding: 2px 4px;
+    margin-right: 1px;
+    border: solid thin;
+    border-radius: 1em;
+  }
 `;
 
 export default TableCell;

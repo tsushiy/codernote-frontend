@@ -64,22 +64,20 @@ const YukicoderOthersTable: React.FC<Props> = props => {
     }
   })
   return (
-    <React.Fragment>
+    <div>
       {props.contests && Object.values(props.contests).map((contest, k) => (
-        <StyledTable key={k} className="table-responsive-sm table-bordered table-hover">
-          <caption>{contest.Title}</caption>
-          <tbody>
-            <tr>
-              {contest.ProblemNoList.map((e, i) => (
-                <td key={i}>
-                  <TableCell problemNo={e} />
-                </td>
-              ))}
-            </tr>
-          </tbody>
-        </StyledTable>
+        <StyledOtherTable key={k} className="container">
+          <div className="other-contest-title">{contest.Title}</div>
+          <div className="row">
+            {contest.ProblemNoList.map((e, i) => (
+              <div className="other-contest-col col-md-2" key={i}>
+                <TableCell problemNo={e} />
+              </div>
+            ))}
+          </div>
+        </StyledOtherTable>
       ))}
-    </React.Fragment>
+    </div>
   )
 }
 
@@ -128,6 +126,22 @@ const StyledTable = styled(Table)`
         display: block;
       }
     }
+  }
+`
+
+const StyledOtherTable = styled.div`
+  padding-bottom: 1em;
+  word-wrap: break-word;
+
+  .other-contest-col {
+    padding: .75em;
+    border: 1px solid #dee2e6;
+  }
+
+  .other-contest-title {
+    font-size: 1.2em;
+    padding-top: .75em;
+    padding-bottom: .75em;
   }
 `
 
