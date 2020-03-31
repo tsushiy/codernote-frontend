@@ -1,66 +1,10 @@
 import React, { useState } from 'react';
-import { Table, Nav } from 'react-bootstrap';
-import TableCell from '../../components/Table/TableCell';
+import { Nav } from 'react-bootstrap';
 import { Contest } from "../../types/apiResponse";
-import styled from "styled-components";
+import { RegularTable, OthersTable } from './InnerTable';
 
 type Props = {
   contests: Contest[]
-}
-
-const CodeforcesRegularTable: React.FC<Props> = props => {
-  const maxProblemCount = props.contests.reduce(
-    (currentCount, { ProblemNoList }) =>
-      Math.max(ProblemNoList.length, currentCount), 0);
-  const header = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"].slice(0, maxProblemCount);
-
-  return (
-    <StyledTable className="table-responsive-sm table-bordered table-hover">
-      <thead>
-        <tr>
-          <th>Contest</th>
-          {header.map((e, k) => (
-            <th key={k}>{e}</th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {props.contests.map((contest, i) => (
-          <tr key={i}>
-            <th scope="row">{contest.Title.match(/#[0-9]{1,3}/)}</th>
-            {header.map((_, j) => (
-              <React.Fragment key={j}>
-                {contest.ProblemNoList[j] !== undefined
-                  ? <td key={j}>
-                      <TableCell problemNo={contest.ProblemNoList[j]} />
-                    </td>
-                  : null}
-              </React.Fragment>
-            ))}
-          </tr>
-        ))}
-      </tbody>
-    </StyledTable>
-  )
-}
-
-const CodeforcesOthersTable: React.FC<Props> = props => {
-  return (
-    <div>
-      {props.contests && Object.values(props.contests).map((contest, k) => (
-        <StyledOtherTable key={k} className="container">
-          <div className="other-contest-title">{contest.Title}</div>
-          <div className="row">
-            {contest.ProblemNoList.map((e, i) => (
-              <div className="other-contest-col col-md-2" key={i}>
-                <TableCell problemNo={e} />
-              </div>
-            ))}
-          </div>
-        </StyledOtherTable>
-      ))}
-    </div>
-  )
 }
 
 const CodeforcesTable: React.FC<Props> = props => {
@@ -110,54 +54,14 @@ const CodeforcesTable: React.FC<Props> = props => {
           <Nav.Link eventKey="others">Others</Nav.Link>
         </Nav.Item>
       </Nav>
-      {activeTab === "cr1" && <CodeforcesRegularTable contests={cr1} />}
-      {activeTab === "cr2" && <CodeforcesRegularTable contests={cr2} />}
-      {activeTab === "cr3" && <CodeforcesRegularTable contests={cr3} />}
-      {activeTab === "educational" && <CodeforcesOthersTable contests={educational} />}
-      {activeTab === "others-rated" && <CodeforcesOthersTable contests={othersRated} />}
-      {activeTab === "others" && <CodeforcesOthersTable contests={others} />}
+      {activeTab === "cr1" && <RegularTable domain="codeforces" contests={cr1} />}
+      {activeTab === "cr2" && <RegularTable domain="codeforces" contests={cr2} />}
+      {activeTab === "cr3" && <RegularTable domain="codeforces" contests={cr3} />}
+      {activeTab === "educational" && <OthersTable domain="codeforces" contests={educational} />}
+      {activeTab === "others-rated" && <OthersTable domain="codeforces" contests={othersRated} />}
+      {activeTab === "others" && <OthersTable domain="codeforces" contests={others} />}
     </React.Fragment>
   )
 }
-
-const StyledTable = styled(Table)`
-  &&& {
-    table-layout: fixed;
-    width: 100%;
-    word-wrap: break-word;
-
-    & > caption {
-      caption-side: top;
-      color: #000;
-    }
-
-    @media (max-width: 767px) {
-      table-layout: auto;
-      display: block;
-      & > thead {
-        display: none;
-      }
-      & > tbody, tr, th, td, caption {
-        display: block;
-      }
-    }
-  }
-`
-
-const StyledOtherTable = styled.div`
-  padding-bottom: 1em;
-  word-wrap: break-word;
-
-  .other-contest-col {
-    padding: .75em;
-    border: 1px solid #dee2e6;
-  }
-
-  .other-contest-title {
-    font-size: 1.2em;
-    padding-top: .75em;
-    padding-bottom: .75em;
-  }
-`
 
 export default CodeforcesTable;
