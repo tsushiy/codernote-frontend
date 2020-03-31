@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import firebase from './utils/firebase';
@@ -18,20 +18,12 @@ type WrapperProps = {
 
 const InitWrapper: React.FC<WrapperProps> = props => {
   const dispatch = useDispatch();
-  const [initDone, setInitDone] = useState(false);
 
   useEffect(() => {
-    (async() => {
-      await dispatch(setContestsAndProblems());
-      setInitDone(true);
-    })();
+    dispatch(setContestsAndProblems());
   }, [dispatch])
 
-  if (initDone) {
-    return props.children;
-  } else {
-    return <div>Loading...</div>;
-  }
+  return props.children;
 }
 
 const AuthWrapper: React.FC<WrapperProps> = props => {
