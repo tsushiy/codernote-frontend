@@ -36,10 +36,10 @@ const NavigationBar: React.FC<{}> = () => {
         <LinkContainer to="/settings">
           <Nav.Link>Settings</Nav.Link>
         </LinkContainer>
+        <Button style={{padding: "4px 8px", marginRight: "12px"}} variant="outline-primary">{link}</Button>
         <a href="https://github.com/tsushiy/codernote-frontend" target="_blank" rel="noopener noreferrer">
           <FontAwesomeIcon icon={['fab', 'github']} size="lg" color="#777" />
         </a>
-        <Button style={{margin: "0 12px"}} variant="outline-primary">{link}</Button>
       </Navbar.Collapse>
     </Navbar>
   )

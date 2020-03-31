@@ -40,7 +40,12 @@ const NotesPage: React.FC<Props> = props => {
   }, [isMyNotes, props, skip, limit])
 
   useEffect(() => {
-    if (!isMyNotes || !isLoggedIn) return;
+    if (!isMyNotes) return;
+    if (!isLoggedIn) {
+      setNotes(undefined);
+      setNoteCount(0);
+      return;
+    };
     getMyNotes({skip, limit})
       .then(noteList => {
         if (noteList) {
