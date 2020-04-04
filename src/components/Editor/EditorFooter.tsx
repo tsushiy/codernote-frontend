@@ -6,8 +6,8 @@ type Props = {
   onSubmitText: () => Promise<void>,
   onChangePublic: (pub: boolean) => void,
   onDeleteText: () => Promise<void>,
-  isPublic: boolean,
-  message: string
+  noteExists: boolean,
+  isPublic: boolean
 }
 
 const Footer: React.FC<Props> = props => {
@@ -19,15 +19,10 @@ const Footer: React.FC<Props> = props => {
     }
   }
 
-  const isErrorMessage = props.message !== "Successfully submitted." ? true : false;
-
   return (
     <React.Fragment>
-      <FooterMessage style={{color: isErrorMessage ? "red" : "green"}}>
-        {props.message}
-      </FooterMessage>
-      <FooterButtons>
-        <Button variant="danger" onClick={props.onDeleteText}>Delete</Button>
+      <ButtonsContainer>
+        {props.noteExists ? <Button variant="danger" onClick={props.onDeleteText}>Delete</Button> : null}
         <Form style={{padding: "0 5px"}}>
           <Form.Control as="select" custom="true" value={props.isPublic ? "public" : "private"} onChange={onChange}>
             <option value="public">Public</option>
@@ -35,21 +30,12 @@ const Footer: React.FC<Props> = props => {
           </Form.Control>
         </Form>
         <Button onClick={props.onSubmitText}>Submit</Button>
-      </FooterButtons>
+      </ButtonsContainer>
     </React.Fragment>
   )
 }
 
-const FooterMessage = styled.p`
-  position: absolute;
-  left: 8px;
-  color: red;
-  margin: 0;
-  font-size: 1.2em;
-  font-weight: bold;
-`;
-
-const FooterButtons = styled.div`
+const ButtonsContainer = styled.div`
   position: absolute;
   display: flex;
   right: 5px;

@@ -171,6 +171,12 @@ export const postMyNote = async (problemNo: number, text: string, isPublic: bool
     Public: isPublic
   });
   return fetch(url, {method, headers, body})
+    .then(res => res.json())
+    .then(note => {
+      if (isNote(note)) {
+        return note;
+      }
+    })
 }
 
 export const deleteMyNote = async (problemNo: number) => {
