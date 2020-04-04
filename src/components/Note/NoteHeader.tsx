@@ -14,14 +14,13 @@ type Props = {
 const NoteHeader: React.FC<Props> = props => {
   return (
     <Container>
-      <h6>{serviceName(props.problem?.Domain)}</h6>
-      <h5>{props.contest?.Title}</h5>
+      <ContestTitle>{serviceName(props.problem?.Domain)} : {props.contest?.Title}</ContestTitle>
       <div style={{display: "flex"}}>
-        <h2>
+        <ProblemTitle>
           <a href={problemUrl(props.problem)} target="_blank" rel="noopener noreferrer">
             {props.problem?.Title}
           </a>
-        </h2>
+        </ProblemTitle>
       </div>
       <div>Author : {props.userName}</div>
       <div>Updated At : {props.updatedAt ? (new Date(props.updatedAt)).toLocaleString() : ""}</div>
@@ -33,6 +32,20 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   word-wrap: break-word;
+`;
+
+const ContestTitle = styled.h5`
+  width: calc(100vw - 30px);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+`;
+
+const ProblemTitle = styled.h3`
+  width: calc(100vw - 30px);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 `;
 
 export default NoteHeader;

@@ -32,12 +32,19 @@ const TableCell: React.FC<Props> = (props) => {
           </ViewButton>
         }
       </div>
-      <a href={problemUrl(problem)} target="_blank" rel="noopener noreferrer">
+      <ProblemLink href={problemUrl(problem)} target="_blank" rel="noopener noreferrer">
         {title}
-      </a>
+      </ProblemLink>
     </Container>
   )
 }
+
+const ProblemLink = styled.a`
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+`;
 
 const Container = styled.div`
   display: flex;
