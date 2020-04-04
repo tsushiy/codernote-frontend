@@ -29,7 +29,18 @@ export const setMyNote = asyncCreator<{problemNo: ProblemNo, newNote: Note}, {my
   async ({problemNo, newNote}, dispatch, getState) => {
     const { note } = getState();
     let { myNotesMap } = note;
-    myNotesMap.set(problemNo, newNote)
+    myNotesMap.set(problemNo, newNote);
+    return {
+      myNotesMap
+    };
+  })
+
+export const unsetMyNote = asyncCreator<{problemNo: ProblemNo}, {myNotesMap: Map<ProblemNo, Note>}>(
+  "UnsetMyNote",
+  async ({problemNo}, dispatch, getState) => {
+    const { note } = getState();
+    let { myNotesMap } = note;
+    myNotesMap.delete(problemNo);
     return {
       myNotesMap
     };
@@ -51,6 +62,10 @@ const noteReducer = reducerWithInitialState(initialState)
     ...result
   }))
   .case(setMyNote.async.done, (state, { result }) => ({
+    ...state,
+    ...result
+  }))
+  .case(unsetMyNote.async.done, (state, { result }) => ({
     ...state,
     ...result
   }))

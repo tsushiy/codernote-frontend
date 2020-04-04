@@ -173,6 +173,16 @@ export const postMyNote = async (problemNo: number, text: string, isPublic: bool
   return fetch(url, {method, headers, body})
 }
 
+export const deleteMyNote = async (problemNo: number) => {
+  const token = await firebase.auth().currentUser?.getIdToken();
+  const url = `${API_BASE_URL}/user/note/${problemNo}`;
+  const method = "DELETE";
+  const headers = {
+    "Authorization": `Bearer ${token}`
+  };
+  return fetch(url, {method, headers})
+}
+
 export const getMyNotes = async ({
     domain = "",
     tag = "",

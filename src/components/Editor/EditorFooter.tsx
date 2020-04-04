@@ -5,6 +5,7 @@ import { Button, Form } from 'react-bootstrap';
 type Props = {
   onSubmitText: () => Promise<void>,
   onChangePublic: (pub: boolean) => void,
+  onDeleteText: () => Promise<void>,
   isPublic: boolean,
   message: string
 }
@@ -26,6 +27,7 @@ const Footer: React.FC<Props> = props => {
         {props.message}
       </FooterMessage>
       <FooterButtons>
+        <Button variant="danger" onClick={props.onDeleteText}>Delete</Button>
         <Form style={{padding: "0 5px"}}>
           <Form.Control as="select" custom="true" value={props.isPublic ? "public" : "private"} onChange={onChange}>
             <option value="public">Public</option>
