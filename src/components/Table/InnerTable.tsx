@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { Table } from 'react-bootstrap';
 import styled from "styled-components";
-import { AppState } from '../../types/appState';
+import { GlobalState } from '../../types/globalState';
 import { Contest } from "../../types/apiResponse";
 import TableCell from './TableCell';
 
@@ -87,7 +87,7 @@ export const OthersTable: React.FC<OthersTableProps> = props => {
 }
 
 export const RowTable: React.FC<RowTableProps> = props => {
-  const { problemMap } = useSelector((state: AppState) => state.problem);
+  const { problemMap } = useSelector((state: GlobalState) => state.problem);
   const { domain, contest } = props;
   let useFrontendID = false;
   switch (domain) {

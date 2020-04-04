@@ -4,9 +4,9 @@ import { RouteComponentProps } from 'react-router-dom'
 import { Toast } from 'react-bootstrap';
 import styled from "styled-components";
 import { getMyNote, postMyNote, deleteMyNote } from '../../utils/apiClient';
-import { AppState } from '../../types/appState';
+import { GlobalState } from '../../types/globalState';
 import { isPublicNote } from '../../types/apiResponse';
-import { changeShowPreview } from '../../reducers/editorReducer';
+import { changeShowPreview } from '../../reducers/appReducer';
 import { setMyNote, unsetMyNote } from '../../reducers/noteReducer';
 import MarkdownEditor from './MarkdownEditor';
 import EditorPreview from './EditorPreview';
@@ -42,9 +42,9 @@ const EditorPage: React.FC<Props> = props => {
   const [isPublic, setIsPublic] = useState(false);
   const [message, setMessage] = useState("");
 
-  const { showPreview } = useSelector((state: AppState) => state.editor)
-  const { isLoggedIn } = useSelector((state: AppState) => state.auth);
-  const { problemMap, contestMap } = useSelector((state: AppState) => state.problem);
+  const { showPreview } = useSelector((state: GlobalState) => state.app)
+  const { isLoggedIn } = useSelector((state: GlobalState) => state.auth);
+  const { problemMap, contestMap } = useSelector((state: GlobalState) => state.problem);
 
   const problemExists = problemMap.has(problemNo);
   const problem = problemMap.get(problemNo);

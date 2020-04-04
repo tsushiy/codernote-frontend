@@ -1,13 +1,13 @@
 import actionCreatorFactory from 'typescript-fsa';
 import { asyncFactory } from 'typescript-fsa-redux-thunk';
 import { reducerWithInitialState } from 'typescript-fsa-reducers';
-import { NoteState } from '../types/appState';
+import { NoteState } from '../types/globalState';
 import { Note, ProblemNo } from "../types/apiResponse";
 import { getMyNotes } from '../utils/apiClient';
-import { AppState } from '../types/appState';
+import { GlobalState } from '../types/globalState';
 
 const actionCreator = actionCreatorFactory();
-const asyncCreator = asyncFactory<AppState>(actionCreator);
+const asyncCreator = asyncFactory<GlobalState>(actionCreator);
 
 export const unsetMyNotes = actionCreator<void>('UnsetMyNotes');
 

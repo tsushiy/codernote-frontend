@@ -1,7 +1,7 @@
 import actionCreatorFactory from 'typescript-fsa';
 import { asyncFactory } from 'typescript-fsa-redux-thunk';
 import { reducerWithInitialState } from 'typescript-fsa-reducers';
-import { AuthState } from '../types/appState';
+import { AuthState } from '../types/globalState';
 import { postLogin, getUserSetting } from '../utils/apiClient';
 
 const actionCreator = actionCreatorFactory();

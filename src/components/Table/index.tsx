@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Nav } from "react-bootstrap"
-import { AppState } from '../../types/appState';
+import { GlobalState } from '../../types/globalState';
+import { setLargeTableCategory, setSmallTableCategory } from '../../reducers/appReducer';
 import AtCoderTable from "./AtCoderTable";
 import CodeforcesTable from "./CodeforcesTable";
 import AOJTable from "./AOJTable";
@@ -9,8 +10,10 @@ import YukicoderTable from "./YukicoderTable";
 import LeetCodeTable from "./LeetCodeTable";
 
 const TablePage: React.FC<{}> = () => {
-  const { contests } = useSelector((state: AppState) => state.problem);
-  const [activeTab, setActiveTab] = useState("atcoder");
+  const dispatch = useDispatch();
+  const { contests } = useSelector((state: GlobalState) => state.problem);
+  const { largeTableCategory } = useSelector((state: GlobalState) => state.app);
+  const [activeTab, setActiveTab] = useState(largeTableCategory);
 
   return (
     <div className="container">
@@ -18,7 +21,27 @@ const TablePage: React.FC<{}> = () => {
         variant="tabs"
         className="flex-row"
         defaultActiveKey={activeTab}
-        onSelect={(eventKey: string) => setActiveTab(eventKey)}>
+        onSelect={(eventKey: string) => {
+          setActiveTab(eventKey);
+          dispatch(setLargeTableCategory(eventKey));
+          switch (eventKey) {
+            case "atcoder":
+              dispatch(setSmallTableCategory("abc"));
+              break;
+            case "codeforces":
+              dispatch(setSmallTableCategory("cr1"));
+              break;
+            case "yukicoder":
+              dispatch(setSmallTableCategory("regular"));
+              break;
+            case "aoj":
+              dispatch(setSmallTableCategory("joi"));
+              break;
+            case "leetcode":
+              dispatch(setSmallTableCategory("algorithms"));
+              break;
+          }
+        }}>
         <Nav.Item>
           <Nav.Link eventKey="atcoder">AtCoder</Nav.Link>
         </Nav.Item>

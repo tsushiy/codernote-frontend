@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Nav } from 'react-bootstrap';
+import { GlobalState } from '../../types/globalState';
 import { Contest } from "../../types/apiResponse";
+import { setSmallTableCategory } from '../../reducers/appReducer';
 import { RowTable } from './InnerTable';
 
 type Props = {
@@ -9,7 +12,10 @@ type Props = {
 
 const AOJTable: React.FC<Props> = props => {
   const { contests } = props;
-  const [activeTab, setActiveTab] = useState("joi");
+
+  const dispatch = useDispatch();
+  const { smallTableCategory } = useSelector((state: GlobalState) => state.app);
+  const [activeTab, setActiveTab] = useState(smallTableCategory);
 
   const courses = ["ITP1", "ALDS1", "ITP2", "DSL", "DPL", "GRL", "CGL", "NTL"]
   const cl = ["JOI","PCK","ICPC","JAG","VPC","UOA"]
@@ -20,7 +26,10 @@ const AOJTable: React.FC<Props> = props => {
         variant="tabs"
         className="flex-row"
         defaultActiveKey={activeTab}
-        onSelect={(eventKey: string) => setActiveTab(eventKey)}>
+        onSelect={(eventKey: string) => {
+          setActiveTab(eventKey);
+          dispatch(setSmallTableCategory(eventKey));
+        }}>
         {cl.map((v, k) => (
           <Nav.Item key={k}>
             <Nav.Link eventKey={v.toLowerCase()}>{v}</Nav.Link>

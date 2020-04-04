@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Nav } from 'react-bootstrap';
+import { GlobalState } from '../../types/globalState';
 import { Contest } from "../../types/apiResponse";
+import { setSmallTableCategory } from '../../reducers/appReducer';
 import { RegularTable, OthersTable } from './InnerTable';
 
 type Props = {
@@ -9,7 +12,10 @@ type Props = {
 
 const CodeforcesTable: React.FC<Props> = props => {
   const { contests } = props;
-  const [activeTab, setActiveTab] = useState("cr1");
+
+  const dispatch = useDispatch();
+  const { smallTableCategory } = useSelector((state: GlobalState) => state.app);
+  const [activeTab, setActiveTab] = useState(smallTableCategory);
 
   let [cr1, cr2, cr3, educational, othersRated, others] :
     [Contest[], Contest[], Contest[], Contest[], Contest[], Contest[]] = [[], [], [], [], [], []];
@@ -34,7 +40,10 @@ const CodeforcesTable: React.FC<Props> = props => {
         variant="tabs"
         className="flex-row"
         defaultActiveKey={activeTab}
-        onSelect={(eventKey: string) => setActiveTab(eventKey)}>
+        onSelect={(eventKey: string) => {
+          setActiveTab(eventKey);
+          dispatch(setSmallTableCategory(eventKey));
+        }}>
         <Nav.Item>
           <Nav.Link eventKey="cr1"># Div1</Nav.Link>
         </Nav.Item>

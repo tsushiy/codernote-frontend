@@ -2,14 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button, Form } from 'react-bootstrap';
 import styled from "styled-components";
-import { AppState } from '../types/appState';
+import { GlobalState } from '../types/globalState';
 import { setUser } from '../reducers/authReducer';
 import { setMyNotes } from '../reducers/noteReducer';
 import { postChangeName, postUserSetting } from '../utils/apiClient';
 
 const SettingsPage: React.FC<{}> = () => {
   const dispatch = useDispatch();
-  const defaultSettings = useSelector((state: AppState) => state.auth);
+  const defaultSettings = useSelector((state: GlobalState) => state.auth);
 
   const [isSettingChanged, setIsSettingChanged] = useState(false);
   const [message, setMessage] = useState("");

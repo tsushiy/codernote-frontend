@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { AppState } from '../../types/appState';
+import { GlobalState } from '../../types/globalState';
 import { problemUrl } from '../../utils/problem';
 
 type Props = {
@@ -11,8 +11,8 @@ type Props = {
 
 const TableCell: React.FC<Props> = (props) => {
   const { problemNo } = props;
-  const { problemMap } = useSelector((state: AppState) => state.problem);
-  const { myNotesMap } = useSelector((state: AppState) => state.note);
+  const { problemMap } = useSelector((state: GlobalState) => state.problem);
+  const { myNotesMap } = useSelector((state: GlobalState) => state.note);
 
   const noteExists = myNotesMap.has(problemNo);
   const problem = problemMap.get(problemNo);

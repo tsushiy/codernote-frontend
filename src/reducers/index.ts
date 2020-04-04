@@ -2,13 +2,13 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import authReducer from './authReducer'
 import problemReducer from './problemReducer'
-import editorReducer from './editorReducer'
+import appReducer from './appReducer'
 import noteReducer from './noteReducer';
 
 const rootReducer = combineReducers({
   auth: authReducer,
   problem: problemReducer,
-  editor: editorReducer,
+  app: appReducer,
   note: noteReducer
 })
 

@@ -1,7 +1,7 @@
 import actionCreatorFactory from 'typescript-fsa';
 import { asyncFactory } from 'typescript-fsa-redux-thunk';
 import { reducerWithInitialState } from 'typescript-fsa-reducers';
-import { ProblemState } from '../types/appState';
+import { ProblemState } from '../types/globalState';
 import { fetchProblems, fetchContests } from '../utils/apiClient';
 import { Problem, Contest, ProblemNo, ProblemMap, ContestMap } from "../types/apiResponse";
 

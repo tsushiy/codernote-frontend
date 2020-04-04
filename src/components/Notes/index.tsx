@@ -7,7 +7,7 @@ import styled from "styled-components";
 import { getPublicNotes, getMyNotes } from '../../utils/apiClient';
 import { problemUrl, serviceName } from '../../utils/problem';
 import { Note, isPublicNote } from '../../types/apiResponse';
-import { AppState } from '../../types/appState';
+import { GlobalState } from '../../types/globalState';
 
 type Props = {
   isMyNotes: boolean;
@@ -34,8 +34,8 @@ const NotesPage: React.FC<Props> = props => {
   const [noteCount, setNoteCount] = useState(0);
   const [notes, setNotes] = useState<Note[]>()
 
-  const { isLoggedIn } = useSelector((state: AppState) => state.auth);
-  const { contestMap } = useSelector((state: AppState) => state.problem);
+  const { isLoggedIn } = useSelector((state: GlobalState) => state.auth);
+  const { contestMap } = useSelector((state: GlobalState) => state.problem);
 
   let page = Number(query.page);
   if (page === 0 || isNaN(page) || page !== Number(page.toFixed())) {

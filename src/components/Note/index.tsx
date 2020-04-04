@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom'
 import styled from "styled-components";
 import { nonAuthGetNote, authGetNote } from '../../utils/apiClient';
-import { AppState } from '../../types/appState';
+import { GlobalState } from '../../types/globalState';
 import { Note } from '../../types/apiResponse';
 import NotePreview from './NotePreview';
 import NoteHeader from './NoteHeader';
@@ -32,8 +32,8 @@ const NotePage: React.FC<Props> = props => {
   const [isFetchTried, setIsFetchTried] = useState(false);
   const [noteExists, setNoteExists] = useState(false);
 
-  const { isLoggedIn } = useSelector((state: AppState) => state.auth);
-  const { contestMap } = useSelector((state: AppState) => state.problem);
+  const { isLoggedIn } = useSelector((state: GlobalState) => state.auth);
+  const { contestMap } = useSelector((state: GlobalState) => state.problem);
 
   let contest;
   if (note) {

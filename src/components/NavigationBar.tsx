@@ -2,12 +2,12 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { Navbar, Nav, Button } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
-import { AppState } from '../types/appState';
+import { GlobalState } from '../types/globalState';
 import firebase from '../utils/firebase';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const NavigationBar: React.FC<{}> = () => {
-  const { userName } = useSelector((state: AppState) => state.auth);
+  const { userName } = useSelector((state: GlobalState) => state.auth);
 
   const link = (userName !== "")
     ? <a href="# " onClick={() => {

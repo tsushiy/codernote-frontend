@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Nav } from 'react-bootstrap';
+import { GlobalState } from '../../types/globalState';
 import { Contest } from "../../types/apiResponse";
+import { setSmallTableCategory } from '../../reducers/appReducer';
 import { RegularTable, OthersTable } from './InnerTable';
 
 type Props = {
@@ -9,7 +12,10 @@ type Props = {
 
 const AtCoderTable: React.FC<Props> = props => {
   const { contests } = props;
-  const [activeTab, setActiveTab] = useState("abc");
+
+  const dispatch = useDispatch();
+  const { smallTableCategory } = useSelector((state: GlobalState) => state.app);
+  const [activeTab, setActiveTab] = useState(smallTableCategory);
 
   return (
     <React.Fragment>
@@ -17,7 +23,10 @@ const AtCoderTable: React.FC<Props> = props => {
         variant="tabs"
         className="flex-row"
         defaultActiveKey={activeTab}
-        onSelect={(eventKey: string) => setActiveTab(eventKey)}>
+        onSelect={(eventKey: string) => {
+          setActiveTab(eventKey);
+          dispatch(setSmallTableCategory(eventKey));
+        }}>
         <Nav.Item>
           <Nav.Link eventKey="abc">ABC</Nav.Link>
         </Nav.Item>
