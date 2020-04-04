@@ -25,7 +25,7 @@ const EditorWrapper: React.FC<WrapperProps> = props => {
   if (!props.problemExists) {
     return <div>No problems matched.</div>
   } else if (!props.isFetchTried) {
-    return <div>Loading...</div>
+    return null;
   } else {
     return props.children;
   }
@@ -55,7 +55,6 @@ const EditorPage: React.FC<Props> = props => {
 
   useEffect(() => {
     if (isFetchTried || !isLoggedIn) return;
-    setIsFetchTried(true);
     (async() => {
       try {
         const note = await getMyNote(problemNo);
@@ -68,6 +67,7 @@ const EditorPage: React.FC<Props> = props => {
       } catch (error) {
         setNoteExists(false);
       }
+      setIsFetchTried(true);
     })();
   }, [dispatch, isFetchTried, isLoggedIn, problemNo])
 

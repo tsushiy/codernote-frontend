@@ -13,11 +13,27 @@ type Props = {
   isMyNotes: boolean;
 } & RouteComponentProps;
 
+type WrapperProps = {
+  children: React.ReactElement;
+  isFetchTried: boolean;
+}
+
+const NotesWrapper: React.FC<WrapperProps> = props => {
+  if (!props.isFetchTried) {
+    return null;
+  } else {
+    return props.children;
+  }
+}
+
 const NotesPage: React.FC<Props> = props => {
   const query = parse(props.location.search);
   const { isMyNotes } = props;
+
+  const [isFetchTried, setIsFetchTried] = useState(false);
   const [noteCount, setNoteCount] = useState(0);
-  const [notes, setNotes] = useState<Note[]>();
+  const [notes, setNotes] = useState<Note[]>()
+
   const { isLoggedIn } = useSelector((state: AppState) => state.auth);
   const { contestMap } = useSelector((state: AppState) => state.problem);
 
@@ -30,13 +46,14 @@ const NotesPage: React.FC<Props> = props => {
 
   useEffect(() => {
     if (isMyNotes) return;
-    getPublicNotes({skip, limit})
-      .then(noteList => {
-        if (noteList) {
-          setNotes(noteList.Notes);
-          setNoteCount(noteList.Count);
-        }
-      })
+    (async() => {
+      const noteList = await getPublicNotes({skip, limit});
+      if (noteList) {
+        setNotes(noteList.Notes);
+        setNoteCount(noteList.Count);
+      }
+      setIsFetchTried(true);
+    })();
   }, [isMyNotes, props, skip, limit])
 
   useEffect(() => {
@@ -46,57 +63,60 @@ const NotesPage: React.FC<Props> = props => {
       setNoteCount(0);
       return;
     };
-    getMyNotes({skip, limit})
-      .then(noteList => {
-        if (noteList) {
-          setNotes(noteList.Notes);
-          setNoteCount(noteList.Count);
-        }
-      })
+    (async() => {
+      const noteList = await getMyNotes({skip, limit});
+      if (noteList) {
+        setNotes(noteList.Notes);
+        setNoteCount(noteList.Count);
+      }
+      setIsFetchTried(true);
+    })();
   }, [isLoggedIn, isMyNotes, props, skip, limit])
 
   return (
-    <Container>
-      <h1 style={{padding: "22px"}}>
-        {isMyNotes ? "My Notes" : "Public Notes"}
-      </h1>
-      <Table className="table-responsive-sm table-hover">
-        <thead>
-          <tr>
-            <th>NoteID</th>
-            {isMyNotes && <th>Public</th>}
-            {!isMyNotes && <th>User</th>}
-            <th>Service</th>
-            <th>Contest</th>
-            <th>Problem</th>
-            <th>UpdatedAt</th>
-          </tr>
-        </thead>
-        <tbody>
-          {notes && notes.map((note, i) => (
-            <tr key={i}>
-              <td>
-                <Link to={`/notes/${note.ID}`}>
-                  {note.ID.slice(0, 8)}
-                </Link>
-              </td>
-              {isMyNotes && <td>{isPublicNote(note) ? "public" : ""}</td>}
-              {!isMyNotes && <td>{note.User.Name}</td>}
-              <td>{serviceName(note.Problem.Domain)}</td>
-              <td>
-                {contestMap.get(note.Problem.Domain + note.Problem.ContestID)?.Title}
-              </td>
-              <td>
-                <a href={problemUrl(note.Problem)} target="_blank" rel="noopener noreferrer">
-                  {note.Problem.Title}
-                </a>
-              </td>
-              <td>{(new Date(note.UpdatedAt)).toLocaleString()}</td>
+    <NotesWrapper isFetchTried={isFetchTried}>
+      <Container>
+        <h1 style={{padding: "22px"}}>
+          {isMyNotes ? "My Notes" : "Public Notes"}
+        </h1>
+        <Table className="table-responsive-sm table-hover">
+          <thead>
+            <tr>
+              <th>NoteID</th>
+              {isMyNotes && <th>Public</th>}
+              {!isMyNotes && <th>User</th>}
+              <th>Service</th>
+              <th>Contest</th>
+              <th>Problem</th>
+              <th>UpdatedAt</th>
             </tr>
-          ))}
-        </tbody>
-      </Table>
-    </Container>
+          </thead>
+          <tbody>
+            {notes && notes.map((note, i) => (
+              <tr key={i}>
+                <td>
+                  <Link to={`/notes/${note.ID}`}>
+                    {note.ID.slice(0, 8)}
+                  </Link>
+                </td>
+                {isMyNotes && <td>{isPublicNote(note) ? "public" : ""}</td>}
+                {!isMyNotes && <td>{note.User.Name}</td>}
+                <td>{serviceName(note.Problem.Domain)}</td>
+                <td>
+                  {contestMap.get(note.Problem.Domain + note.Problem.ContestID)?.Title}
+                </td>
+                <td>
+                  <a href={problemUrl(note.Problem)} target="_blank" rel="noopener noreferrer">
+                    {note.Problem.Title}
+                  </a>
+                </td>
+                <td>{(new Date(note.UpdatedAt)).toLocaleString()}</td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      </Container>
+    </NotesWrapper>
   );
 }
 

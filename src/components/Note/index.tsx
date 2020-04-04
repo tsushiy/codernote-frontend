@@ -10,50 +10,77 @@ import NoteHeader from './NoteHeader';
 
 type Props = {} & RouteComponentProps<{noteId: string}>;
 
+type WrapperProps = {
+  children: React.ReactElement;
+  noteExists: boolean;
+  isFetchTried: boolean;
+}
+
+const NoteWrapper: React.FC<WrapperProps> = props => {
+  if (!props.isFetchTried) {
+    return null;
+  } else if (!props.noteExists) {
+    return <div>Note not found.</div>
+  } else {
+    return props.children;
+  }
+}
+
 const NotePage: React.FC<Props> = props => {
   const noteId = props.match.params.noteId;
   const [note, setNote] = useState<Note>();
+  const [isFetchTried, setIsFetchTried] = useState(false);
+  const [noteExists, setNoteExists] = useState(false);
+
   const { isLoggedIn } = useSelector((state: AppState) => state.auth);
   const { contestMap } = useSelector((state: AppState) => state.problem);
+
   let contest;
   if (note) {
     contest = contestMap.get(note?.Problem.Domain + note?.Problem.ContestID);
   }
 
   useEffect(() => {
-    if (isLoggedIn) {
-      authGetNote(noteId)
-        .then(note => {
+    (async() => {
+      try {
+        if (isLoggedIn) {
+          const note = await authGetNote(noteId);
           if (note) {
-            setNote(note)
+            setNote(note);
+            setNoteExists(true);
           }
-        });
-    } else {
-      nonAuthGetNote(noteId)
-        .then(note => {
+        } else {
+          const note = await nonAuthGetNote(noteId);
           if (note) {
-            setNote(note)
+            setNote(note);
+            setNoteExists(true);
           }
-        });
-    }
+        }
+      } catch (error) {
+        setNoteExists(false);
+      }
+      setIsFetchTried(true);
+    })();
   }, [isLoggedIn, noteId])
 
   return (
-    <Container>
-      <HeaderContainer>
-        <NoteHeader
-          problem={note?.Problem}
-          contest={contest}
-          userName={note?.User.Name}
-          createdAt={note?.CreatedAt}
-          updatedAt={note?.UpdatedAt} />
-      </HeaderContainer>
-      <PreviewContainer>
-        <NotePreview rawText={note ? note.Text : ""} />
-      </PreviewContainer>
-      <FooterContainer>
-      </FooterContainer>
-    </Container>
+    <NoteWrapper noteExists={noteExists} isFetchTried={isFetchTried}>
+      <Container>
+        <HeaderContainer>
+          <NoteHeader
+            problem={note?.Problem}
+            contest={contest}
+            userName={note?.User.Name}
+            createdAt={note?.CreatedAt}
+            updatedAt={note?.UpdatedAt} />
+        </HeaderContainer>
+        <PreviewContainer>
+          <NotePreview rawText={note ? note.Text : ""} />
+        </PreviewContainer>
+        <FooterContainer>
+        </FooterContainer>
+      </Container>
+    </NoteWrapper>
   );
 }
 
