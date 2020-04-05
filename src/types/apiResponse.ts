@@ -79,8 +79,6 @@ export const isProblem = (problem: any): problem is Problem =>
   typeof problem.ProblemID === "string" &&
   typeof problem.ContestID === "string" &&
   typeof problem.Title === "string" &&
-  typeof problem.Slug === "string" &&
-  typeof problem.FrontendID === "string" &&
   typeof problem.Difficulty === "string";
 
 export const isContest = (contest: any): contest is Contest =>
