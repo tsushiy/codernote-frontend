@@ -41,6 +41,7 @@ const EditorPage: React.FC<Props> = props => {
   const [rawText, setRawText] = useState("");
   const [isPublic, setIsPublic] = useState(false);
   const [message, setMessage] = useState("");
+  const [showMessage, setShowMessage] = useState(false);
 
   const { showPreview } = useSelector((state: GlobalState) => state.app)
   const { isLoggedIn } = useSelector((state: GlobalState) => state.auth);
@@ -79,9 +80,11 @@ const EditorPage: React.FC<Props> = props => {
         setNoteId(note.ID);
         setNoteExists(true);
         setMessage("Successfully submitted.");
+        setShowMessage(true);
       }
     } catch (error) {
       setMessage("Failed to submit.");
+      setShowMessage(true);
     }
   }
 
@@ -92,18 +95,15 @@ const EditorPage: React.FC<Props> = props => {
       setNoteId("");
       setNoteExists(false);
       setMessage("Successfully deleted.");
+      setShowMessage(true);
     } else {
       setMessage("Failed to delete.");
+      setShowMessage(true);
     }
   }
 
-  const onChangeText = (txt: string) => {
-    setRawText(txt)
-  }
-
-  const onChangePublic = (pub: boolean) => {
-    setIsPublic(pub)
-  }
+  const onChangeText = (txt: string) => setRawText(txt);
+  const onChangePublic = (pub: boolean) => setIsPublic(pub);
 
   const onClickPreview = useCallback(
     (ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -118,8 +118,8 @@ const EditorPage: React.FC<Props> = props => {
       <Container>
         <StyledToast
           style={{backgroundColor: message.match(/^Success/) ? "#394" : "red"}}
-          onClose={() => setMessage("")}
-          show={message!==""}
+          onClose={() => setShowMessage(false)}
+          show={showMessage}
           delay={3000}
           autohide>
           <Toast.Body>
@@ -143,7 +143,8 @@ const EditorPage: React.FC<Props> = props => {
           <EditorPreviewContainer>
             <EditorPreview
               rawText={rawText}
-              setMessage={setMessage}/>
+              setMessage={setMessage}
+              setShowMessage={setShowMessage}/>
           </EditorPreviewContainer>
         }
         <FooterContainer>

@@ -4,22 +4,23 @@ import { markdownProcessor } from '../../utils/markdownProcessor';
 
 type Props = {
   rawText: string,
-  setMessage: React.Dispatch<React.SetStateAction<string>>
+  setMessage: React.Dispatch<React.SetStateAction<string>>,
+  setShowMessage: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const EditorPreview: React.FC<Props> = props => {
-  const { rawText, setMessage } = props;
+  const { rawText, setMessage, setShowMessage } = props;
   const [htmlText, setHtmlText] = useState("");
 
   useEffect(() => {
     try {
       const { contents } = markdownProcessor.processSync(rawText);
       setHtmlText(contents as string);
-      setMessage("");
     } catch (error) {
       setMessage(error.message);
+      setShowMessage(true);
     }
-  }, [setMessage, rawText, setHtmlText])
+  }, [setMessage, setShowMessage, rawText, setHtmlText])
 
   return (
     <Container>

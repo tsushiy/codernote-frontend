@@ -22,14 +22,19 @@ const Footer: React.FC<Props> = props => {
   return (
     <React.Fragment>
       <ButtonsContainer>
-        {props.noteExists ? <Button variant="danger" onClick={props.onDeleteText}>Delete</Button> : null}
+        {props.noteExists &&
+          <Button variant="danger" onClick={props.onDeleteText}>
+            Delete
+          </Button>}
         <Form style={{padding: "0 5px"}}>
           <Form.Control as="select" custom="true" value={props.isPublic ? "public" : "private"} onChange={onChange}>
             <option value="public">Public</option>
             <option value="private">Private</option>
           </Form.Control>
         </Form>
-        <Button onClick={props.onSubmitText}>Submit</Button>
+        <Button onClick={props.onSubmitText}>
+          {props.noteExists ? "Update" : "Submit"}
+        </Button>
       </ButtonsContainer>
     </React.Fragment>
   )
