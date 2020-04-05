@@ -103,8 +103,13 @@ export const getUserSetting = async () => {
     })
 }
 
-export const postUserSetting = async (
-  atcoderId: string, codeforcesId: string, yukicoderId: string, aojId: string, leetcodeId: string) => {
+export const postUserSetting = async ({
+    atcoderID = "",
+    codeforcesID = "",
+    yukicoderID = "",
+    aojID = "",
+    leetcodeID = ""
+  }) => {
   const token = await firebase.auth().currentUser?.getIdToken();
   const url = `${API_BASE_URL}/user/setting`;
   const method = "POST";
@@ -113,11 +118,11 @@ export const postUserSetting = async (
     "Contest-Type": 'application/json'
   };
   const body = JSON.stringify({
-    AtCoderID: atcoderId,
-    CodeforcesID: codeforcesId,
-    YukicoderID: yukicoderId,
-    AOJID: aojId,
-    LeetCodeID: leetcodeId
+    AtCoderID: atcoderID,
+    CodeforcesID: codeforcesID,
+    YukicoderID: yukicoderID,
+    AOJID: aojID,
+    LeetCodeID: leetcodeID
   });
   return fetch(url, {method, headers, body})
     .then(res => res.json())
