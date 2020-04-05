@@ -45,7 +45,11 @@ const NotesPage: React.FC<Props> = props => {
   const skip = 100 * (page - 1);
 
   useEffect(() => {
-    if (isMyNotes) return;
+    setIsFetchTried(false);
+  }, [props])
+
+  useEffect(() => {
+    if (isMyNotes || isFetchTried) return;
     (async() => {
       const noteList = await getPublicNotes({skip, limit});
       if (noteList) {
@@ -54,10 +58,10 @@ const NotesPage: React.FC<Props> = props => {
       }
       setIsFetchTried(true);
     })();
-  }, [isMyNotes, props, skip, limit])
+  }, [isFetchTried, isMyNotes, skip, limit])
 
   useEffect(() => {
-    if (!isMyNotes) return;
+    if (!isMyNotes || isFetchTried) return;
     if (!isLoggedIn) {
       setNotes(undefined);
       setNoteCount(0);
@@ -71,7 +75,7 @@ const NotesPage: React.FC<Props> = props => {
       }
       setIsFetchTried(true);
     })();
-  }, [isLoggedIn, isMyNotes, props, skip, limit])
+  }, [isFetchTried, isLoggedIn, isMyNotes, skip, limit])
 
   return (
     <NotesWrapper isFetchTried={isFetchTried}>
@@ -124,8 +128,8 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   position: absolute;
-  height: calc(100vh - 56px);
-  top: 56px;
+  height: calc(100vh - 64px);
+  top: 64px;
   right: 24px;
   left: 24px;
   bottom: 0;
