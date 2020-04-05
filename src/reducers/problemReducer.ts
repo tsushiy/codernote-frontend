@@ -11,16 +11,26 @@ const asyncCreator = asyncFactory(actionCreator);
 export const setContestsAndProblems = asyncCreator<void, {contests: Contest[], contestMap: ContestMap, problems: Problem[], problemMap: ProblemMap}>(
   "SetContestsAndProblems",
   async (params, dispatch, getState) => {
-    const contests = await fetchContests();
+    let contests: Contest[] = [];
+    let problems: Problem[] = [];
     let contestMap = new Map<string, Contest>();
-    contests.forEach(v => {
-      contestMap.set(v.Domain + v.ContestID, v);
-    });
-    const problems = await fetchProblems();
     let problemMap = new Map<ProblemNo, Problem>();
-    problems.forEach(v => {
-      problemMap.set(v.No, v);
-    });
+    await Promise.all([
+      fetchContests()
+        .then(c => {
+          contests = c;
+          c.forEach(v => {
+            contestMap.set(v.Domain + v.ContestID, v);
+          });
+        }),
+      fetchProblems()
+        .then(p => {
+          problems = p;
+          p.forEach(v => {
+            problemMap.set(v.No, v);
+          });
+        }),
+    ])
     return {contests, contestMap, problems, problemMap};
   })
 
