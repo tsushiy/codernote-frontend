@@ -88,8 +88,8 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   position: absolute;
-  height: calc(100vh - 56px);
-  top: 56px;
+  height: calc(100vh - 64px);
+  top: 64px;
   right: 24px;
   left: 24px;
   bottom: 0;

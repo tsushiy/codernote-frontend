@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Nav } from "react-bootstrap"
+import styled from "styled-components";
 import { GlobalState } from '../../types/globalState';
 import { setLargeTableCategory, setSmallTableCategory } from '../../reducers/appReducer';
 import AtCoderTable from "./AtCoderTable";
@@ -16,7 +17,7 @@ const TablePage: React.FC<{}> = () => {
   const [activeTab, setActiveTab] = useState(largeTableCategory);
 
   return (
-    <div className="container">
+    <Container>
       <Nav
         variant="tabs"
         className="flex-row"
@@ -63,8 +64,21 @@ const TablePage: React.FC<{}> = () => {
       {activeTab === "yukicoder" && <YukicoderTable contests={contests.filter(contest => contest.Domain === "yukicoder")} />}
       {activeTab === "aoj" && <AOJTable contests={contests.filter(contest => contest.Domain === "aoj")} />}
       {activeTab === "leetcode" && <LeetCodeTable contests={contests.filter(contest => contest.Domain === "leetcode")} />}
-    </div>
+    </Container>
   );
 }
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  height: calc(100vh - 64px);
+  width: calc(100vw - 64px);
+  max-width: 1200px;
+  top: 64px;
+  bottom: 0;
+	left: 50%;
+	transform: translateX(-50%);
+`;
 
 export default TablePage;

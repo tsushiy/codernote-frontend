@@ -121,6 +121,18 @@ const SettingsPage: React.FC<{}> = () => {
   );
 }
 
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  height: calc(100vh - 64px);
+  width: calc(100vw - 80px);
+  max-width: 480px;
+  top: 64px;
+	left: 50%;
+	transform: translateX(-50%);
+`;
+
 const MessageContainer = styled.div`
   font-size: 1.3em;
   font-weight: bold;
@@ -146,14 +158,6 @@ const OtherSettingContainer = styled.div`
 const InnerContainer = styled.div`
   display: flex;
   flex-direction: column;
-`;
-
-const Container = styled.div`
-  display: flex;
-  justify-content: center;
-  padding-top: 26px;
-  padding-left: 30px;
-  padding-right: 30px;
 `;
 
 export default SettingsPage;

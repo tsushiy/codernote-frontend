@@ -161,8 +161,8 @@ const EditorPage: React.FC<Props> = props => {
 
 const Container = styled.div`
   position: absolute;
-  height: calc(100vh - 56px);
-  top: 56px;
+  height: calc(100vh - 64px);
+  top: 64px;
   right: 5px;
   left: 5px;
   bottom: 0;
