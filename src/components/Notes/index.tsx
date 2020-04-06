@@ -103,7 +103,17 @@ const NotesPage: React.FC<Props> = props => {
                     {note.ID.slice(0, 8)}
                   </Link>
                 </td>
-                {isMyNotes && <td>{isPublicNote(note) ? "public" : ""}</td>}
+                {isMyNotes &&
+                  <td>
+                    {isPublicNote(note) && 
+                      <div style={{color: "#ff8800"}}>
+                        Public
+                      </div>}
+                    {!isPublicNote(note) && 
+                      <div style={{color: "#39c"}}>
+                        Private
+                      </div>}
+                  </td>}
                 {!isMyNotes && <td>{note.User.Name}</td>}
                 <td>{serviceName(note.Problem.Domain)}</td>
                 <td>

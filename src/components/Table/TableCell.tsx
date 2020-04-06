@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { GlobalState } from '../../types/globalState';
 import { problemUrl } from '../../utils/problem';
+import { isPublicNote } from '../../types/apiResponse';
 
 type Props = {
   problemNo: number
@@ -14,22 +15,27 @@ const TableCell: React.FC<Props> = (props) => {
   const { problemMap } = useSelector((state: GlobalState) => state.problem);
   const { myNotesMap } = useSelector((state: GlobalState) => state.note);
 
-  const noteExists = myNotesMap.has(problemNo);
+  const note = myNotesMap.get(problemNo);
   const problem = problemMap.get(problemNo);
   const title = problem?.Title;
   const editUrl = `/my/${problemNo}`;
-  const viewUrl = noteExists ? `/notes/${myNotesMap.get(problemNo)?.ID}` : ""
+  const viewUrl = note ? `/notes/${myNotesMap.get(problemNo)?.ID}` : ""
 
   return (
     <Container>
-      <div style={{display: "block"}}>
+      <div style={{display: "block", marginBottom: "2px"}}>
         <EditButton to={editUrl}>
           Edit
         </EditButton>
-        {noteExists &&
-          <ViewButton to={viewUrl}>
+        {note && isPublicNote(note) && 
+          <PublicViewButton to={viewUrl}>
             View
-          </ViewButton>
+          </PublicViewButton>
+        }
+        {note && !isPublicNote(note) && 
+          <PrivateViewButton to={viewUrl}>
+            View
+          </PrivateViewButton>
         }
       </div>
       <ProblemLink href={problemUrl(problem)} target="_blank" rel="noopener noreferrer">
@@ -51,31 +57,33 @@ const Container = styled.div`
   flex-direction: column;
 `;
 
-const EditButton = styled(Link)`
+const BaseButton = styled(Link)`
   &&& {
     color: #FFF;
-    background-color: #777;
     white-space: nowrap;
-    font-size: 0.7em;
+    font-size: 0.83em;
     font-weight: bold;
     padding: 2px 4px;
-    margin-right: 1px;
-    border: solid thin;
-    border-radius: 1em;
+    margin-right: 3px;
+    border-radius: 0.4em;
   }
 `;
 
-const ViewButton = styled(Link)`
+const EditButton = styled(BaseButton)`
   &&& {
-    color: #FFF;
+    background-color: #707070;
+  }
+`;
+
+const PrivateViewButton = styled(BaseButton)`
+  &&& {
     background-color: #39c;
-    white-space: nowrap;
-    font-size: 0.7em;
-    font-weight: bold;
-    padding: 2px 4px;
-    margin-right: 1px;
-    border: solid thin;
-    border-radius: 1em;
+  }
+`;
+
+const PublicViewButton = styled(BaseButton)`
+  &&& {
+    background-color: #ff8800;
   }
 `;
 

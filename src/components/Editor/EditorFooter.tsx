@@ -13,64 +13,62 @@ type Props = {
 
 const Footer: React.FC<Props> = props => {
   const publicButton = (
-    <React.Fragment>
+    <span style={{color: "#ff8800"}}>
       <FontAwesomeIcon icon={['fas', 'users']} style={{width: "16px", height: "16px"}}/>
       {" "}
       Public
-    </React.Fragment>
+    </span>
   );
 
   const privateButton = (
-    <React.Fragment>
+    <span style={{color: "#39c"}}>
       <FontAwesomeIcon icon={['fas', 'lock']} style={{width: "16px", height: "16px"}} />
       {" "}
       Private
-    </React.Fragment>
+    </span>
   );
 
   return (
-    <React.Fragment>
-      <ButtonsContainer>
-        {props.noteExists &&
-          <Button
-            variant="danger"
-            onClick={props.onDeleteText}>
-            Delete
-          </Button>}
-        <Dropdown
-          as={ButtonGroup}
-          drop="up"
-          onSelect={(eventKey: string) => {
-            switch (eventKey) {
-              case "public":
-                props.onChangePublic(true);
-                break;
-              case "private":
-                props.onChangePublic(false);
-                break;
-            }
-          }}>
-          <Dropdown.Toggle
-            id="public-dropdown"
-            variant="secondary">
-            {props.isPublic ? publicButton : privateButton}
-          </Dropdown.Toggle>
-          <Dropdown.Menu>
-            <Dropdown.Item eventKey="public">
-              {publicButton}
-            </Dropdown.Item>
-            <Dropdown.Item eventKey="private">
-              {privateButton}
-            </Dropdown.Item>
-          </Dropdown.Menu>
-        </Dropdown>
-        <Button onClick={props.onSubmitText}>
-          <FontAwesomeIcon icon={['fas', 'edit']} style={{width: "16px", height: "16px"}} />
-          {" "}
-          {props.noteExists ? "Update" : "Submit"}
-        </Button>
-      </ButtonsContainer>
-    </React.Fragment>
+    <ButtonsContainer>
+      {props.noteExists &&
+        <Button
+          variant="danger"
+          onClick={props.onDeleteText}>
+          Delete
+        </Button>}
+      <Dropdown
+        as={ButtonGroup}
+        drop="up"
+        onSelect={(eventKey: string) => {
+          switch (eventKey) {
+            case "public":
+              props.onChangePublic(true);
+              break;
+            case "private":
+              props.onChangePublic(false);
+              break;
+          }
+        }}>
+        <Dropdown.Toggle
+          id="public-dropdown"
+          variant="light">
+          {props.isPublic ? publicButton : privateButton}
+        </Dropdown.Toggle>
+        <Dropdown.Menu>
+          <Dropdown.Item eventKey="public">
+            {publicButton}
+          </Dropdown.Item>
+          <Dropdown.Item eventKey="private">
+            {privateButton}
+          </Dropdown.Item>
+        </Dropdown.Menu>
+      </Dropdown>
+      <Button onClick={props.onSubmitText}>
+        <FontAwesomeIcon icon={['fas', 'edit']} style={{width: "16px", height: "16px"}} />
+        {" "}
+        {props.noteExists ? "Update" : "Submit"}
+      </Button>
+    </ButtonsContainer>
   )
 }
 
