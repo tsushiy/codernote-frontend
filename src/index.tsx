@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { Provider } from 'react-redux';
@@ -13,6 +12,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import "github-markdown-css/github-markdown.css";
 import "highlight.js/styles/vs.css";
 import "katex/dist/katex.min.css";
+import './index.css';
 
 library.add(fab, fas);
 

@@ -8,6 +8,9 @@ body {
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  border-radius: 0.5em;
+}
+
+.hljs {
+  background-color: #f8f8f8;
 }
