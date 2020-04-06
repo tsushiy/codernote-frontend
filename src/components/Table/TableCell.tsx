@@ -18,7 +18,7 @@ const TableCell: React.FC<Props> = (props) => {
   const note = myNotesMap.get(problemNo);
   const problem = problemMap.get(problemNo);
   const title = problem?.Title;
-  const editUrl = `/my/${problemNo}`;
+  const editUrl = `/edit/${problemNo}`;
   const viewUrl = note ? `/notes/${myNotesMap.get(problemNo)?.ID}` : ""
 
   return (

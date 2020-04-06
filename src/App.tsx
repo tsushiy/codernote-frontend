@@ -57,9 +57,9 @@ const App: React.FC<{}> = () => {
               </Route>
               <Route exact path='/table' component={TablePage} />
               <Route exact path='/notes' render={props => <NotesPage isMyNotes={false} {...props} />}/>
+              <Route exact path='/notes/my' render={props => <NotesPage isMyNotes={true} {...props} />}/>
               <Route exact path='/notes/:noteId' component={NotePage} />
-              <Route exact path='/my/notes' render={props => <NotesPage isMyNotes={true} {...props} />}/>
-              <Route exact path='/my/:problemNo' component={EditorPage} />
+              <Route exact path='/edit/:problemNo' component={EditorPage} />
               <Route exact path='/settings' component={SettingsPage} />
             </Switch>
           </div>
