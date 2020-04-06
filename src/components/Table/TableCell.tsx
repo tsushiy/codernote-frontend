@@ -2,6 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { publicNoteColor, privateNoteColor } from '../../components/Styles';
 import { GlobalState } from '../../types/globalState';
 import { problemUrl } from '../../utils/problem';
 import { isPublicNote } from '../../types/apiResponse';
@@ -77,13 +78,13 @@ const EditButton = styled(BaseButton)`
 
 const PrivateViewButton = styled(BaseButton)`
   &&& {
-    background-color: #39c;
+    background-color: ${privateNoteColor};
   }
 `;
 
 const PublicViewButton = styled(BaseButton)`
   &&& {
-    background-color: #ff8800;
+    background-color: ${publicNoteColor};
   }
 `;
 

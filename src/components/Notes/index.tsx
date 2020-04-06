@@ -4,7 +4,7 @@ import { Link, RouteComponentProps } from 'react-router-dom'
 import { parse } from 'query-string';
 import { Table } from 'react-bootstrap';
 import styled from "styled-components";
-import { MainContainer } from '../../components/Styles';
+import { MainContainer, publicNoteColor, privateNoteColor } from '../../components/Styles';
 import { getPublicNotes, getMyNotes } from '../../utils/apiClient';
 import { problemUrl, serviceName } from '../../utils/problem';
 import { Note, isPublicNote } from '../../types/apiResponse';
@@ -66,7 +66,11 @@ const NotesPage: React.FC<Props> = props => {
         <h1 style={{padding: "22px"}}>
           {isMyNotes ? "My Notes" : "Public Notes"}
         </h1>
-        <Table className="table-responsive-sm table-hover" size="sm" striped style={{color: "#444", fontSize: "0.98em"}}>
+        <Table
+          className="table-responsive-sm table-hover"
+          size="sm"
+          striped
+          style={{color: "#444", fontSize: "0.98em"}}>
           <thead>
             <tr>
               <th style={{width: "8%"}}>NoteID</th>
@@ -89,11 +93,11 @@ const NotesPage: React.FC<Props> = props => {
                 {isMyNotes &&
                   <td>
                     {isPublicNote(note) && 
-                      <div style={{color: "#ff8800"}}>
+                      <div style={{color: publicNoteColor}}>
                         Public
                       </div>}
                     {!isPublicNote(note) && 
-                      <div style={{color: "#39c"}}>
+                      <div style={{color: privateNoteColor}}>
                         Private
                       </div>}
                   </td>}

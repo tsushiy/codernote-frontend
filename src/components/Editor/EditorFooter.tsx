@@ -2,6 +2,7 @@ import React from 'react';
 import styled from "styled-components";
 import { Button, Dropdown, ButtonGroup } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { publicNoteColor, privateNoteColor } from '../../components/Styles';
 
 type Props = {
   onSubmitText: () => Promise<void>,
@@ -13,7 +14,7 @@ type Props = {
 
 const Footer: React.FC<Props> = props => {
   const publicButton = (
-    <span style={{color: "#ff8800"}}>
+    <span style={{color: publicNoteColor}}>
       <FontAwesomeIcon icon={['fas', 'users']} style={{width: "16px", height: "16px"}}/>
       {" "}
       Public
@@ -21,7 +22,7 @@ const Footer: React.FC<Props> = props => {
   );
 
   const privateButton = (
-    <span style={{color: "#39c"}}>
+    <span style={{color: privateNoteColor}}>
       <FontAwesomeIcon icon={['fas', 'lock']} style={{width: "16px", height: "16px"}} />
       {" "}
       Private

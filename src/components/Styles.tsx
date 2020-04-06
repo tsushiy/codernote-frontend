@@ -10,3 +10,6 @@ export const MainContainer = styled.div`
   background-color: #fff;
   box-shadow: 0 0 4px rgba(0,0,0,0.5);
 `;
+
+export const publicNoteColor = "#ff8800";
+export const privateNoteColor = "#39c";
