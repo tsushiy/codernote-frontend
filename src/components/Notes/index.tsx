@@ -13,24 +13,10 @@ type Props = {
   isMyNotes: boolean;
 } & RouteComponentProps;
 
-type WrapperProps = {
-  children: React.ReactElement;
-  isFetchTried: boolean;
-}
-
-const NotesWrapper: React.FC<WrapperProps> = props => {
-  if (!props.isFetchTried) {
-    return null;
-  } else {
-    return props.children;
-  }
-}
-
 const NotesPage: React.FC<Props> = props => {
   const query = parse(props.location.search);
   const { isMyNotes } = props;
 
-  const [isFetchTried, setIsFetchTried] = useState(false);
   const [noteCount, setNoteCount] = useState(0);
   const [notes, setNotes] = useState<Note[]>()
 
@@ -44,13 +30,14 @@ const NotesPage: React.FC<Props> = props => {
   const limit = 100;
   const skip = 100 * (page - 1);
 
-  useEffect(() => {
-    setIsFetchTried(false);
-  }, [props])
+  const unsetNotes = () => {
+    setNotes(undefined);
+    setNoteCount(0);
+  }
 
   useEffect(() => {
-    if (isMyNotes || isFetchTried) return;
-    setIsFetchTried(true);
+    if (isMyNotes) return;
+    unsetNotes();
     (async() => {
       const noteList = await getPublicNotes({skip, limit});
       if (noteList) {
@@ -58,16 +45,11 @@ const NotesPage: React.FC<Props> = props => {
         setNoteCount(noteList.Count);
       }
     })();
-  }, [isFetchTried, isMyNotes, skip, limit])
+  }, [props, isMyNotes, skip, limit])
 
   useEffect(() => {
-    if (!isMyNotes || isFetchTried) return;
-    setIsFetchTried(true);
-    if (!isLoggedIn) {
-      setNotes(undefined);
-      setNoteCount(0);
-      return;
-    };
+    if (!isMyNotes) return;
+    unsetNotes();
     (async() => {
       const noteList = await getMyNotes({skip, limit});
       if (noteList) {
@@ -75,24 +57,23 @@ const NotesPage: React.FC<Props> = props => {
         setNoteCount(noteList.Count);
       }
     })();
-  }, [isFetchTried, isLoggedIn, isMyNotes, skip, limit])
+  }, [props, isLoggedIn, isMyNotes, skip, limit])
 
   return (
-    <NotesWrapper isFetchTried={isFetchTried}>
       <Container>
         <h1 style={{padding: "22px"}}>
           {isMyNotes ? "My Notes" : "Public Notes"}
         </h1>
-        <Table className="table-responsive-sm table-hover">
+        <Table className="table-responsive-sm table-hover" size="sm" striped style={{color: "#444", fontSize: "0.98em"}}>
           <thead>
             <tr>
-              <th>NoteID</th>
-              {isMyNotes && <th>Public</th>}
+              <th style={{width: "8%"}}>NoteID</th>
+              {isMyNotes && <th style={{width: "6%"}}>Public</th>}
               {!isMyNotes && <th>User</th>}
-              <th>Service</th>
+              <th style={{width: "6%"}}>Service</th>
               <th>Contest</th>
               <th>Problem</th>
-              <th>UpdatedAt</th>
+              <th style={{width: "13%"}}>UpdatedAt</th>
             </tr>
           </thead>
           <tbody>
@@ -130,7 +111,6 @@ const NotesPage: React.FC<Props> = props => {
           </tbody>
         </Table>
       </Container>
-    </NotesWrapper>
   );
 }
 
