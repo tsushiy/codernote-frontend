@@ -32,7 +32,7 @@ const NavigationBar: React.FC<{}> = () => {
           <LinkContainer to="/notes">
             <Nav.Link>Notes</Nav.Link>
           </LinkContainer>
-          <LinkContainer to="/notes/my">
+          <LinkContainer to="/mynotes">
             <Nav.Link>MyNotes</Nav.Link>
           </LinkContainer>
           <LinkContainer to="/settings">
