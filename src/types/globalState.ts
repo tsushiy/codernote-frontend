@@ -21,6 +21,7 @@ export type AppState = {
   showPreview: boolean;
   largeTableCategory: string;
   smallTableCategory: string;
+  showTableInfoMessage: boolean;
 };
 
 export type NoteState = {

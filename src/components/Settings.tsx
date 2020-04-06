@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Button, Form, Toast } from 'react-bootstrap';
+import { Button, Form, Toast, Alert } from 'react-bootstrap';
 import styled from "styled-components";
 import { GlobalState } from '../types/globalState';
 import { setUser } from '../reducers/authReducer';
@@ -59,6 +59,10 @@ const SettingsPage: React.FC<{}> = () => {
     <Container>
       <InnerContainer>
         <h1>Settings</h1>
+        {!isLoggedIn &&
+          <Alert variant="warning" style={{padding: "10px 16px", marginBottom: "10px"}}>
+            You must be logged in to change settings.
+          </Alert>}
         <StyledToast
           style={{backgroundColor: message.match(/^Success/) ? "#394" : "red"}}
           onClose={() => setShowMessage(false)}

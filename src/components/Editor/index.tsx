@@ -6,7 +6,7 @@ import styled from "styled-components";
 import { getMyNote, postMyNote, deleteMyNote } from '../../utils/apiClient';
 import { GlobalState } from '../../types/globalState';
 import { isPublicNote } from '../../types/apiResponse';
-import { changeShowPreview } from '../../reducers/appReducer';
+import { setShowPreview } from '../../reducers/appReducer';
 import { setMyNote, unsetMyNote } from '../../reducers/noteReducer';
 import MarkdownEditor from './MarkdownEditor';
 import EditorPreview from './EditorPreview';
@@ -108,7 +108,7 @@ const EditorPage: React.FC<Props> = props => {
   const onClickPreview = useCallback(
     (ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
       ev.preventDefault();
-      dispatch(changeShowPreview(!showPreview));
+      dispatch(setShowPreview(!showPreview));
     },
     [dispatch, showPreview]
   );
