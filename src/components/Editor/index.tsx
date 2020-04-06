@@ -5,7 +5,7 @@ import { Toast } from 'react-bootstrap';
 import styled from "styled-components";
 import { getMyNote, postMyNote, deleteMyNote } from '../../utils/apiClient';
 import { GlobalState } from '../../types/globalState';
-import { isPublicNote } from '../../types/apiResponse';
+import { Note, isPublicNote } from '../../types/apiResponse';
 import { setShowPreview } from '../../reducers/appReducer';
 import { setMyNote, unsetMyNote } from '../../reducers/noteReducer';
 import MarkdownEditor from './MarkdownEditor';
@@ -58,21 +58,42 @@ const EditorPage: React.FC<Props> = props => {
     contest = contestMap.get(problem?.Domain + problem?.ContestID);
   }
 
+  const setAndShowMessage = (message: string) => {
+    setMessage(message);
+    setShowMessage(true);
+  }
+
+  const setNote = (note: Note) => {
+    setNoteId(note.ID);
+    setRawText(note.Text);
+    setIsPublic(isPublicNote(note));
+    setNoteExists(true);
+  }
+
+  const unsetNote = () => {
+    setNoteId("");
+    setRawText("");
+    setIsPublic(false);
+    setNoteExists(false);
+  }
+
   useEffect(() => {
-    if (isFetchTried || !isLoggedIn) return;
+    setIsFetchTried(false);
+  }, [isLoggedIn])
+
+  useEffect(() => {
+    if (isFetchTried) return;
+    setIsFetchTried(true);
+    if (!isLoggedIn) return;
     (async() => {
       try {
         const note = await getMyNote(problemNo);
-        if (note) {
-          setNoteId(note.ID);
-          setRawText(note.Text);
-          setIsPublic(isPublicNote(note));
-          setNoteExists(true);
+        if (note){
+          setNote(note);
         }
       } catch (error) {
         setNoteExists(false);
       }
-      setIsFetchTried(true);
     })();
   }, [dispatch, isFetchTried, isLoggedIn, problemNo])
 
@@ -81,14 +102,11 @@ const EditorPage: React.FC<Props> = props => {
       const note = await postMyNote(problemNo, rawText, isPublic);
       if (note) {
         dispatch(setMyNote({problemNo, newNote: note}));
-        setNoteId(note.ID);
-        setNoteExists(true);
-        setMessage("Successfully submitted.");
-        setShowMessage(true);
+        setNote(note);
+        setAndShowMessage("Successfully submitted.");
       }
     } catch (error) {
-      setMessage("Failed to submit.");
-      setShowMessage(true);
+      setAndShowMessage("Failed to submit.");
     }
   }
 
@@ -96,13 +114,10 @@ const EditorPage: React.FC<Props> = props => {
     const res = await deleteMyNote(problemNo);
     if (res.status === 200) {
       dispatch(unsetMyNote({problemNo}));
-      setNoteId("");
-      setNoteExists(false);
-      setMessage("Successfully deleted.");
-      setShowMessage(true);
+      unsetNote();
+      setAndShowMessage("Successfully deleted.");
     } else {
-      setMessage("Failed to delete.");
-      setShowMessage(true);
+      setAndShowMessage("Failed to delete.");
     }
   }
 
@@ -118,7 +133,9 @@ const EditorPage: React.FC<Props> = props => {
   );
 
   return (
-    <EditorWrapper problemExists={problemExists} isFetchTried={isFetchTried}>
+    <EditorWrapper
+      problemExists={problemExists}
+      isFetchTried={isFetchTried}>
       <Container>
         <StyledToast
           style={{backgroundColor: message.match(/^Success/) ? "#394" : "red"}}
@@ -147,8 +164,7 @@ const EditorPage: React.FC<Props> = props => {
           <EditorPreviewContainer>
             <EditorPreview
               rawText={rawText}
-              setMessage={setMessage}
-              setShowMessage={setShowMessage}/>
+              setAndShowMessage={setAndShowMessage}/>
           </EditorPreviewContainer>
         }
         <FooterContainer>
