@@ -20,7 +20,11 @@ const NoteWrapper: React.FC<WrapperProps> = props => {
   if (!props.isFetchTried) {
     return null;
   } else if (!props.noteExists) {
-    return <div>Note not found.</div>
+    return (
+      <Container>
+        Note not found.
+      </Container>
+    );
   } else {
     return props.children;
   }

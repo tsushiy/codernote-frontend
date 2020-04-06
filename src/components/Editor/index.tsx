@@ -23,7 +23,11 @@ type WrapperProps = {
 
 const EditorWrapper: React.FC<WrapperProps> = props => {
   if (!props.problemExists) {
-    return <div>No problems matched.</div>
+    return (
+      <Container>
+        No problems matched.
+      </Container>
+    );
   } else if (!props.isFetchTried) {
     return null;
   } else {

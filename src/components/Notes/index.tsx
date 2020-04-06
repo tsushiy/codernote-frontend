@@ -50,18 +50,19 @@ const NotesPage: React.FC<Props> = props => {
 
   useEffect(() => {
     if (isMyNotes || isFetchTried) return;
+    setIsFetchTried(true);
     (async() => {
       const noteList = await getPublicNotes({skip, limit});
       if (noteList) {
         setNotes(noteList.Notes);
         setNoteCount(noteList.Count);
       }
-      setIsFetchTried(true);
     })();
   }, [isFetchTried, isMyNotes, skip, limit])
 
   useEffect(() => {
     if (!isMyNotes || isFetchTried) return;
+    setIsFetchTried(true);
     if (!isLoggedIn) {
       setNotes(undefined);
       setNoteCount(0);
@@ -73,7 +74,6 @@ const NotesPage: React.FC<Props> = props => {
         setNotes(noteList.Notes);
         setNoteCount(noteList.Count);
       }
-      setIsFetchTried(true);
     })();
   }, [isFetchTried, isLoggedIn, isMyNotes, skip, limit])
 
