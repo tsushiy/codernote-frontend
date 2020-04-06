@@ -96,7 +96,6 @@ const Container = styled.div`
   top: 64px;
   right: 24px;
   left: 24px;
-  bottom: 0;
 `;
 
 const HeaderContainer = styled.div`

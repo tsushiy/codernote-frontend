@@ -35,14 +35,12 @@ const Container = styled.div`
 `;
 
 const ContestTitle = styled.h5`
-  width: calc(100vw - 30px);
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
 `;
 
 const ProblemTitle = styled.h3`
-  width: calc(100vw - 30px);
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
