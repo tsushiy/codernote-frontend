@@ -4,6 +4,7 @@ import { Link, RouteComponentProps } from 'react-router-dom'
 import { parse } from 'query-string';
 import { Table } from 'react-bootstrap';
 import styled from "styled-components";
+import { MainContainer } from '../../components/Styles';
 import { getPublicNotes, getMyNotes } from '../../utils/apiClient';
 import { problemUrl, serviceName } from '../../utils/problem';
 import { Note, isPublicNote } from '../../types/apiResponse';
@@ -60,6 +61,7 @@ const NotesPage: React.FC<Props> = props => {
   }, [props, isLoggedIn, isMyNotes, skip, limit])
 
   return (
+    <MainContainer>
       <Container>
         <h1 style={{padding: "22px"}}>
           {isMyNotes ? "My Notes" : "Public Notes"}
@@ -111,18 +113,13 @@ const NotesPage: React.FC<Props> = props => {
           </tbody>
         </Table>
       </Container>
+    </MainContainer>
   );
 }
 
 const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  position: absolute;
-  height: calc(100vh - 64px);
-  top: 64px;
-  right: 24px;
-  left: 24px;
-  bottom: 0;
+  display: block;
+  position: relative;
 `;
 
 export default NotesPage;

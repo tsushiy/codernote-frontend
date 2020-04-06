@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom'
 import styled from "styled-components";
+import { MainContainer } from '../../components/Styles';
 import { nonAuthGetNote, authGetNote } from '../../utils/apiClient';
 import { GlobalState } from '../../types/globalState';
 import { Note } from '../../types/apiResponse';
@@ -68,53 +69,39 @@ const NotePage: React.FC<Props> = props => {
   }, [isLoggedIn, noteId])
 
   return (
-    <NoteWrapper noteExists={noteExists} isFetchTried={isFetchTried}>
-      <Container>
-        <HeaderContainer>
-          <NoteHeader
-            problem={note?.Problem}
-            contest={contest}
-            userName={note?.User.Name}
-            createdAt={note?.CreatedAt}
-            updatedAt={note?.UpdatedAt} />
-        </HeaderContainer>
-        <PreviewContainer>
-          <NotePreview rawText={note ? note.Text : ""} />
-        </PreviewContainer>
-        <FooterContainer>
-        </FooterContainer>
-      </Container>
-    </NoteWrapper>
+    <MainContainer>
+      <NoteWrapper noteExists={noteExists} isFetchTried={isFetchTried}>
+        <Container>
+          <HeaderContainer>
+            <NoteHeader
+              problem={note?.Problem}
+              contest={contest}
+              userName={note?.User.Name}
+              createdAt={note?.CreatedAt}
+              updatedAt={note?.UpdatedAt} />
+          </HeaderContainer>
+          <PreviewContainer>
+            <NotePreview rawText={note ? note.Text : ""} />
+          </PreviewContainer>
+        </Container>
+      </NoteWrapper>
+    </MainContainer>
   );
 }
 
 const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  position: absolute;
-  height: calc(100vh - 64px);
-  top: 64px;
-  right: 24px;
-  left: 24px;
+  display: block;
+  position: relative;
+  padding: 24px 12px 0;
 `;
 
 const HeaderContainer = styled.div`
-  padding-top: 12px;
-  padding-bottom: 18px;
-  padding-right: 18px;
-  padding-left: 18px;
-  border-bottom: solid thin #CCC;
-`;
-
-const FooterContainer = styled.div`
-  border-top: solid thin #CCC;
+  padding: 0 18px 18px;
+  border-bottom: solid thin #aaa;
 `;
 
 const PreviewContainer = styled.div`
-  padding-top: 18px;
-  padding-bottom: 32px;
-  padding-right: 18px;
-  padding-left: 18px;
+  padding: 18px;
 `;
 
 export default NotePage;

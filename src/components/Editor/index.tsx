@@ -183,11 +183,13 @@ const EditorPage: React.FC<Props> = props => {
 const Container = styled.div`
   position: absolute;
   overflow: hidden;
-  height: calc(100vh - 64px);
-  top: 64px;
+  height: calc(100vh - 56px);
+  top: 56px;
   right: 5px;
   left: 5px;
   bottom: 0;
+  padding-top: 8px;
+  background-color: #fff;
 `;
 
 const StyledToast = styled(Toast)`
@@ -205,27 +207,27 @@ const StyledToast = styled(Toast)`
 
 const EditorHeaderContainer = styled.div`
   position: absolute;
-  height: 140px;
+  height: 150px;
   padding-left: 20px;
 `;
 
 const MarkdownEditorContainer = styled.div`
   position: absolute;
   overflow: auto;
-  width: calc(100vw - 10px);
-  top: 140px;
+  width: calc(100vw - 20px);
+  top: 150px;
   bottom: 42px;
-  left: 0;
+  left: 5px;
   border: solid thin #CCC;
 `;
 
 const EditorPreviewContainer = styled.div`
   position: absolute;
   overflow: auto;
-  width: 50%;
-  top: 140px;
+  width: calc(50% - 5px);
+  top: 150px;
   bottom: 42px;
-  right: 0;
+  right: 5px;
   border: solid thin #CCC;
 `;
 

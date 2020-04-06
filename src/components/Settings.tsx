@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button, Form, Toast, Alert } from 'react-bootstrap';
 import styled from "styled-components";
+import { MainContainer } from './Styles';
 import { GlobalState } from '../types/globalState';
 import { setUser } from '../reducers/authReducer';
 import { setMyNotes } from '../reducers/noteReducer';
@@ -56,8 +57,8 @@ const SettingsPage: React.FC<{}> = () => {
   }
 
   return (
-    <Container>
-      <InnerContainer>
+    <MainContainer>
+      <Container>
         <h1>Settings</h1>
         {!isLoggedIn &&
           <Alert variant="warning" style={{padding: "10px 16px", marginBottom: "10px"}}>
@@ -132,21 +133,19 @@ const SettingsPage: React.FC<{}> = () => {
             </Button>
           </Form>
         </OtherSettingContainer>
-      </InnerContainer>
-    </Container>
+      </Container>
+    </MainContainer>
   );
 }
 
 const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  position: absolute;
-  height: calc(100vh - 64px);
-  width: calc(100vw - 80px);
+  display: block;
+  position: relative;
+  width: calc(100% - 30px);
   max-width: 480px;
-  top: 64px;
-	left: 50%;
-	transform: translateX(-50%);
+  padding-top: 24px;
+  left: 50%;
+  transform: translateX(-50%);
 `;
 
 const StyledToast = styled(Toast)`
@@ -164,21 +163,16 @@ const StyledToast = styled(Toast)`
 
 const UserNameContainer = styled.div`
   padding: 20px;
-  margin: 8px 0;
+  margin: 16px 0;
   border: solid thin #CCC;
   border-radius: 1em;
 `;
 
 const OtherSettingContainer = styled.div`
   padding: 20px;
-  margin: 8px 0;
+  margin: 16px 0;
   border: solid thin #CCC;
   border-radius: 1em;
-`;
-
-const InnerContainer = styled.div`
-  display: flex;
-  flex-direction: column;
 `;
 
 export default SettingsPage;

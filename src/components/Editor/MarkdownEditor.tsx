@@ -27,9 +27,7 @@ const StyledTextarea = styled.textarea`
   position: absolute;
   width: 100%;
   height: 100%;
-  padding-top: 12px;
-  padding-bottom: 12px;
-  padding-left: 14px;
+  padding: 12px 16px;
   border: none;
   resize: none;
   outline: none;

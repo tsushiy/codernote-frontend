@@ -32,9 +32,7 @@ const EditorPreview: React.FC<Props> = props => {
 
 const Container = styled.div`
   top: 0;
-  padding-top: 5px;
-  padding-bottom: 12px;
-  padding-left: 18px;
+  padding: 12px 16px;
   word-wrap: break-word;
 `;
 
