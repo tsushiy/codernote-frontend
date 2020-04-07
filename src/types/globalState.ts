@@ -22,6 +22,7 @@ export type AppState = {
   largeTableCategory: string;
   smallTableCategory: string;
   showTableInfoMessage: boolean;
+  notesShowMode: string;
 };
 
 export type NoteState = {

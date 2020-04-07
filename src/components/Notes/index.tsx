@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { Link, RouteComponentProps } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux';
+import { RouteComponentProps } from 'react-router-dom'
 import { parse } from 'query-string';
-import { Table } from 'react-bootstrap';
+import { Nav } from "react-bootstrap"
 import styled from "styled-components";
-import { MainContainer, publicNoteColor, privateNoteColor } from '../../components/Styles';
+import { MainContainer, } from '../../components/Styles';
 import { getPublicNotes, getMyNotes } from '../../utils/apiClient';
-import { problemUrl, serviceName } from '../../utils/problem';
-import { Note, isPublicNote } from '../../types/apiResponse';
+import { Note } from '../../types/apiResponse';
 import { GlobalState } from '../../types/globalState';
-import NotesFilter from './NotesFilter'
+import { setNotesShowMode } from '../../reducers/appReducer';
+import NotesFilter from './NotesFilter';
+import NotesSummary from './NotesSummary';
+import NotesTable from './NotesTable';
 
 type Props = {
   isMyNotes: boolean;
@@ -51,8 +53,10 @@ const NotesPage: React.FC<Props> = props => {
   const [isFetchTried, setIsFetchTried] = useState(false);
   const [maxPage, setMaxPage] = useState(1);
 
+  const dispatch = useDispatch();
   const { isLoggedIn } = useSelector((state: GlobalState) => state.auth);
-  const { contestMap } = useSelector((state: GlobalState) => state.problem);
+  const { notesShowMode } = useSelector((state: GlobalState) => state.app);
+  const [activeTab, setActiveTab] = useState(notesShowMode);
 
   useEffect(() => {
     setNotes(undefined);
@@ -111,56 +115,23 @@ const NotesPage: React.FC<Props> = props => {
           isMyNotes={isMyNotes}
           query={query}
           maxPage={maxPage}/>
-        <Table
-          className="table-responsive-sm table-hover"
-          size="sm"
-          striped
-          style={{color: "#444", fontSize: "0.98em"}}>
-          <thead>
-            <tr>
-              <th style={{width: "8%"}}>NoteID</th>
-              {isMyNotes && <th style={{width: "6%"}}>Public</th>}
-              {!isMyNotes && <th>User</th>}
-              <th style={{width: "6%"}}>Service</th>
-              <th>Contest</th>
-              <th>Problem</th>
-              <th style={{width: "13%"}}>UpdatedAt</th>
-            </tr>
-          </thead>
-          <tbody>
-            {notes && notes.map((note, i) => (
-              <tr key={i}>
-                <td>
-                  <Link to={`/notes/${note.ID}`}>
-                    {note.ID.slice(0, 8)}
-                  </Link>
-                </td>
-                {isMyNotes &&
-                  <td>
-                    {isPublicNote(note) && 
-                      <div style={{color: publicNoteColor}}>
-                        Public
-                      </div>}
-                    {!isPublicNote(note) && 
-                      <div style={{color: privateNoteColor}}>
-                        Private
-                      </div>}
-                  </td>}
-                {!isMyNotes && <td>{note.User.Name}</td>}
-                <td>{serviceName(note.Problem.Domain)}</td>
-                <td>
-                  {contestMap.get(note.Problem.Domain + note.Problem.ContestID)?.Title}
-                </td>
-                <td>
-                  <a href={problemUrl(note.Problem)} target="_blank" rel="noopener noreferrer">
-                    {note.Problem.Title}
-                  </a>
-                </td>
-                <td>{(new Date(note.UpdatedAt)).toLocaleString()}</td>
-              </tr>
-            ))}
-          </tbody>
-        </Table>
+        <Nav
+          variant="tabs"
+          className="flex-row"
+          defaultActiveKey={activeTab}
+          onSelect={(eventKey: string) => {
+            setActiveTab(eventKey);
+            dispatch(setNotesShowMode(eventKey));
+          }}>
+          <Nav.Item>
+            <Nav.Link eventKey="summary">Summary</Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Nav.Link eventKey="table">Table</Nav.Link>
+          </Nav.Item>
+        </Nav>
+        {activeTab === "summary" && <NotesSummary notes={notes} isMyNotes={isMyNotes} />}
+        {activeTab === "table" && <NotesTable notes={notes} isMyNotes={isMyNotes} />}
       </Container>
     </MainContainer>
   );
