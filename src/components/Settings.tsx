@@ -65,8 +65,8 @@ const SettingsPage: React.FC<{}> = () => {
             You must be logged in to change settings.
           </Alert>}
         <StyledToast
-          style={{backgroundColor: message.match(/^Success/) ? "#394" : "red"}}
-          onClose={() => setShowMessage(false)}
+          style={{display: showMessage ? "block" : "none", backgroundColor: message.match(/^Success/) ? "#394" : "red"}}
+          onClose={() => {setShowMessage(false); setMessage("")}}
           show={showMessage}
           delay={3000}
           autohide>

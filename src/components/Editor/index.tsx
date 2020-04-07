@@ -138,8 +138,8 @@ const EditorPage: React.FC<Props> = props => {
       isFetchTried={isFetchTried}>
       <Container>
         <StyledToast
-          style={{backgroundColor: message.match(/^Success/) ? "#394" : "red"}}
-          onClose={() => setShowMessage(false)}
+          style={{display: showMessage ? "block" : "none", backgroundColor: message.match(/^Success/) ? "#394" : "red"}}
+          onClose={() => {setShowMessage(false); setMessage("")}}
           show={showMessage}
           delay={3000}
           autohide>
@@ -195,10 +195,9 @@ const Container = styled.div`
 const StyledToast = styled(Toast)`
   &&& {
     position: absolute;
-    bottom: 42px;
-    right: 0;
+    top: 14px;
+    right: 8px;
     color: #FFF;
-    background-color: red;
     font-size: 1.1em;
     font-weight: bold;
     border-radius: 0.5em;
