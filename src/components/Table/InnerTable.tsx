@@ -67,7 +67,7 @@ export const RegularTable: React.FC<RegularTableProps> = props => {
 }
 
 export const OthersTable: React.FC<OthersTableProps> = props => {
-  const { domain, contests } = props;
+  const { contests } = props;
   return (
     <div>
       {contests && Object.values(contests).map((contest, k) => (

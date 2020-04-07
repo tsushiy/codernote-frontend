@@ -27,7 +27,7 @@ const TablePage: React.FC<{}> = () => {
             onClose={() => dispatch(setShowTableInfoMessage(false))}
             style={{marginBottom: "8px"}}
             dismissible>
-            The contest table will be updated around 5:00 AM JST (UTC+9)
+            The contest table is updated around 5:00 AM JST (UTC+9)
           </Alert>
         }
         {!isLoggedIn &&
