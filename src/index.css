@@ -16,3 +16,7 @@ code {
   background-color: #e6e6e6;
   padding: 10px 12px;
 }
+
+.toast {
+  z-index: 8000;
+}
