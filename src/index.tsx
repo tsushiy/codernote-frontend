@@ -10,7 +10,7 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "github-markdown-css/github-markdown.css";
-import "highlight.js/styles/vs.css";
+import "highlight.js/styles/atom-one-dark.css";
 import "katex/dist/katex.min.css";
 import './index.css';
 

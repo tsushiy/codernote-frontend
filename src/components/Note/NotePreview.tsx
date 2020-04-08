@@ -19,6 +19,7 @@ const NotePreview: React.FC<Props> = props => {
     <Container>
       <div
         id="preview"
+        className="markdown-body"
         dangerouslySetInnerHTML={{ __html: htmlText as string }}
       />
     </Container>

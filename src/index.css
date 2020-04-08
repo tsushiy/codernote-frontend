@@ -8,13 +8,8 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  border-radius: 0.5em;
-}
-
-.hljs {
-  background-color: #e6e6e6;
-  padding: 10px 12px;
+.markdown-body pre {
+  background-color: #282C34;
 }
 
 .toast {
