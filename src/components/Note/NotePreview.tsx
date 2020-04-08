@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
 import { markdownProcessor } from '../../utils/markdownProcessor';
 
 type Props = {
@@ -16,18 +15,12 @@ const NotePreview: React.FC<Props> = props => {
   }, [rawText, setHtmlText])
 
   return (
-    <Container>
-      <div
-        id="preview"
-        className="markdown-body"
-        dangerouslySetInnerHTML={{ __html: htmlText as string }}
-      />
-    </Container>
+    <div
+      id="preview"
+      className="markdown-body"
+      dangerouslySetInnerHTML={{ __html: htmlText as string }}
+    />
   )
 }
-
-const Container = styled.div`
-  word-wrap: break-word;
-`;
 
 export default NotePreview;

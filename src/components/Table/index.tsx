@@ -90,7 +90,7 @@ const TablePage: React.FC<{}> = () => {
 const Container = styled.div`
   display: block;
   position: relative;
-  padding-top: 18px;
+  padding: 14px 6px 0;
 `;
 
 export default TablePage;

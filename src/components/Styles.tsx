@@ -9,6 +9,11 @@ export const MainContainer = styled.div`
   padding: 56px 36px 20px;
   background-color: #fff;
   box-shadow: 0 0 6px rgba(0,0,0,0.5);
+
+  @media (max-width: 544px) {
+    width: 100%;
+    padding: 56px 0 20px;
+  }
 `;
 
 export const publicNoteColor = "#ff8800";

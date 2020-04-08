@@ -140,6 +140,7 @@ const NotesPage: React.FC<Props> = props => {
 const Container = styled.div`
   display: block;
   position: relative;
+  padding: 0 6px 0;
 `;
 
 export default NotesPage;

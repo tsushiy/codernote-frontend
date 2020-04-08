@@ -92,16 +92,17 @@ const NotePage: React.FC<Props> = props => {
 const Container = styled.div`
   display: block;
   position: relative;
-  padding: 24px 12px 0;
+  padding: 24px 18px 0;
 `;
 
 const HeaderContainer = styled.div`
-  padding: 0 18px 18px;
+  padding: 0 0 18px;
   border-bottom: solid thin #aaa;
 `;
 
 const PreviewContainer = styled.div`
-  padding: 18px;
+  word-wrap: break-word;
+  padding: 18px 0;
 `;
 
 export default NotePage;

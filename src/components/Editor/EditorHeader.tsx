@@ -15,12 +15,10 @@ type Props = {
 const EditorHeader: React.FC<Props> = props => {
   return (
     <Container>
-      <h6>
-        {props.noteId &&
-          <div>
-            NoteID: <Link to={`/notes/${props.noteId}`}>{props.noteId}</Link>
-          </div>}
-      </h6>
+      {props.noteId &&
+        <NoteID>
+          NoteID: <Link to={`/notes/${props.noteId}`}>{props.noteId}</Link>
+        </NoteID>}
       <ContestTitle>{serviceName(props.problem?.Domain)} : {props.contest?.Title}</ContestTitle>
       <div style={{display: "flex"}}>
         <ProblemTitle>
@@ -40,6 +38,13 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   word-wrap: break-word;
+`;
+
+const NoteID = styled.h6`
+  width: calc(100vw - 30px);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 `;
 
 const ContestTitle = styled.h5`
