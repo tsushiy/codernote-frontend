@@ -24,6 +24,85 @@ export const problemUrl = (problem: Problem | undefined) => {
   return url;
 }
 
+export const problemColorClass = (problem: Problem | undefined) => {
+  if (problem) {
+    const difficulty = Number(problem.Difficulty);
+    switch (problem.Domain) {
+      case "atcoder":
+        if (difficulty === 0) {
+          return ""
+        } else if (difficulty < 400) {
+          return "atcoder-grey";
+        } else if (difficulty < 800) {
+          return "atcoder-brown";
+        } else if (difficulty < 1200) {
+          return "atcoder-green";
+        } else if (difficulty < 1600) {
+          return "atcoder-cyan";
+        } else if (difficulty < 2000) {
+          return "atcoder-blue";
+        } else if (difficulty < 2400) {
+          return "atcoder-yellow";
+        } else if (difficulty < 2800) {
+          return "atcoder-orange";
+        } else {
+          return "atcoder-red";
+        }
+      case "codeforces":
+        if (difficulty === 0) {
+          return ""
+        } else if (difficulty < 1200) {
+          return "codeforces-grey";
+        } else if (difficulty < 1400) {
+          return "codeforces-green";
+        } else if (difficulty < 1600) {
+          return "codeforces-cyan";
+        } else if (difficulty < 1900) {
+          return "codeforces-blue";
+        } else if (difficulty < 2100) {
+          return "codeforces-violet";
+        } else if (difficulty < 2400) {
+          return "codeforces-orange";
+        } else {
+          return "codeforces-red";
+        }
+      case "yukicoder":
+        if (difficulty === 0) {
+          return ""
+        } else if (difficulty === 1) {
+          return "yukicoder-grey";
+        } else if (difficulty === 1.5) {
+          return "yukicoder-brown";
+        } else if (difficulty === 2) {
+          return "yukicoder-green";
+        } else if (difficulty === 2.5) {
+          return "yukicoder-cyan";
+        } else if (difficulty === 3) {
+          return "yukicoder-blue";
+        } else if (difficulty === 3.5) {
+          return "yukicoder-yellow";
+        } else if (difficulty === 4) {
+          return "yukicoder-orange";
+        } else {
+          return "yukicoder-red";
+        }
+      case "aoj":
+        return "";
+      case "leetcode":
+        if (difficulty === 1) {
+          return "leetcode-easy"
+        } else if (difficulty === 2) {
+          return "leetcode-medium";
+        } else if (difficulty === 3) {
+          return "leetcode-hard";
+        } else {
+          return "";
+        }
+    }
+  }
+  return "";
+}
+
 export const serviceName = (domain: string | undefined) => {
   let name = "";
   if (domain) {
