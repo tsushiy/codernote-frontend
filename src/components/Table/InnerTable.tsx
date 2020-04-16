@@ -37,7 +37,7 @@ export const RegularTable: React.FC<RegularTableProps> = props => {
   }
 
   return (
-    <StyledRegularTable className="table-responsive-sm table-bordered table-hover">
+    <StyledRegularTable className="table-responsive-sm table-bordered">
       <thead>
         <tr>
           <th>Contest</th>
@@ -53,9 +53,7 @@ export const RegularTable: React.FC<RegularTableProps> = props => {
             {header.map((_, j) => (
               <React.Fragment key={j}>
                 {contest.ProblemNoList[j] !== undefined
-                  ? <td key={j}>
-                      <TableCell problemNo={contest.ProblemNoList[j]} />
-                    </td>
+                  ? <TableCell key={j} problemNo={contest.ProblemNoList[j]} />
                   : null}
               </React.Fragment>
             ))}
@@ -69,20 +67,24 @@ export const RegularTable: React.FC<RegularTableProps> = props => {
 export const OthersTable: React.FC<OthersTableProps> = props => {
   const { contests } = props;
   return (
-    <div>
+    <OthersTableContainer>
       {contests && Object.values(contests).map((contest, k) => (
-        <StyledOthersTable key={k} className="container">
-          <div className="other-contest-title">{contest.Title}</div>
-          <div className="row">
-            {contest.ProblemNoList.map((e, i) => (
-              <div className="other-contest-col col-md-2" key={i}>
-                <TableCell problemNo={e} />
-              </div>
-            ))}
+        <div key={k}>
+          <div className="other-contest-title">
+            {contest.Title}
           </div>
-        </StyledOthersTable>
+          <StyledOthersTable className="table-responsive-sm">
+            <tbody>
+              <tr>
+                {contest.ProblemNoList.map((e, i) => (
+                  <TableCell key={i} problemNo={e} />
+                ))}
+              </tr>
+            </tbody>
+          </StyledOthersTable>
+        </div>
       ))}
-    </div>
+    </OthersTableContainer>
   )
 }
 
@@ -112,20 +114,20 @@ export const RowTable: React.FC<RowTableProps> = props => {
   }
 
   return (
-    <StyledRowTable className="table-sm table-responsive-sm table-bordered table-hover">
+    <StyledRowTable className="table-sm table-responsive-sm table-bordered">
       <thead>
         <tr>
-          <th style={{width: "25%"}}>Problem</th>
+          <th style={{width: "20%"}}>Problem</th>
           <th>Title</th>
         </tr>
       </thead>
       <tbody>
         {contest && contest.ProblemNoList.map((e, i) => (
           <tr key={i}>
-            <th scope="row">{useFrontendID ? problemMap.get(e)?.FrontendID : problemMap.get(e)?.ProblemID}</th>
-            <td>
-              <TableCell problemNo={e} />
-            </td>
+            <th scope="row">
+              {useFrontendID ? problemMap.get(e)?.FrontendID : problemMap.get(e)?.ProblemID}
+            </th>
+            <TableCell problemNo={e} />
           </tr>
         ))}
       </tbody>
@@ -139,7 +141,7 @@ const StyledRegularTable = styled(Table)`
     width: 100%;
     word-wrap: break-word;
 
-    & > caption {
+    caption {
       caption-side: top;
       color: #000;
     }
@@ -147,29 +149,58 @@ const StyledRegularTable = styled(Table)`
     @media (max-width: 767px) {
       table-layout: auto;
       display: block;
-      & > thead {
+
+      thead {
         display: none;
       }
-      & > tbody, tr, th, td, caption {
+
+      tbody, tr, th, td, caption {
         display: block;
       }
     }
   }
 `
 
-const StyledOthersTable = styled.div`
-  padding-bottom: 1em;
+const OthersTableContainer = styled.div`
   word-wrap: break-word;
-
-  .other-contest-col {
-    padding: .75em;
-    border: 1px solid #dee2e6;
-  }
+  padding-top: "12px";
 
   .other-contest-title {
-    font-size: 1.2em;
+    font-size: 1.1em;
     padding-top: .75em;
-    padding-bottom: .75em;
+    padding-bottom: .3em;
+  }
+`
+
+const StyledOthersTable = styled(Table)`
+  &&& {
+    border-top: 1px solid #dee2e6;
+    border-left: 1px solid #dee2e6;
+
+    tr {
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(150px,1fr));
+    }
+
+    td {
+      border-top: none;
+      border-right: 1px solid #dee2e6;
+      border-bottom: 1px solid #dee2e6;
+    }
+
+    @media (max-width: 767px) {
+      table-layout: auto;
+      display: block;
+      border: 1px solid #dee2e6;
+
+      td {
+        border: 1px solid #dee2e6;
+      }
+
+      tbody, tr, th, td, caption {
+        display: block;
+      }
+    }
   }
 `
 
@@ -179,7 +210,7 @@ const StyledRowTable = styled(Table)`
     width: 100%;
     word-wrap: break-word;
 
-    & > caption {
+    caption {
       caption-side: top;
       color: #000;
     }
@@ -187,10 +218,12 @@ const StyledRowTable = styled(Table)`
     @media (max-width: 767px) {
       table-layout: auto;
       display: block;
-      & > thead {
+
+      thead {
         display: none;
       }
-      & > tbody, tr, th, td, caption {
+
+      tbody, tr, th, td, caption {
         display: block;
       }
     }

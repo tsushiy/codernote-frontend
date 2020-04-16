@@ -23,7 +23,7 @@ const TableCell: React.FC<Props> = (props) => {
   const viewUrl = note ? `/notes/${myNotesMap.get(problemNo)?.ID}` : "";
 
   return (
-    <Container>
+    <td>
       <div style={{display: "block", marginBottom: "2px"}}>
         <EditButton to={editUrl}>
           Edit
@@ -39,10 +39,14 @@ const TableCell: React.FC<Props> = (props) => {
           </PrivateViewButton>
         }
       </div>
-      <ProblemLink className={problemColorClass(problem)} href={problemUrl(problem)} target="_blank" rel="noopener noreferrer">
+      <ProblemLink
+        className={problemColorClass(problem)}
+        href={problemUrl(problem)}
+        target="_blank"
+        rel="noopener noreferrer">
         {title}
       </ProblemLink>
-    </Container>
+    </td>
   )
 }
 
@@ -51,11 +55,6 @@ const ProblemLink = styled.a`
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
   overflow: hidden;
-`;
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
 `;
 
 const BaseButton = styled(Link)`
