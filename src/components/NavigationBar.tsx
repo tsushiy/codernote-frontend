@@ -1,22 +1,24 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-import { Navbar, Nav } from 'react-bootstrap';
-import { LinkContainer } from 'react-router-bootstrap';
-import { GlobalState } from '../types/globalState';
-import firebase from '../utils/firebase';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React from "react";
+import { useSelector } from "react-redux";
+import { Navbar, Nav } from "react-bootstrap";
+import { LinkContainer } from "react-router-bootstrap";
+import { GlobalState } from "../types/globalState";
+import firebase from "../utils/firebase";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const NavigationBar: React.FC<{}> = () => {
-  const { isLoggedIn, userName } = useSelector((state: GlobalState) => state.auth);
+  const { isLoggedIn, userName } = useSelector(
+    (state: GlobalState) => state.auth
+  );
 
   const onClickLogin = () => {
     const provider = new firebase.auth.GithubAuthProvider();
-    firebase.auth().signInWithPopup(provider)
-  }
+    firebase.auth().signInWithPopup(provider);
+  };
 
   const onClickLogout = () => {
     firebase.auth().signOut();
-  }
+  };
 
   return (
     <Navbar expand="md" fixed="top" bg="light" variant="light">
@@ -43,13 +45,17 @@ const NavigationBar: React.FC<{}> = () => {
           <Nav.Link onClick={isLoggedIn ? onClickLogout : onClickLogin}>
             {isLoggedIn ? `Logout (${userName})` : "Login"}
           </Nav.Link>
-          <Nav.Link href="https://github.com/tsushiy/codernote-frontend" target="_blank" rel="noopener noreferrer">
-            <FontAwesomeIcon icon={['fab', 'github']} size="lg" color="#777" />
+          <Nav.Link
+            href="https://github.com/tsushiy/codernote-frontend"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <FontAwesomeIcon icon={["fab", "github"]} size="lg" color="#777" />
           </Nav.Link>
         </Nav>
       </Navbar.Collapse>
     </Navbar>
-  )
-}
+  );
+};
 
 export default NavigationBar;

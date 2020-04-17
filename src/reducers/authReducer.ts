@@ -1,29 +1,30 @@
-import actionCreatorFactory from 'typescript-fsa';
-import { asyncFactory } from 'typescript-fsa-redux-thunk';
-import { reducerWithInitialState } from 'typescript-fsa-reducers';
-import { AuthState } from '../types/globalState';
-import { postLogin, getUserSetting } from '../utils/apiClient';
+import actionCreatorFactory from "typescript-fsa";
+import { asyncFactory } from "typescript-fsa-redux-thunk";
+import { reducerWithInitialState } from "typescript-fsa-reducers";
+import { AuthState } from "../types/globalState";
+import { postLogin, getUserSetting } from "../utils/apiClient";
 
 const actionCreator = actionCreatorFactory();
 const asyncCreator = asyncFactory(actionCreator);
 
-export const unsetUser = actionCreator<void>('UnsetUser');
+export const unsetUser = actionCreator<void>("UnsetUser");
 
-export const setUser = asyncCreator<void, {isLoggedIn: boolean, userName: string}>(
-  "SetUser",
-  async (params, dispatch, getState) => {
-    const user = await postLogin();
-    const settings = await getUserSetting();
-    return {
-      isLoggedIn: true,
-      userName: user ? user.Name : "",
-      atcoderID: settings ? settings.AtCoderID : "",
-      codeforcesID: settings ? settings.CodeforcesID : "",
-      yukicoderID: settings ? settings.YukicoderID : "",
-      aojID: settings ? settings.AOJID : "",
-      leetcodeID: settings ? settings.LeetCodeID : "",
-    }
-  })
+export const setUser = asyncCreator<
+  void,
+  { isLoggedIn: boolean; userName: string }
+>("SetUser", async () => {
+  const user = await postLogin();
+  const settings = await getUserSetting();
+  return {
+    isLoggedIn: true,
+    userName: user ? user.Name : "",
+    atcoderID: settings ? settings.AtCoderID : "",
+    codeforcesID: settings ? settings.CodeforcesID : "",
+    yukicoderID: settings ? settings.YukicoderID : "",
+    aojID: settings ? settings.AOJID : "",
+    leetcodeID: settings ? settings.LeetCodeID : "",
+  };
+});
 
 const initialState: AuthState = {
   isLoggedIn: false,
@@ -36,7 +37,7 @@ const initialState: AuthState = {
 };
 
 const authReducer = reducerWithInitialState(initialState)
-  .case(unsetUser, state => ({
+  .case(unsetUser, (state) => ({
     ...state,
     isLoggedIn: false,
     userName: "",
@@ -48,7 +49,7 @@ const authReducer = reducerWithInitialState(initialState)
   }))
   .case(setUser.async.done, (state, { result }) => ({
     ...state,
-    ...result
-  }))
+    ...result,
+  }));
 
-export default authReducer
+export default authReducer;

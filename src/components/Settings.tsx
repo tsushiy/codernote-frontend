@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { Button, Form, Toast, Alert } from 'react-bootstrap';
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { Button, Form, Toast, Alert } from "react-bootstrap";
 import styled from "styled-components";
-import { MainContainer } from './Styles';
-import { GlobalState } from '../types/globalState';
-import { setUser } from '../reducers/authReducer';
-import { setMyNotes } from '../reducers/noteReducer';
-import { postChangeName, postUserSetting } from '../utils/apiClient';
+import { MainContainer } from "./Styles";
+import { GlobalState } from "../types/globalState";
+import { setUser } from "../reducers/authReducer";
+import { setMyNotes } from "../reducers/noteReducer";
+import { postChangeName, postUserSetting } from "../utils/apiClient";
 
 const SettingsPage: React.FC<{}> = () => {
   const dispatch = useDispatch();
@@ -21,14 +21,14 @@ const SettingsPage: React.FC<{}> = () => {
   // useStateでobjを扱うときの挙動がよくわからない
   useEffect(() => {
     setSettings(Object.assign({}, initialSettings));
-  }, [isLoggedIn, initialSettings])
+  }, [isLoggedIn, initialSettings]);
 
   useEffect(() => {
     if (!isSettingChanged) return;
     dispatch(setUser());
     dispatch(setMyNotes());
     setIsSettingChanged(false);
-  }, [dispatch, isSettingChanged])
+  }, [dispatch, isSettingChanged]);
 
   const onSubmitUserName = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -41,12 +41,12 @@ const SettingsPage: React.FC<{}> = () => {
       setMessage("Failed to change UserName.");
       setShowMessage(true);
     }
-  }
+  };
 
   const onSubmitOtherSettings = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      await postUserSetting({...settings});
+      await postUserSetting({ ...settings });
       setIsSettingChanged(true);
       setMessage("Successfully changed User Settings.");
       setShowMessage(true);
@@ -54,25 +54,34 @@ const SettingsPage: React.FC<{}> = () => {
       setMessage("Failed to change User Settings.");
       setShowMessage(true);
     }
-  }
+  };
 
   return (
     <MainContainer>
       <Container>
         <h1>Settings</h1>
-        {!isLoggedIn &&
-          <Alert variant="warning" style={{padding: "10px 16px", marginBottom: "10px"}}>
+        {!isLoggedIn && (
+          <Alert
+            variant="warning"
+            style={{ padding: "10px 16px", marginBottom: "10px" }}
+          >
             You must be logged in to change settings.
-          </Alert>}
+          </Alert>
+        )}
         <StyledToast
-          style={{display: showMessage ? "block" : "none", backgroundColor: message.match(/^Success/) ? "#394" : "red"}}
-          onClose={() => {setShowMessage(false); setMessage("")}}
+          style={{
+            display: showMessage ? "block" : "none",
+            backgroundColor: message.match(/^Success/) ? "#394" : "red",
+          }}
+          onClose={() => {
+            setShowMessage(false);
+            setMessage("");
+          }}
           show={showMessage}
           delay={3000}
-          autohide>
-          <Toast.Body>
-            {message}
-          </Toast.Body>
+          autohide
+        >
+          <Toast.Body>{message}</Toast.Body>
         </StyledToast>
         <UserNameContainer>
           <Form onSubmit={onSubmitUserName}>
@@ -81,9 +90,13 @@ const SettingsPage: React.FC<{}> = () => {
               <Form.Control
                 type="text"
                 defaultValue={settings.userName}
-                onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setSettings({...settings, userName: e.target.value})} />
+                onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                  setSettings({ ...settings, userName: e.target.value })
+                }
+              />
               <Form.Text className="text-muted">
-                UserName must be unique and between 3 and 30 alphanumeric characters.
+                UserName must be unique and between 3 and 30 alphanumeric
+                characters.
               </Form.Text>
             </Form.Group>
             <Button variant="primary" type="submit">
@@ -98,35 +111,50 @@ const SettingsPage: React.FC<{}> = () => {
               <Form.Control
                 type="text"
                 defaultValue={settings.atcoderID}
-                onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setSettings({...settings, atcoderID: e.target.value})} />
+                onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                  setSettings({ ...settings, atcoderID: e.target.value })
+                }
+              />
             </Form.Group>
             <Form.Group controlId="codecorces-id">
               <Form.Label>Codeforces ID</Form.Label>
               <Form.Control
                 type="text"
                 defaultValue={settings.codeforcesID}
-                onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setSettings({...settings, codeforcesID: e.target.value})} />
+                onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                  setSettings({ ...settings, codeforcesID: e.target.value })
+                }
+              />
             </Form.Group>
             <Form.Group controlId="yukicoder-id">
               <Form.Label>yukicoder ID</Form.Label>
               <Form.Control
                 type="text"
                 defaultValue={settings.yukicoderID}
-                onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setSettings({...settings, yukicoderID: e.target.value})} />
+                onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                  setSettings({ ...settings, yukicoderID: e.target.value })
+                }
+              />
             </Form.Group>
             <Form.Group controlId="aoj-id">
               <Form.Label>AOJ ID</Form.Label>
               <Form.Control
                 type="text"
                 defaultValue={settings.aojID}
-                onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setSettings({...settings, aojID: e.target.value})} />
+                onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                  setSettings({ ...settings, aojID: e.target.value })
+                }
+              />
             </Form.Group>
             <Form.Group controlId="leetcode-id">
               <Form.Label>LeetCode ID</Form.Label>
               <Form.Control
                 type="text"
                 defaultValue={settings.leetcodeID}
-                onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setSettings({...settings, leetcodeID: e.target.value})} />
+                onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                  setSettings({ ...settings, leetcodeID: e.target.value })
+                }
+              />
             </Form.Group>
             <Button variant="primary" type="submit">
               Save
@@ -136,7 +164,7 @@ const SettingsPage: React.FC<{}> = () => {
       </Container>
     </MainContainer>
   );
-}
+};
 
 const Container = styled.div`
   display: block;
@@ -153,25 +181,25 @@ const StyledToast = styled(Toast)`
     position: absolute;
     top: 10px;
     right: 0;
-    color: #FFF;
+    color: #fff;
     background-color: red;
     font-size: 1.1em;
     font-weight: bold;
     border-radius: 0.5em;
   }
-`
+`;
 
 const UserNameContainer = styled.div`
   padding: 20px;
   margin: 16px 0;
-  border: solid thin #CCC;
+  border: solid thin #ccc;
   border-radius: 1em;
 `;
 
 const OtherSettingContainer = styled.div`
   padding: 20px;
   margin: 16px 0;
-  border: solid thin #CCC;
+  border: solid thin #ccc;
   border-radius: 1em;
 `;
 

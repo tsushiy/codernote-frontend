@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
-import { markdownProcessor } from '../../utils/markdownProcessor';
+import React, { useState, useEffect } from "react";
+import styled from "styled-components";
+import { markdownProcessor } from "../../utils/markdownProcessor";
 
 type Props = {
-  rawText: string,
-  setAndShowMessage: (message: string) => void
-}
+  rawText: string;
+  setAndShowMessage: (message: string) => void;
+};
 
-const EditorPreview: React.FC<Props> = props => {
+const EditorPreview: React.FC<Props> = (props: Props) => {
   const { rawText, setAndShowMessage } = props;
   const [htmlText, setHtmlText] = useState("");
 
@@ -18,7 +18,7 @@ const EditorPreview: React.FC<Props> = props => {
     } catch (error) {
       setAndShowMessage(error.message);
     }
-  }, [rawText, setAndShowMessage, setHtmlText])
+  }, [rawText, setAndShowMessage, setHtmlText]);
 
   return (
     <Container>
@@ -28,8 +28,8 @@ const EditorPreview: React.FC<Props> = props => {
         dangerouslySetInnerHTML={{ __html: htmlText as string }}
       />
     </Container>
-  )
-}
+  );
+};
 
 const Container = styled.div`
   top: 0;

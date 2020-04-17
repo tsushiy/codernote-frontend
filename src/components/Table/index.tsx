@@ -1,10 +1,14 @@
-import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { Nav, Alert } from "react-bootstrap"
+import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { Nav, Alert } from "react-bootstrap";
 import styled from "styled-components";
-import { MainContainer } from '../../components/Styles';
-import { GlobalState } from '../../types/globalState';
-import { setLargeTableCategory, setSmallTableCategory, setShowTableInfoMessage } from '../../reducers/appReducer';
+import { MainContainer } from "../../components/Styles";
+import { GlobalState } from "../../types/globalState";
+import {
+  setLargeTableCategory,
+  setSmallTableCategory,
+  setShowTableInfoMessage,
+} from "../../reducers/appReducer";
 import AtCoderTable from "./AtCoderTable";
 import CodeforcesTable from "./CodeforcesTable";
 import AOJTable from "./AOJTable";
@@ -15,27 +19,29 @@ const TablePage: React.FC<{}> = () => {
   const dispatch = useDispatch();
   const { isLoggedIn } = useSelector((state: GlobalState) => state.auth);
   const { contests } = useSelector((state: GlobalState) => state.problem);
-  const { largeTableCategory, showTableInfoMessage } = useSelector((state: GlobalState) => state.app);
+  const { largeTableCategory, showTableInfoMessage } = useSelector(
+    (state: GlobalState) => state.app
+  );
   const [activeTab, setActiveTab] = useState(largeTableCategory);
 
   return (
     <MainContainer>
       <Container>
-        {showTableInfoMessage &&
+        {showTableInfoMessage && (
           <Alert
             variant="info"
             onClose={() => dispatch(setShowTableInfoMessage(false))}
-            style={{marginBottom: "8px"}}
-            dismissible>
+            style={{ marginBottom: "8px" }}
+            dismissible
+          >
             The contest table is updated around 5:00 AM JST (UTC+9)
           </Alert>
-        }
-        {!isLoggedIn &&
-          <Alert
-            variant="warning"
-            style={{marginBottom: "8px"}}>
+        )}
+        {!isLoggedIn && (
+          <Alert variant="warning" style={{ marginBottom: "8px" }}>
             You must be logged in to take a note.
-          </Alert>}
+          </Alert>
+        )}
         <Nav
           variant="tabs"
           className="flex-row"
@@ -60,7 +66,8 @@ const TablePage: React.FC<{}> = () => {
                 dispatch(setSmallTableCategory("algorithms"));
                 break;
             }
-          }}>
+          }}
+        >
           <Nav.Item>
             <Nav.Link eventKey="atcoder">AtCoder</Nav.Link>
           </Nav.Item>
@@ -77,15 +84,43 @@ const TablePage: React.FC<{}> = () => {
             <Nav.Link eventKey="leetcode">LeetCode</Nav.Link>
           </Nav.Item>
         </Nav>
-        {activeTab === "atcoder" && <AtCoderTable contests={contests.filter(contest => contest.Domain === "atcoder")} />}
-        {activeTab === "codeforces" && <CodeforcesTable contests={contests.filter(contest => contest.Domain === "codeforces")} />}
-        {activeTab === "yukicoder" && <YukicoderTable contests={contests.filter(contest => contest.Domain === "yukicoder")} />}
-        {activeTab === "aoj" && <AOJTable contests={contests.filter(contest => contest.Domain === "aoj")} />}
-        {activeTab === "leetcode" && <LeetCodeTable contests={contests.filter(contest => contest.Domain === "leetcode")} />}
+        {activeTab === "atcoder" && (
+          <AtCoderTable
+            contests={contests.filter(
+              (contest) => contest.Domain === "atcoder"
+            )}
+          />
+        )}
+        {activeTab === "codeforces" && (
+          <CodeforcesTable
+            contests={contests.filter(
+              (contest) => contest.Domain === "codeforces"
+            )}
+          />
+        )}
+        {activeTab === "yukicoder" && (
+          <YukicoderTable
+            contests={contests.filter(
+              (contest) => contest.Domain === "yukicoder"
+            )}
+          />
+        )}
+        {activeTab === "aoj" && (
+          <AOJTable
+            contests={contests.filter((contest) => contest.Domain === "aoj")}
+          />
+        )}
+        {activeTab === "leetcode" && (
+          <LeetCodeTable
+            contests={contests.filter(
+              (contest) => contest.Domain === "leetcode"
+            )}
+          />
+        )}
       </Container>
     </MainContainer>
   );
-}
+};
 
 const Container = styled.div`
   display: block;

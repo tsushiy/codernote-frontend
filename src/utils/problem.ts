@@ -1,6 +1,6 @@
-import { Problem } from '../types/apiResponse';
+import { Problem } from "../types/apiResponse";
 
-export const problemUrl = (problem: Problem | undefined) => {
+export const problemUrl = (problem: Problem | undefined): string => {
   let url = "";
   if (problem) {
     switch (problem.Domain) {
@@ -22,7 +22,7 @@ export const problemUrl = (problem: Problem | undefined) => {
     }
   }
   return url;
-}
+};
 
 export const problemColorClass = (problem: Problem | undefined) => {
   if (problem) {
@@ -30,7 +30,7 @@ export const problemColorClass = (problem: Problem | undefined) => {
     switch (problem.Domain) {
       case "atcoder":
         if (difficulty === 0) {
-          return ""
+          return "";
         } else if (difficulty < 400) {
           return "atcoder-grey";
         } else if (difficulty < 800) {
@@ -50,7 +50,7 @@ export const problemColorClass = (problem: Problem | undefined) => {
         }
       case "codeforces":
         if (difficulty === 0) {
-          return ""
+          return "";
         } else if (difficulty < 1200) {
           return "codeforces-grey";
         } else if (difficulty < 1400) {
@@ -68,7 +68,7 @@ export const problemColorClass = (problem: Problem | undefined) => {
         }
       case "yukicoder":
         if (difficulty === 0) {
-          return ""
+          return "";
         } else if (difficulty === 1) {
           return "yukicoder-grey";
         } else if (difficulty === 1.5) {
@@ -90,7 +90,7 @@ export const problemColorClass = (problem: Problem | undefined) => {
         return "";
       case "leetcode":
         if (difficulty === 1) {
-          return "leetcode-easy"
+          return "leetcode-easy";
         } else if (difficulty === 2) {
           return "leetcode-medium";
         } else if (difficulty === 3) {
@@ -101,7 +101,7 @@ export const problemColorClass = (problem: Problem | undefined) => {
     }
   }
   return "";
-}
+};
 
 export const serviceName = (domain: string | undefined) => {
   let name = "";
@@ -125,4 +125,4 @@ export const serviceName = (domain: string | undefined) => {
     }
   }
   return name;
-}
+};

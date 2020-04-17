@@ -1,38 +1,45 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import styled from 'styled-components';
-import { Button } from 'react-bootstrap';
-import { Problem, Contest } from '../../types/apiResponse';
-import { problemUrl, serviceName } from '../../utils/problem';
+import React from "react";
+import { Link } from "react-router-dom";
+import styled from "styled-components";
+import { Button } from "react-bootstrap";
+import { Problem, Contest } from "../../types/apiResponse";
+import { problemUrl, serviceName } from "../../utils/problem";
 
 type Props = {
   problem: Problem | undefined;
   contest: Contest | undefined;
-  onClickPreview: any;
+  onClickPreview: (ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   noteId: string;
-}
+};
 
-const EditorHeader: React.FC<Props> = props => {
+const EditorHeader: React.FC<Props> = (props: Props) => {
   return (
     <Container>
-      {props.noteId &&
+      {props.noteId && (
         <NoteID>
           NoteID: <Link to={`/notes/${props.noteId}`}>{props.noteId}</Link>
-        </NoteID>}
-      <ContestTitle>{serviceName(props.problem?.Domain)} : {props.contest?.Title}</ContestTitle>
-      <div style={{display: "flex"}}>
+        </NoteID>
+      )}
+      <ContestTitle>
+        {serviceName(props.problem?.Domain)} : {props.contest?.Title}
+      </ContestTitle>
+      <div style={{ display: "flex" }}>
         <ProblemTitle>
-          <a href={problemUrl(props.problem)} target="_blank" rel="noopener noreferrer">
+          <a
+            href={problemUrl(props.problem)}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             {props.problem?.Title}
           </a>
         </ProblemTitle>
       </div>
-      <div style={{display: "flex"}}>
+      <div style={{ display: "flex" }}>
         <Button onClick={props.onClickPreview}>Preview</Button>
       </div>
     </Container>
-  )
-}
+  );
+};
 
 const Container = styled.div`
   display: flex;

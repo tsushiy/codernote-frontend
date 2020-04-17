@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import { markdownProcessor } from '../../utils/markdownProcessor';
+import React, { useState, useEffect } from "react";
+import { markdownProcessor } from "../../utils/markdownProcessor";
 
 type Props = {
-  rawText: string
-}
+  rawText: string;
+};
 
-const NotePreview: React.FC<Props> = props => {
+const NotePreview: React.FC<Props> = (props: Props) => {
   const { rawText } = props;
   const [htmlText, setHtmlText] = useState("");
 
   useEffect(() => {
     const { contents } = markdownProcessor.processSync(rawText);
     setHtmlText(contents as string);
-  }, [rawText, setHtmlText])
+  }, [rawText, setHtmlText]);
 
   return (
     <div
@@ -20,7 +20,7 @@ const NotePreview: React.FC<Props> = props => {
       className="markdown-body"
       dangerouslySetInnerHTML={{ __html: htmlText as string }}
     />
-  )
-}
+  );
+};
 
 export default NotePreview;

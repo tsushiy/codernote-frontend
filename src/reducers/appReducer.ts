@@ -1,13 +1,19 @@
-import actionCreatorFactory from 'typescript-fsa';
-import { reducerWithInitialState } from 'typescript-fsa-reducers';
-import { AppState } from '../types/globalState';
+import actionCreatorFactory from "typescript-fsa";
+import { reducerWithInitialState } from "typescript-fsa-reducers";
+import { AppState } from "../types/globalState";
 
 const actionCreator = actionCreatorFactory();
 
 export const setShowPreview = actionCreator<boolean>("SetShowPreview");
-export const setLargeTableCategory = actionCreator<string>("SetLargeTableCategory");
-export const setSmallTableCategory = actionCreator<string>("SetSmallTableCategory");
-export const setShowTableInfoMessage = actionCreator<boolean>("SetShowTableInfoMessage");
+export const setLargeTableCategory = actionCreator<string>(
+  "SetLargeTableCategory"
+);
+export const setSmallTableCategory = actionCreator<string>(
+  "SetSmallTableCategory"
+);
+export const setShowTableInfoMessage = actionCreator<boolean>(
+  "SetShowTableInfoMessage"
+);
 export const setNotesShowMode = actionCreator<string>("SetNotesShowMode");
 
 const initialState: AppState = {
@@ -21,23 +27,23 @@ const initialState: AppState = {
 const appReducer = reducerWithInitialState(initialState)
   .case(setShowPreview, (state, showPreview) => ({
     ...state,
-    showPreview
+    showPreview,
   }))
   .case(setLargeTableCategory, (state, largeTableCategory) => ({
     ...state,
-    largeTableCategory
+    largeTableCategory,
   }))
   .case(setSmallTableCategory, (state, smallTableCategory) => ({
     ...state,
-    smallTableCategory
+    smallTableCategory,
   }))
   .case(setShowTableInfoMessage, (state, showTableInfoMessage) => ({
     ...state,
-    showTableInfoMessage
+    showTableInfoMessage,
   }))
   .case(setNotesShowMode, (state, notesShowMode) => ({
     ...state,
-    notesShowMode
-  }))
+    notesShowMode,
+  }));
 
-export default appReducer
+export default appReducer;

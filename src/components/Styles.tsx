@@ -8,7 +8,7 @@ export const MainContainer = styled.div`
   margin: 0 auto 16px;
   padding: 56px 36px 20px;
   background-color: #fff;
-  box-shadow: 0 0 6px rgba(0,0,0,0.5);
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.5);
 
   @media (max-width: 544px) {
     width: 100%;

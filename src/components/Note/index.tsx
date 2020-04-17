@@ -1,37 +1,33 @@
-import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { RouteComponentProps } from 'react-router-dom'
+import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+import { RouteComponentProps } from "react-router-dom";
 import styled from "styled-components";
-import { MainContainer } from '../../components/Styles';
-import { nonAuthGetNote, authGetNote } from '../../utils/apiClient';
-import { GlobalState } from '../../types/globalState';
-import { Note } from '../../types/apiResponse';
-import NotePreview from './NotePreview';
-import NoteHeader from './NoteHeader';
+import { MainContainer } from "../../components/Styles";
+import { nonAuthGetNote, authGetNote } from "../../utils/apiClient";
+import { GlobalState } from "../../types/globalState";
+import { Note } from "../../types/apiResponse";
+import NotePreview from "./NotePreview";
+import NoteHeader from "./NoteHeader";
 
-type Props = {} & RouteComponentProps<{noteId: string}>;
+type Props = {} & RouteComponentProps<{ noteId: string }>;
 
 type WrapperProps = {
   children: React.ReactElement;
   noteExists: boolean;
   isFetchTried: boolean;
-}
+};
 
-const NoteWrapper: React.FC<WrapperProps> = props => {
+const NoteWrapper: React.FC<WrapperProps> = (props: WrapperProps) => {
   if (!props.isFetchTried) {
     return null;
   } else if (!props.noteExists) {
-    return (
-      <Container>
-        Note not found.
-      </Container>
-    );
+    return <Container>Note not found.</Container>;
   } else {
     return props.children;
   }
-}
+};
 
-const NotePage: React.FC<Props> = props => {
+const NotePage: React.FC<Props> = (props: Props) => {
   const noteId = props.match.params.noteId;
   const [note, setNote] = useState<Note>();
   const [isFetchTried, setIsFetchTried] = useState(false);
@@ -46,7 +42,7 @@ const NotePage: React.FC<Props> = props => {
   }
 
   useEffect(() => {
-    (async() => {
+    (async () => {
       try {
         if (isLoggedIn) {
           const note = await authGetNote(noteId);
@@ -66,7 +62,7 @@ const NotePage: React.FC<Props> = props => {
       }
       setIsFetchTried(true);
     })();
-  }, [isLoggedIn, noteId])
+  }, [isLoggedIn, noteId]);
 
   return (
     <MainContainer>
@@ -78,7 +74,8 @@ const NotePage: React.FC<Props> = props => {
               contest={contest}
               userName={note?.User.Name}
               createdAt={note?.CreatedAt}
-              updatedAt={note?.UpdatedAt} />
+              updatedAt={note?.UpdatedAt}
+            />
           </HeaderContainer>
           <PreviewContainer>
             <NotePreview rawText={note ? note.Text : ""} />
@@ -87,7 +84,7 @@ const NotePage: React.FC<Props> = props => {
       </NoteWrapper>
     </MainContainer>
   );
-}
+};
 
 const Container = styled.div`
   display: block;

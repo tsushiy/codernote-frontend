@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { LinkContainer } from 'react-router-bootstrap';
-import { Form, Button, FormControl, Pagination } from 'react-bootstrap';
-import styled from 'styled-components';
-import { queryType, queryToParams } from './index';
+import React, { useState, useEffect } from "react";
+import { LinkContainer } from "react-router-bootstrap";
+import { Form, Button, FormControl, Pagination } from "react-bootstrap";
+import styled from "styled-components";
+import { queryType, queryToParams } from "./index";
 
 type Props = {
   isMyNotes: boolean;
@@ -10,8 +10,8 @@ type Props = {
   maxPage: number;
 };
 
-const NotesFilter: React.FC<Props> = props => {
-  const { isMyNotes, query,  maxPage } = props;
+const NotesFilter: React.FC<Props> = (props: Props) => {
+  const { isMyNotes, query, maxPage } = props;
   const [filterQuery, setFilterQuery] = useState(query);
 
   const page = query.page;
@@ -19,7 +19,7 @@ const NotesFilter: React.FC<Props> = props => {
 
   useEffect(() => {
     setFilterQuery(Object.assign({}, props.query));
-  }, [props])
+  }, [props]);
 
   if (maxPage <= 10) {
     for (let i = 1; i <= maxPage; i++) pages.push(i);
@@ -48,24 +48,28 @@ const NotesFilter: React.FC<Props> = props => {
   }
 
   const onChangeService = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setFilterQuery({...filterQuery, domain: e.target.value})
-  }
+    setFilterQuery({ ...filterQuery, domain: e.target.value });
+  };
 
-  const onChangeProblemNo = (e: React.FormEvent<FormControl & HTMLInputElement>) => {
+  const onChangeProblemNo = (
+    e: React.FormEvent<FormControl & HTMLInputElement>
+  ) => {
     let problemNo = parseInt(e.currentTarget.value);
     if (isNaN(problemNo)) {
       problemNo = 0;
     }
-    setFilterQuery({...filterQuery, problemNo})
-  }
+    setFilterQuery({ ...filterQuery, problemNo });
+  };
 
-  const onChangeUserName= (e: React.FormEvent<FormControl & HTMLInputElement>) => {
-    setFilterQuery({...filterQuery, userName: e.currentTarget.value})
-  }
+  const onChangeUserName = (
+    e: React.FormEvent<FormControl & HTMLInputElement>
+  ) => {
+    setFilterQuery({ ...filterQuery, userName: e.currentTarget.value });
+  };
 
-  const onChangeTag= (e: React.FormEvent<FormControl & HTMLInputElement>) => {
-    setFilterQuery({...filterQuery, tag: e.currentTarget.value})
-  }
+  const onChangeTag = (e: React.FormEvent<FormControl & HTMLInputElement>) => {
+    setFilterQuery({ ...filterQuery, tag: e.currentTarget.value });
+  };
 
   const resetFilter = () => {
     setFilterQuery({
@@ -74,17 +78,23 @@ const NotesFilter: React.FC<Props> = props => {
       userName: "",
       tag: "",
       page: 1,
-      order: ""
+      order: "",
     });
-  }
+  };
 
   return (
     <Container>
       <FilterContainer>
-        <div style={{width: "15%", minWidth: "80px"}}>
-          <Form.Control as="select" onChange={onChangeService} value={filterQuery.domain}>
-            <option value="" disabled style={{display: "none"}}>Service</option>
-            <option value="" >-</option>
+        <div style={{ width: "15%", minWidth: "80px" }}>
+          <Form.Control
+            as="select"
+            onChange={onChangeService}
+            value={filterQuery.domain}
+          >
+            <option value="" disabled style={{ display: "none" }}>
+              Service
+            </option>
+            <option value="">-</option>
             <option value="atcoder">AtCoder</option>
             <option value="codeforces">Codeforces</option>
             <option value="yukicoder">yukicoder</option>
@@ -92,66 +102,74 @@ const NotesFilter: React.FC<Props> = props => {
             <option value="leetcode">LeetCode</option>
           </Form.Control>
         </div>
-        {!isMyNotes &&
-          <div style={{width: "18%", minWidth: "80px"}}>
+        {!isMyNotes && (
+          <div style={{ width: "18%", minWidth: "80px" }}>
             <Form.Control
               placeholder="User"
               onChange={onChangeUserName}
-              value={filterQuery.userName} />
-          </div>}
-        {!isMyNotes &&
-          <div style={{width: "15%", minWidth: "80px"}}>
+              value={filterQuery.userName}
+            />
+          </div>
+        )}
+        {!isMyNotes && (
+          <div style={{ width: "15%", minWidth: "80px" }}>
             <Form.Control
               placeholder="ProblemNo"
               onChange={onChangeProblemNo}
-              value={filterQuery.problemNo !== 0 ? filterQuery.problemNo.toString() : ""} />
-          </div>}
-        <div style={{width: "22%", minWidth: "80px"}}>
+              value={
+                filterQuery.problemNo !== 0
+                  ? filterQuery.problemNo.toString()
+                  : ""
+              }
+            />
+          </div>
+        )}
+        <div style={{ width: "22%", minWidth: "80px" }}>
           <Form.Control
             placeholder="Tag"
             onChange={onChangeTag}
-            value={filterQuery.tag} />
+            value={filterQuery.tag}
+          />
         </div>
-        <div style={{padding: "2px 0"}}>
-          <LinkContainer
-            to={isMyNotes ? `/mynotes` : `/notes`}>
-            <Button
-              variant="outline-light"
-              type="button"
-              onClick={resetFilter}>
+        <div style={{ padding: "2px 0" }}>
+          <LinkContainer to={isMyNotes ? `/mynotes` : `/notes`}>
+            <Button variant="outline-light" type="button" onClick={resetFilter}>
               Reset
             </Button>
           </LinkContainer>
         </div>
-        <div style={{padding: "2px 0"}}>
+        <div style={{ padding: "2px 0" }}>
           <LinkContainer
-            to={isMyNotes ? `/mynotes?${queryToParams(filterQuery)}` : `/notes?${queryToParams(filterQuery)}`}>
-            <Button
-              variant="primary"
-              type="button">
+            to={
+              isMyNotes
+                ? `/mynotes?${queryToParams(filterQuery)}`
+                : `/notes?${queryToParams(filterQuery)}`
+            }
+          >
+            <Button variant="primary" type="button">
               Filter
             </Button>
           </LinkContainer>
         </div>
       </FilterContainer>
       <PaginationContainer>
-        <Pagination style={{justifyContent: "center"}}>
+        <Pagination style={{ justifyContent: "center" }}>
           {pages.map((v, k) => {
-            const params = queryToParams({...filterQuery, page: v})
+            const params = queryToParams({ ...filterQuery, page: v });
             return (
               <LinkContainer
-                key={v}
-                to={isMyNotes ? `/mynotes?${params}` : `/notes?${params}`}>
-                <Pagination.Item active={v === query.page}>
-                  {v}
-                </Pagination.Item>
+                key={k}
+                to={isMyNotes ? `/mynotes?${params}` : `/notes?${params}`}
+              >
+                <Pagination.Item active={v === query.page}>{v}</Pagination.Item>
               </LinkContainer>
-            )})}
+            );
+          })}
         </Pagination>
       </PaginationContainer>
     </Container>
   );
-}
+};
 
 const Container = styled.div`
   display: block;

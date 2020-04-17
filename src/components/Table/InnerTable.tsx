@@ -1,32 +1,51 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-import { Table } from 'react-bootstrap';
+import React from "react";
+import { useSelector } from "react-redux";
+import { Table } from "react-bootstrap";
 import styled from "styled-components";
-import { GlobalState } from '../../types/globalState';
+import { GlobalState } from "../../types/globalState";
 import { Contest } from "../../types/apiResponse";
-import TableCell from './TableCell';
+import TableCell from "./TableCell";
 
 type RowTableProps = {
   domain: string;
   contest: Contest;
-}
+};
 
 type RegularTableProps = {
   domain: string;
-  contests: Contest[]
-}
+  contests: Contest[];
+};
 
 type OthersTableProps = {
   domain: string;
-  contests: Contest[]
-}
+  contests: Contest[];
+};
 
-export const RegularTable: React.FC<RegularTableProps> = props => {
+export const RegularTable: React.FC<RegularTableProps> = (
+  props: RegularTableProps
+) => {
   const { domain, contests } = props;
   const maxProblemCount = contests.reduce(
     (currentCount, { ProblemNoList }) =>
-      Math.max(ProblemNoList.length, currentCount), 0);
-  const header = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N"].slice(0, maxProblemCount);
+      Math.max(ProblemNoList.length, currentCount),
+    0
+  );
+  const header = [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F",
+    "G",
+    "H",
+    "I",
+    "J",
+    "K",
+    "L",
+    "M",
+    "N",
+  ].slice(0, maxProblemCount);
 
   const title = (contest: Contest) => {
     if (domain === "codeforces") {
@@ -34,7 +53,7 @@ export const RegularTable: React.FC<RegularTableProps> = props => {
     } else {
       return contest.ContestID.toUpperCase();
     }
-  }
+  };
 
   return (
     <StyledRegularTable className="table-responsive-sm table-bordered">
@@ -52,43 +71,44 @@ export const RegularTable: React.FC<RegularTableProps> = props => {
             <th scope="row">{title(contest)}</th>
             {header.map((_, j) => (
               <React.Fragment key={j}>
-                {contest.ProblemNoList[j] !== undefined
-                  ? <TableCell key={j} problemNo={contest.ProblemNoList[j]} />
-                  : null}
+                {contest.ProblemNoList[j] !== undefined ? (
+                  <TableCell key={j} problemNo={contest.ProblemNoList[j]} />
+                ) : null}
               </React.Fragment>
             ))}
           </tr>
         ))}
       </tbody>
     </StyledRegularTable>
-  )
-}
+  );
+};
 
-export const OthersTable: React.FC<OthersTableProps> = props => {
+export const OthersTable: React.FC<OthersTableProps> = (
+  props: OthersTableProps
+) => {
   const { contests } = props;
   return (
     <OthersTableContainer>
-      {contests && Object.values(contests).map((contest, k) => (
-        <div key={k}>
-          <div className="other-contest-title">
-            {contest.Title}
+      {contests &&
+        Object.values(contests).map((contest, k) => (
+          <div key={k}>
+            <div className="other-contest-title">{contest.Title}</div>
+            <StyledOthersTable className="table-responsive-sm">
+              <tbody>
+                <tr>
+                  {contest.ProblemNoList.map((e, i) => (
+                    <TableCell key={i} problemNo={e} />
+                  ))}
+                </tr>
+              </tbody>
+            </StyledOthersTable>
           </div>
-          <StyledOthersTable className="table-responsive-sm">
-            <tbody>
-              <tr>
-                {contest.ProblemNoList.map((e, i) => (
-                  <TableCell key={i} problemNo={e} />
-                ))}
-              </tr>
-            </tbody>
-          </StyledOthersTable>
-        </div>
-      ))}
+        ))}
     </OthersTableContainer>
-  )
-}
+  );
+};
 
-export const RowTable: React.FC<RowTableProps> = props => {
+export const RowTable: React.FC<RowTableProps> = (props: RowTableProps) => {
   const { problemMap } = useSelector((state: GlobalState) => state.problem);
   const { domain, contest } = props;
   let useFrontendID = false;
@@ -103,37 +123,44 @@ export const RowTable: React.FC<RowTableProps> = props => {
 
   if (contest !== undefined) {
     contest.ProblemNoList.sort((a, b) => {
-      const x = useFrontendID ? Number(problemMap.get(a)?.FrontendID) : Number(problemMap.get(a)?.ProblemID);
-      const y = useFrontendID ? Number(problemMap.get(b)?.FrontendID) : Number(problemMap.get(b)?.ProblemID);
+      const x = useFrontendID
+        ? Number(problemMap.get(a)?.FrontendID)
+        : Number(problemMap.get(a)?.ProblemID);
+      const y = useFrontendID
+        ? Number(problemMap.get(b)?.FrontendID)
+        : Number(problemMap.get(b)?.ProblemID);
       if (!isNaN(x) && !isNaN(y)) {
-        return x - y
+        return x - y;
       } else {
-        return 0
+        return 0;
       }
-    })
+    });
   }
 
   return (
     <StyledRowTable className="table-sm table-responsive-sm table-bordered">
       <thead>
         <tr>
-          <th style={{width: "20%"}}>Problem</th>
+          <th style={{ width: "20%" }}>Problem</th>
           <th>Title</th>
         </tr>
       </thead>
       <tbody>
-        {contest && contest.ProblemNoList.map((e, i) => (
-          <tr key={i}>
-            <th scope="row">
-              {useFrontendID ? problemMap.get(e)?.FrontendID : problemMap.get(e)?.ProblemID}
-            </th>
-            <TableCell problemNo={e} />
-          </tr>
-        ))}
+        {contest &&
+          contest.ProblemNoList.map((e, i) => (
+            <tr key={i}>
+              <th scope="row">
+                {useFrontendID
+                  ? problemMap.get(e)?.FrontendID
+                  : problemMap.get(e)?.ProblemID}
+              </th>
+              <TableCell problemNo={e} />
+            </tr>
+          ))}
       </tbody>
     </StyledRowTable>
-  )
-}
+  );
+};
 
 const StyledRegularTable = styled(Table)`
   &&& {
@@ -154,12 +181,16 @@ const StyledRegularTable = styled(Table)`
         display: none;
       }
 
-      tbody, tr, th, td, caption {
+      tbody,
+      tr,
+      th,
+      td,
+      caption {
         display: block;
       }
     }
   }
-`
+`;
 
 const OthersTableContainer = styled.div`
   word-wrap: break-word;
@@ -167,10 +198,10 @@ const OthersTableContainer = styled.div`
 
   .other-contest-title {
     font-size: 1.1em;
-    padding-top: .75em;
-    padding-bottom: .3em;
+    padding-top: 0.75em;
+    padding-bottom: 0.3em;
   }
-`
+`;
 
 const StyledOthersTable = styled(Table)`
   &&& {
@@ -179,7 +210,7 @@ const StyledOthersTable = styled(Table)`
 
     tr {
       display: grid;
-      grid-template-columns: repeat(auto-fit,minmax(150px,1fr));
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     }
 
     td {
@@ -197,12 +228,16 @@ const StyledOthersTable = styled(Table)`
         border: 1px solid #dee2e6;
       }
 
-      tbody, tr, th, td, caption {
+      tbody,
+      tr,
+      th,
+      td,
+      caption {
         display: block;
       }
     }
   }
-`
+`;
 
 const StyledRowTable = styled(Table)`
   &&& {
@@ -223,9 +258,13 @@ const StyledRowTable = styled(Table)`
         display: none;
       }
 
-      tbody, tr, th, td, caption {
+      tbody,
+      tr,
+      th,
+      td,
+      caption {
         display: block;
       }
     }
   }
-`
+`;

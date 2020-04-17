@@ -1,17 +1,17 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
-import styled from 'styled-components';
-import { publicNoteColor, privateNoteColor } from '../../components/Styles';
-import { GlobalState } from '../../types/globalState';
-import { problemUrl, problemColorClass } from '../../utils/problem';
-import { isPublicNote } from '../../types/apiResponse';
+import React from "react";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import styled from "styled-components";
+import { publicNoteColor, privateNoteColor } from "../../components/Styles";
+import { GlobalState } from "../../types/globalState";
+import { problemUrl, problemColorClass } from "../../utils/problem";
+import { isPublicNote } from "../../types/apiResponse";
 
 type Props = {
-  problemNo: number
-}
+  problemNo: number;
+};
 
-const TableCell: React.FC<Props> = (props) => {
+const TableCell: React.FC<Props> = (props: Props) => {
   const { problemNo } = props;
   const { problemMap } = useSelector((state: GlobalState) => state.problem);
   const { myNotesMap } = useSelector((state: GlobalState) => state.note);
@@ -24,31 +24,26 @@ const TableCell: React.FC<Props> = (props) => {
 
   return (
     <td>
-      <div style={{display: "block", marginBottom: "2px"}}>
-        <EditButton to={editUrl}>
-          Edit
-        </EditButton>
-        {note && isPublicNote(note) && 
-          <PublicViewButton to={viewUrl}>
-            View
-          </PublicViewButton>
-        }
-        {note && !isPublicNote(note) && 
-          <PrivateViewButton to={viewUrl}>
-            View
-          </PrivateViewButton>
-        }
+      <div style={{ display: "block", marginBottom: "2px" }}>
+        <EditButton to={editUrl}>Edit</EditButton>
+        {note && isPublicNote(note) && (
+          <PublicViewButton to={viewUrl}>View</PublicViewButton>
+        )}
+        {note && !isPublicNote(note) && (
+          <PrivateViewButton to={viewUrl}>View</PrivateViewButton>
+        )}
       </div>
       <ProblemLink
         className={problemColorClass(problem)}
         href={problemUrl(problem)}
         target="_blank"
-        rel="noopener noreferrer">
+        rel="noopener noreferrer"
+      >
         {title}
       </ProblemLink>
     </td>
-  )
-}
+  );
+};
 
 const ProblemLink = styled.a`
   display: -webkit-box;
@@ -59,7 +54,7 @@ const ProblemLink = styled.a`
 
 const BaseButton = styled(Link)`
   &&& {
-    color: #FFF;
+    color: #fff;
     white-space: nowrap;
     font-size: 0.83em;
     font-weight: bold;

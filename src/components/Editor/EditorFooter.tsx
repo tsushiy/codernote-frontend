@@ -1,42 +1,45 @@
-import React from 'react';
+import React from "react";
 import styled from "styled-components";
-import { Button, Dropdown, ButtonGroup } from 'react-bootstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { publicNoteColor, privateNoteColor } from '../../components/Styles';
+import { Button, Dropdown, ButtonGroup } from "react-bootstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { publicNoteColor, privateNoteColor } from "../../components/Styles";
 
 type Props = {
-  onSubmitText: () => Promise<void>,
-  onChangePublic: (pub: boolean) => void,
-  onDeleteText: () => Promise<void>,
-  noteExists: boolean,
-  isPublic: boolean
-}
+  onSubmitText: () => Promise<void>;
+  onChangePublic: (pub: boolean) => void;
+  onDeleteText: () => Promise<void>;
+  noteExists: boolean;
+  isPublic: boolean;
+};
 
-const Footer: React.FC<Props> = props => {
+const Footer: React.FC<Props> = (props: Props) => {
   const publicButton = (
-    <span style={{color: publicNoteColor}}>
-      <FontAwesomeIcon icon={['fas', 'users']} style={{width: "16px", height: "16px"}}/>
-      {" "}
+    <span style={{ color: publicNoteColor }}>
+      <FontAwesomeIcon
+        icon={["fas", "users"]}
+        style={{ width: "16px", height: "16px" }}
+      />{" "}
       Public
     </span>
   );
 
   const privateButton = (
-    <span style={{color: privateNoteColor}}>
-      <FontAwesomeIcon icon={['fas', 'lock']} style={{width: "16px", height: "16px"}} />
-      {" "}
+    <span style={{ color: privateNoteColor }}>
+      <FontAwesomeIcon
+        icon={["fas", "lock"]}
+        style={{ width: "16px", height: "16px" }}
+      />{" "}
       Private
     </span>
   );
 
   return (
     <ButtonsContainer>
-      {props.noteExists &&
-        <Button
-          variant="danger"
-          onClick={props.onDeleteText}>
+      {props.noteExists && (
+        <Button variant="danger" onClick={props.onDeleteText}>
           Delete
-        </Button>}
+        </Button>
+      )}
       <Dropdown
         as={ButtonGroup}
         drop="up"
@@ -49,29 +52,26 @@ const Footer: React.FC<Props> = props => {
               props.onChangePublic(false);
               break;
           }
-        }}>
-        <Dropdown.Toggle
-          id="public-dropdown"
-          variant="light">
+        }}
+      >
+        <Dropdown.Toggle id="public-dropdown" variant="light">
           {props.isPublic ? publicButton : privateButton}
         </Dropdown.Toggle>
         <Dropdown.Menu>
-          <Dropdown.Item eventKey="public">
-            {publicButton}
-          </Dropdown.Item>
-          <Dropdown.Item eventKey="private">
-            {privateButton}
-          </Dropdown.Item>
+          <Dropdown.Item eventKey="public">{publicButton}</Dropdown.Item>
+          <Dropdown.Item eventKey="private">{privateButton}</Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>
       <Button onClick={props.onSubmitText}>
-        <FontAwesomeIcon icon={['fas', 'edit']} style={{width: "16px", height: "16px"}} />
-        {" "}
+        <FontAwesomeIcon
+          icon={["fas", "edit"]}
+          style={{ width: "16px", height: "16px" }}
+        />{" "}
         {props.noteExists ? "Update" : "Submit"}
       </Button>
     </ButtonsContainer>
-  )
-}
+  );
+};
 
 const ButtonsContainer = styled.div`
   position: absolute;

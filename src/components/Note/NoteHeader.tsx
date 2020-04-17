@@ -1,10 +1,10 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
-import styled from 'styled-components';
-import { GlobalState } from '../../types/globalState';
-import { Problem, Contest } from '../../types/apiResponse';
-import { problemUrl, serviceName } from '../../utils/problem';
+import React from "react";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import styled from "styled-components";
+import { GlobalState } from "../../types/globalState";
+import { Problem, Contest } from "../../types/apiResponse";
+import { problemUrl, serviceName } from "../../utils/problem";
 
 type Props = {
   problem: Problem | undefined;
@@ -12,34 +12,41 @@ type Props = {
   userName: string | undefined;
   createdAt: string | undefined;
   updatedAt: string | undefined;
-}
+};
 
-const NoteHeader: React.FC<Props> = props => {
+const NoteHeader: React.FC<Props> = (props: Props) => {
   const { userName } = useSelector((state: GlobalState) => state.auth);
 
   return (
     <Container>
-      {userName === props.userName &&
-        <EditButton to={`/edit/${props.problem?.No}`}>
-          Edit
-        </EditButton>}
+      {userName === props.userName && (
+        <EditButton to={`/edit/${props.problem?.No}`}>Edit</EditButton>
+      )}
       <ContestTitle>
         {serviceName(props.problem?.Domain)} : {props.contest?.Title}
       </ContestTitle>
-      <div style={{display: "flex"}}>
+      <div style={{ display: "flex" }}>
         <ProblemTitle>
-          <a href={problemUrl(props.problem)} target="_blank" rel="noopener noreferrer">
+          <a
+            href={problemUrl(props.problem)}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             {props.problem?.Title}
           </a>
         </ProblemTitle>
       </div>
       <div>Author : {props.userName}</div>
-      <time dateTime={props.updatedAt} style={{fontSize: "0.95em", color: "#444"}}>
-        Updated At : {props.updatedAt ? (new Date(props.updatedAt)).toLocaleString() : ""}
+      <time
+        dateTime={props.updatedAt}
+        style={{ fontSize: "0.95em", color: "#444" }}
+      >
+        Updated At :{" "}
+        {props.updatedAt ? new Date(props.updatedAt).toLocaleString() : ""}
       </time>
     </Container>
-  )
-}
+  );
+};
 
 const Container = styled.div`
   display: flex;

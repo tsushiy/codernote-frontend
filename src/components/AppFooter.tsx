@@ -1,13 +1,9 @@
-import React from 'react';
+import React from "react";
 import styled from "styled-components";
 
 const AppFooter: React.FC<{}> = () => {
-  return (
-    <Container>
-      © 2020 tsushiy
-    </Container>
-  )
-}
+  return <Container>© 2020 tsushiy</Container>;
+};
 
 export const Container = styled.div`
   display: block;

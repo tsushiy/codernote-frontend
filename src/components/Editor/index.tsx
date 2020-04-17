@@ -1,41 +1,37 @@
-import React, { useState, useCallback, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { RouteComponentProps } from 'react-router-dom'
-import { Toast } from 'react-bootstrap';
+import React, { useState, useCallback, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { RouteComponentProps } from "react-router-dom";
+import { Toast } from "react-bootstrap";
 import styled from "styled-components";
-import { getMyNote, postMyNote, deleteMyNote } from '../../utils/apiClient';
-import { GlobalState } from '../../types/globalState';
-import { Note, isPublicNote } from '../../types/apiResponse';
-import { setShowPreview } from '../../reducers/appReducer';
-import { setMyNote, unsetMyNote } from '../../reducers/noteReducer';
-import MarkdownEditor from './MarkdownEditor';
-import EditorPreview from './EditorPreview';
-import EditorFooter from './EditorFooter';
-import EditorHeader from './EditorHeader';
+import { getMyNote, postMyNote, deleteMyNote } from "../../utils/apiClient";
+import { GlobalState } from "../../types/globalState";
+import { Note, isPublicNote } from "../../types/apiResponse";
+import { setShowPreview } from "../../reducers/appReducer";
+import { setMyNote, unsetMyNote } from "../../reducers/noteReducer";
+import MarkdownEditor from "./MarkdownEditor";
+import EditorPreview from "./EditorPreview";
+import EditorFooter from "./EditorFooter";
+import EditorHeader from "./EditorHeader";
 
-type Props = {} & RouteComponentProps<{problemNo: string}>;
+type Props = {} & RouteComponentProps<{ problemNo: string }>;
 
 type WrapperProps = {
   children: React.ReactElement;
   problemExists: boolean;
   isFetchTried: boolean;
-}
+};
 
-const EditorWrapper: React.FC<WrapperProps> = props => {
+const EditorWrapper: React.FC<WrapperProps> = (props: WrapperProps) => {
   if (!props.problemExists) {
-    return (
-      <Container>
-        No problems matched.
-      </Container>
-    );
+    return <Container>No problems matched.</Container>;
   } else if (!props.isFetchTried) {
     return null;
   } else {
     return props.children;
   }
-}
+};
 
-const EditorPage: React.FC<Props> = props => {
+const EditorPage: React.FC<Props> = (props: Props) => {
   const problemNo = Number(props.match.params.problemNo);
 
   const dispatch = useDispatch();
@@ -47,9 +43,11 @@ const EditorPage: React.FC<Props> = props => {
   const [message, setMessage] = useState("");
   const [showMessage, setShowMessage] = useState(false);
 
-  const { showPreview } = useSelector((state: GlobalState) => state.app)
+  const { showPreview } = useSelector((state: GlobalState) => state.app);
   const { isLoggedIn } = useSelector((state: GlobalState) => state.auth);
-  const { problemMap, contestMap } = useSelector((state: GlobalState) => state.problem);
+  const { problemMap, contestMap } = useSelector(
+    (state: GlobalState) => state.problem
+  );
 
   const problemExists = problemMap.has(problemNo);
   const problem = problemMap.get(problemNo);
@@ -61,65 +59,65 @@ const EditorPage: React.FC<Props> = props => {
   const setAndShowMessage = (message: string) => {
     setMessage(message);
     setShowMessage(true);
-  }
+  };
 
   const setNote = (note: Note) => {
     setNoteId(note.ID);
     setRawText(note.Text);
     setIsPublic(isPublicNote(note));
     setNoteExists(true);
-  }
+  };
 
   const unsetNote = () => {
     setNoteId("");
     setRawText("");
     setIsPublic(false);
     setNoteExists(false);
-  }
+  };
 
   useEffect(() => {
     setIsFetchTried(false);
-  }, [isLoggedIn])
+  }, [isLoggedIn]);
 
   useEffect(() => {
     if (isFetchTried) return;
     setIsFetchTried(true);
     if (!isLoggedIn) return;
-    (async() => {
+    (async () => {
       try {
         const note = await getMyNote(problemNo);
-        if (note){
+        if (note) {
           setNote(note);
         }
       } catch (error) {
         setNoteExists(false);
       }
     })();
-  }, [dispatch, isFetchTried, isLoggedIn, problemNo])
+  }, [dispatch, isFetchTried, isLoggedIn, problemNo]);
 
   const onSubmitText = async () => {
     try {
       const note = await postMyNote(problemNo, rawText, isPublic);
       if (note) {
-        dispatch(setMyNote({problemNo, newNote: note}));
+        dispatch(setMyNote({ problemNo, newNote: note }));
         setNote(note);
         setAndShowMessage("Successfully submitted.");
       }
     } catch (error) {
       setAndShowMessage("Failed to submit.");
     }
-  }
+  };
 
   const onDeleteText = async () => {
     const res = await deleteMyNote(problemNo);
     if (res.status === 200) {
-      dispatch(unsetMyNote({problemNo}));
+      dispatch(unsetMyNote({ problemNo }));
       unsetNote();
       setAndShowMessage("Successfully deleted.");
     } else {
       setAndShowMessage("Failed to delete.");
     }
-  }
+  };
 
   const onChangeText = (txt: string) => setRawText(txt);
   const onChangePublic = (pub: boolean) => setIsPublic(pub);
@@ -133,52 +131,59 @@ const EditorPage: React.FC<Props> = props => {
   );
 
   return (
-    <EditorWrapper
-      problemExists={problemExists}
-      isFetchTried={isFetchTried}>
+    <EditorWrapper problemExists={problemExists} isFetchTried={isFetchTried}>
       <Container>
         <StyledToast
-          style={{display: showMessage ? "block" : "none", backgroundColor: message.match(/^Success/) ? "#394" : "red"}}
-          onClose={() => {setShowMessage(false); setMessage("")}}
+          style={{
+            display: showMessage ? "block" : "none",
+            backgroundColor: message.match(/^Success/) ? "#394" : "red",
+          }}
+          onClose={() => {
+            setShowMessage(false);
+            setMessage("");
+          }}
           show={showMessage}
           delay={3000}
-          autohide>
-          <Toast.Body>
-            {message}
-          </Toast.Body>
+          autohide
+        >
+          <Toast.Body>{message}</Toast.Body>
         </StyledToast>
         <EditorHeaderContainer>
           <EditorHeader
             problem={problemMap.get(problemNo)}
             contest={contest}
             onClickPreview={onClickPreview}
-            noteId={noteId}/>
+            noteId={noteId}
+          />
         </EditorHeaderContainer>
         <MarkdownEditorContainer>
           <MarkdownEditor
             showPreview={showPreview}
             rawText={rawText}
-            onChangeText={onChangeText}/>
+            onChangeText={onChangeText}
+          />
         </MarkdownEditorContainer>
-        {showPreview &&
+        {showPreview && (
           <EditorPreviewContainer>
             <EditorPreview
               rawText={rawText}
-              setAndShowMessage={setAndShowMessage}/>
+              setAndShowMessage={setAndShowMessage}
+            />
           </EditorPreviewContainer>
-        }
+        )}
         <FooterContainer>
           <EditorFooter
             onSubmitText={onSubmitText}
             onChangePublic={onChangePublic}
             onDeleteText={onDeleteText}
             noteExists={noteExists}
-            isPublic={isPublic}/>
+            isPublic={isPublic}
+          />
         </FooterContainer>
       </Container>
     </EditorWrapper>
-  )
-}
+  );
+};
 
 const Container = styled.div`
   position: absolute;
@@ -197,12 +202,12 @@ const StyledToast = styled(Toast)`
     position: absolute;
     top: 14px;
     right: 8px;
-    color: #FFF;
+    color: #fff;
     font-size: 1.1em;
     font-weight: bold;
     border-radius: 0.5em;
   }
-`
+`;
 
 const EditorHeaderContainer = styled.div`
   position: absolute;
@@ -217,7 +222,7 @@ const MarkdownEditorContainer = styled.div`
   top: 150px;
   bottom: 42px;
   left: 5px;
-  border: solid thin #CCC;
+  border: solid thin #ccc;
 `;
 
 const EditorPreviewContainer = styled.div`
@@ -227,7 +232,7 @@ const EditorPreviewContainer = styled.div`
   top: 150px;
   bottom: 42px;
   right: 5px;
-  border: solid thin #CCC;
+  border: solid thin #ccc;
 `;
 
 const FooterContainer = styled.div`
