@@ -5,10 +5,22 @@ Backend: [codernote-backend](https://github.com/tsushiy/codernote-backend)
 
 ## Develop on your local
 
+### Install required packages
+
+```sh
+yarn
+```
+
 ### Run Web App
 
 ```sh
 yarn start
+```
+
+### Fix/Format code
+
+```sh
+yarn lint:fix
 ```
 
 ユーザの認証にFirebase Authenticationを利用しています。  
