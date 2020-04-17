@@ -1,9 +1,11 @@
 steps:
   - id: "Install packages"
-    name: 'gcr.io/cloud-builders/yarn'
+    name: node:12.16.2
+    entrypoint: yarn
     args: ['install']
   - id: "Build App"
-    name: 'gcr.io/cloud-builders/yarn'
+    name: node:12.16.2
+    entrypoint: yarn
     args: ['run', 'build']
   - id: "Deploy to Firebase"
     name: 'gcr.io/$PROJECT_ID/firebase'
