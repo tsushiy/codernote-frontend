@@ -7,7 +7,7 @@ import { nonAuthGetNote, authGetNote } from "../../utils/apiClient";
 import { GlobalState } from "../../types/globalState";
 import { Note } from "../../types/apiResponse";
 import NotePreview from "./NotePreview";
-import NoteHeader from "./NoteHeader";
+import Header from "./Header";
 
 type Props = {} & RouteComponentProps<{ noteId: string }>;
 
@@ -69,7 +69,7 @@ const NotePage: React.FC<Props> = (props: Props) => {
       <NoteWrapper noteExists={noteExists} isFetchTried={isFetchTried}>
         <Container>
           <HeaderContainer>
-            <NoteHeader
+            <Header
               problem={note?.Problem}
               contest={contest}
               userName={note?.User.Name}

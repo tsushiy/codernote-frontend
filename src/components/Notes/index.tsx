@@ -11,7 +11,7 @@ import { GlobalState } from "../../types/globalState";
 import { setNotesShowMode } from "../../reducers/appReducer";
 import NotesFilter from "./NotesFilter";
 import NotesSummary from "./NotesSummary";
-import NotesTable from "./NotesTable";
+import NotesList from "./NotesList";
 
 type Props = {
   isMyNotes: boolean;
@@ -128,14 +128,14 @@ const NotesPage: React.FC<Props> = (props: Props) => {
             <Nav.Link eventKey="summary">Summary</Nav.Link>
           </Nav.Item>
           <Nav.Item>
-            <Nav.Link eventKey="table">Table</Nav.Link>
+            <Nav.Link eventKey="list">List</Nav.Link>
           </Nav.Item>
         </Nav>
         {activeTab === "summary" && (
           <NotesSummary notes={notes} isMyNotes={isMyNotes} />
         )}
-        {activeTab === "table" && (
-          <NotesTable notes={notes} isMyNotes={isMyNotes} />
+        {activeTab === "list" && (
+          <NotesList notes={notes} isMyNotes={isMyNotes} />
         )}
       </Container>
     </MainContainer>

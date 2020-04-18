@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { Button, Dropdown, ButtonGroup } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { publicNoteColor, privateNoteColor } from "../../components/Styles";
+import { publicNoteColor, privateNoteColor } from "../Styles";
 
 type Props = {
   onSubmitText: () => Promise<void>;

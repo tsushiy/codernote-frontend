@@ -10,8 +10,8 @@ import { setShowPreview } from "../../reducers/appReducer";
 import { setMyNote, unsetMyNote } from "../../reducers/noteReducer";
 import MarkdownEditor from "./MarkdownEditor";
 import EditorPreview from "./EditorPreview";
-import EditorFooter from "./EditorFooter";
-import EditorHeader from "./EditorHeader";
+import Header from "./Header";
+import Footer from "./Footer";
 
 type Props = {} & RouteComponentProps<{ problemNo: string }>;
 
@@ -149,7 +149,7 @@ const EditorPage: React.FC<Props> = (props: Props) => {
           <Toast.Body>{message}</Toast.Body>
         </StyledToast>
         <EditorHeaderContainer>
-          <EditorHeader
+          <Header
             problem={problemMap.get(problemNo)}
             contest={contest}
             onClickPreview={onClickPreview}
@@ -172,7 +172,7 @@ const EditorPage: React.FC<Props> = (props: Props) => {
           </EditorPreviewContainer>
         )}
         <FooterContainer>
-          <EditorFooter
+          <Footer
             onSubmitText={onSubmitText}
             onChangePublic={onChangePublic}
             onDeleteText={onDeleteText}
