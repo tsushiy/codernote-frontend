@@ -18,7 +18,6 @@ const SettingsPage: React.FC<{}> = () => {
   const [showMessage, setShowMessage] = useState(false);
   const [settings, setSettings] = useState(initialSettings);
 
-  // useStateでobjを扱うときの挙動がよくわからない
   useEffect(() => {
     setSettings(Object.assign({}, initialSettings));
   }, [isLoggedIn, initialSettings]);
@@ -127,7 +126,7 @@ const SettingsPage: React.FC<{}> = () => {
               />
             </Form.Group>
             <Form.Group controlId="yukicoder-id">
-              <Form.Label>yukicoder ID</Form.Label>
+              <Form.Label>yukicoder ID (Not Username)</Form.Label>
               <Form.Control
                 type="text"
                 defaultValue={settings.yukicoderID}
@@ -135,6 +134,15 @@ const SettingsPage: React.FC<{}> = () => {
                   setSettings({ ...settings, yukicoderID: e.target.value })
                 }
               />
+              <Form.Text className="text-muted">
+                <React.Fragment>
+                  {`https://yukicoder.me/users/{yukicoderID}`}
+                  <br />
+                  {
+                    "Only the information about solved problems will be fetched for yukicoder."
+                  }
+                </React.Fragment>
+              </Form.Text>
             </Form.Group>
             <Form.Group controlId="aoj-id">
               <Form.Label>AOJ ID</Form.Label>
@@ -154,8 +162,15 @@ const SettingsPage: React.FC<{}> = () => {
                 onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
                   setSettings({ ...settings, leetcodeID: e.target.value })
                 }
+                disabled
               />
+              <Form.Text className="text-muted">Currently disabled.</Form.Text>
             </Form.Group>
+            <Form.Text>
+              {"These settings are used for fetching your submissions."}
+              <br />
+              {"If you have many submissions, it will take longer to load."}
+            </Form.Text>
             <Button variant="primary" type="submit">
               Save
             </Button>
