@@ -2,42 +2,13 @@ import React, { useState, useEffect } from "react";
 import { LinkContainer } from "react-router-bootstrap";
 import { Form, Button, FormControl, Pagination } from "react-bootstrap";
 import styled from "styled-components";
+import { paginationList } from "../../utils/filter";
 import { queryType, queryToParams } from "./index";
 
 type Props = {
   isMyNotes: boolean;
   query: queryType;
   maxPage: number;
-};
-
-const pageList = (currPage: number, maxPage: number) => {
-  if (maxPage <= 10) {
-    return Array.from(Array(maxPage), (v, k) => k + 1);
-  }
-  let pages: number[] = [];
-  if (currPage !== 1 && currPage !== maxPage) pages.push(currPage);
-
-  let cur = currPage - 1;
-  let p = 1;
-  while (cur > 1) {
-    pages.push(cur);
-    cur -= Math.pow(2, p);
-    p *= 2;
-  }
-  pages.push(1);
-
-  pages = pages.reverse();
-
-  cur = currPage + 1;
-  p = 1;
-  while (cur < maxPage) {
-    pages.push(cur);
-    cur += Math.pow(2, p);
-    p *= 2;
-  }
-  pages.push(maxPage);
-
-  return pages;
 };
 
 const NotesFilter: React.FC<Props> = (props: Props) => {
@@ -48,7 +19,7 @@ const NotesFilter: React.FC<Props> = (props: Props) => {
     setFilterQuery(Object.assign({}, props.query));
   }, [props]);
 
-  const pages = pageList(query.page, maxPage);
+  const pages = paginationList(query.page, maxPage);
 
   const onChangeService = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setFilterQuery({ ...filterQuery, domain: e.target.value });

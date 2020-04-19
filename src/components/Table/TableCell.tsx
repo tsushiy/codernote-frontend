@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { publicNoteColor, privateNoteColor } from "../../components/Styles";
 import { GlobalState } from "../../types/globalState";
-import { problemUrl, problemColorClass } from "../../utils/problem";
+import { problemUrl, problemColorClass } from "../../utils/problemUtil";
 import {
   isAccepted,
   acceptedOrLatestSubmission,

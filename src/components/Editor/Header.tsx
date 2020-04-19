@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { Button } from "react-bootstrap";
 import { Problem, Contest } from "../../types/apiResponse";
-import { problemUrl, serviceName } from "../../utils/problem";
+import { problemUrl, serviceName } from "../../utils/problemUtil";
 
 type Props = {
   problem: Problem | undefined;

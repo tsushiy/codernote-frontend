@@ -6,7 +6,7 @@ import styled from "styled-components";
 import { publicNoteColor, privateNoteColor } from "../Styles";
 import { Note, isPublicNote } from "../../types/apiResponse";
 import { GlobalState } from "../../types/globalState";
-import { problemUrl, serviceName } from "../../utils/problem";
+import { problemUrl, serviceName } from "../../utils/problemUtil";
 
 type Props = {
   notes: Note[] | undefined;
