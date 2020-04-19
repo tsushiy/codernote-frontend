@@ -22,7 +22,7 @@ const NotesSummary: React.FC<Props> = (props: Props) => {
       {notes &&
         notes.map((note, i) => (
           <SummaryContainer key={i}>
-            <BoxContainer>
+            <TopRightContainer>
               {isMyNotes && (
                 <React.Fragment>
                   {isPublicNote(note) && (
@@ -33,12 +33,8 @@ const NotesSummary: React.FC<Props> = (props: Props) => {
                   )}
                 </React.Fragment>
               )}
-            </BoxContainer>
-            <h5>
-              {"Note: "}
-              <Link to={`/notes/${note.ID}`}>{note.ID.slice(0, 8)}</Link>
-            </h5>
-            <h6>
+            </TopRightContainer>
+            <div style={{ fontWeight: 500 }}>
               {serviceName(note.Problem.Domain)}
               {" : "}
               <ContestLink
@@ -46,25 +42,35 @@ const NotesSummary: React.FC<Props> = (props: Props) => {
                   note.Problem.Domain + note.Problem.ContestID
                 )}
               />
-            </h6>
-            <h6>
+            </div>
+            <div style={{ fontSize: "1.25em", fontWeight: 500 }}>
               {"Problem: "}
               <ProblemLinkWithID problem={note.Problem} />
-            </h6>
+            </div>
+            {!isMyNotes && (
+              <div
+                style={{
+                  fontSize: ".9em",
+                  color: "#555"
+                }}
+              >
+                {"by "}
+                {note.User.Name}
+              </div>
+            )}
             <TextContainer>
               {note.Text.slice(0, 300)}
               {note.Text.length > 300 && " ..."}
             </TextContainer>
-            <FooterContainer>
-              <div>
-                {"Author: "}
-                {note.User.Name}
-              </div>
+            <LeftFooterContainer>
+              <Link to={`/notes/${note.ID}`}>Read Note »</Link>
+            </LeftFooterContainer>
+            <RightFooterContainer>
               <div>
                 {"Updated At: "}
                 {new Date(note.UpdatedAt).toLocaleString()}
               </div>
-            </FooterContainer>
+            </RightFooterContainer>
           </SummaryContainer>
         ))}
     </Container>
@@ -82,27 +88,36 @@ const SummaryContainer = styled.div`
   position: relative;
   display: block;
   word-wrap: break-word;
-  padding: 14px 8px;
-  max-width: 640px;
+  padding: 16px 8px 20px;
+  max-width: 680px;
   margin: 0 auto;
   border-bottom: solid thin #bbb;
 `;
 
-const BoxContainer = styled.div`
+const TopRightContainer = styled.div`
   position: absolute;
-  top: 8px;
-  right: 4px;
+  top: 12px;
+  right: 6px;
   font-weight: bold;
 `;
 
 const TextContainer = styled.div`
-  font-size: 0.95em;
-  margin-bottom: 40px;
+  color: #444;
+  font-size: .95em;
+  padding: .4em 0 1.3em;
 `;
 
-const FooterContainer = styled.div`
+const LeftFooterContainer = styled.div`
   position: absolute;
-  font-size: 0.9em;
-  right: 4px;
-  bottom: 4px;
+  font-size: .9em;
+  left: 8px;
+  bottom: 10px;
+`;
+
+const RightFooterContainer = styled.div`
+  color: #555;
+  position: absolute;
+  font-size: .85em;
+  right: 6px;
+  bottom: 10px;
 `;
