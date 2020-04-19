@@ -20,13 +20,13 @@ const NotesTable: React.FC<Props> = (props: Props) => {
     <StyledTable className="table-responsive-sm table-hover" size="sm">
       <thead>
         <tr>
-          <th style={{ width: "8%" }}>NoteID</th>
+          <th style={{ width: "5%" }}>Note</th>
           {isMyNotes && <th style={{ width: "6%" }}>Public</th>}
-          {!isMyNotes && <th>User</th>}
-          <th style={{ width: "6%" }}>Service</th>
-          <th>Contest</th>
+          {!isMyNotes && <th style={{ width: "10%" }}>User</th>}
+          <th style={{ width: "10%" }}>Service</th>
+          <th style={{ width: "22%" }}>Contest</th>
           <th>Problem</th>
-          <th style={{ width: "13%" }}>UpdatedAt</th>
+          <th style={{ width: "18%" }}>UpdatedAt</th>
         </tr>
       </thead>
       <tbody>
@@ -34,7 +34,7 @@ const NotesTable: React.FC<Props> = (props: Props) => {
           notes.map((note, i) => (
             <tr key={i}>
               <td>
-                <Link to={`/notes/${note.ID}`}>{note.ID.slice(0, 8)}</Link>
+                <Link to={`/notes/${note.ID}`}>View</Link>
               </td>
               {isMyNotes && (
                 <td>
