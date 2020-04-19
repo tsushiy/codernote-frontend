@@ -18,6 +18,7 @@ export const formatAtcoderSubmission = (
     status: submission.result,
     language: submission.language,
     date: submission.epoch_second,
+    domain: "atcoder",
     problemNo,
   };
 };
@@ -33,6 +34,7 @@ export const formatCodeforcesSubmission = (
     status: codeforcesStatus(submission.verdict),
     language: submission.programmingLanguage,
     date: submission.creationTimeSeconds,
+    domain: "codeforces",
     problemNo,
   };
 };
@@ -48,6 +50,7 @@ export const formatAOJSubmission = (
     status: AOJStatus(submission.status),
     language: submission.language,
     date: Math.floor(submission.submissionDate / 1000),
+    domain: "aoj",
     problemNo,
   };
 };
@@ -63,6 +66,7 @@ export const formatYukicoderSolvedProblem = (
     status: "AC",
     language: "",
     date: Math.floor(new Date(submission.Date).getTime() / 1000),
+    domain: "yukicoder",
     problemNo,
   };
 };
@@ -156,4 +160,17 @@ export const timePassageString = (submission: Submission | null) => {
     return `${String(Math.floor(elapsed / 60))} minutes ago`;
   }
   return "Recent";
+};
+
+export const submissionUrl = (submission: Submission, aojID: string) => {
+  switch (submission.domain) {
+    case "atcoder":
+      return `https://atcoder.jp/contests/${submission.contestID}/submissions/${submission.id}`;
+    case "codeforces":
+      return `https://codeforces.com/contest/${submission.contestID}/submission/${submission.id}`;
+    case "aoj":
+      return `https://onlinejudge.u-aizu.ac.jp/solutions/problem/${submission.problemID}/review/${submission.id}/${aojID}/${submission.language}`;
+    default:
+      return "";
+  }
 };

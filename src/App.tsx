@@ -21,6 +21,7 @@ import TablePage from "./components/Table";
 import EditorPage from "./components/Editor";
 import NotesPage from "./components/Notes";
 import NotePage from "./components/Note";
+import SubmissionsPage from "./components/Submissions";
 import SettingsPage from "./components/Settings";
 
 type WrapperProps = {
@@ -104,6 +105,7 @@ const App: React.FC<{}> = () => {
               render={(props) => <NotesPage isMyNotes={true} {...props} />}
             />
             <Route exact path="/notes/:noteId" component={NotePage} />
+            <Route exact path="/submissions" component={SubmissionsPage} />
             <Route exact path="/edit/:problemNo" component={EditorPage} />
             <Route exact path="/settings" component={SettingsPage} />
           </Switch>

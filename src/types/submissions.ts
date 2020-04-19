@@ -9,6 +9,7 @@ export type Submission = {
   status: string;
   language: string;
   date: number;
+  domain: string;
   problemNo: number;
 };
 

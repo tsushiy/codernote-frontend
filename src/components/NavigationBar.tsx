@@ -37,6 +37,9 @@ const NavigationBar: React.FC<{}> = () => {
           <LinkContainer to="/mynotes">
             <Nav.Link>MyNotes</Nav.Link>
           </LinkContainer>
+          <LinkContainer to="/submissions">
+            <Nav.Link>Submissions</Nav.Link>
+          </LinkContainer>
           <LinkContainer to="/settings">
             <Nav.Link>Settings</Nav.Link>
           </LinkContainer>
