@@ -5,15 +5,38 @@ import styled from "styled-components";
 import { publicNoteColor, privateNoteColor } from "../../components/Styles";
 import { GlobalState } from "../../types/globalState";
 import { problemUrl, problemColorClass } from "../../utils/problem";
+import {
+  isAccepted,
+  acceptedOrLatestSubmission,
+  timePassageString,
+} from "../../utils/submissionUtil";
+import { Submission } from "../../types/submissions";
 import { isPublicNote } from "../../types/apiResponse";
 
 type Props = {
   problemNo: number;
 };
 
+const cellColor = (submission: Submission | null, noteExists: boolean) => {
+  if (submission === null) {
+    if (!noteExists) {
+      return "";
+    } else {
+      return "tablecell-note";
+    }
+  }
+  if (isAccepted(submission)) {
+    return "tablecell-success";
+  } else {
+    return "tablecell-warning";
+  }
+};
+
 const TableCell: React.FC<Props> = (props: Props) => {
   const { problemNo } = props;
-  const { problemMap } = useSelector((state: GlobalState) => state.problem);
+  const { problemMap, submissionMap } = useSelector(
+    (state: GlobalState) => state.problem
+  );
   const { myNotesMap } = useSelector((state: GlobalState) => state.note);
 
   const note = myNotesMap.get(problemNo);
@@ -22,8 +45,15 @@ const TableCell: React.FC<Props> = (props: Props) => {
   const editUrl = `/edit/${problemNo}`;
   const viewUrl = note ? `/notes/${myNotesMap.get(problemNo)?.ID}` : "";
 
+  const submissions = submissionMap.get(problemNo);
+  const acceptedOrLatest = acceptedOrLatestSubmission(submissions);
+  const timePassed = timePassageString(acceptedOrLatest);
+
   return (
-    <td>
+    <td
+      className={cellColor(acceptedOrLatest, note !== undefined)}
+      style={{ position: "relative" }}
+    >
       <div style={{ display: "block", marginBottom: "2px" }}>
         <EditButton to={editUrl}>Edit</EditButton>
         {note && isPublicNote(note) && (
@@ -41,6 +71,7 @@ const TableCell: React.FC<Props> = (props: Props) => {
       >
         {title}
       </ProblemLink>
+      {timePassed && <TimePassage>{timePassed}</TimePassage>}
     </td>
   );
 };
@@ -80,6 +111,14 @@ const PublicViewButton = styled(BaseButton)`
   &&& {
     background-color: ${publicNoteColor};
   }
+`;
+
+const TimePassage = styled.div`
+  position: absolute;
+  right: 2px;
+  bottom: 0;
+  font-size: 0.7em;
+  color: #666;
 `;
 
 export default TableCell;

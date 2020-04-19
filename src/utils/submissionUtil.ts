@@ -62,7 +62,7 @@ export const formatYukicoderSolvedProblem = (
     contestID: "",
     status: "AC",
     language: "",
-    date: Math.floor((new Date(submission.Date).getTime()) / 1000),
+    date: Math.floor(new Date(submission.Date).getTime() / 1000),
     problemNo,
   };
 };
@@ -111,4 +111,49 @@ const AOJStatus = (status: number) => {
     default:
       return "";
   }
+};
+
+export const isAccepted = (submission: Submission) => {
+  return submission.status === "AC";
+};
+
+export const acceptedOrLatestSubmission = (
+  submissions: Submission[] | undefined
+) => {
+  if (submissions === undefined) {
+    return null;
+  }
+  const accepted = submissions.filter((v) => isAccepted(v));
+  if (accepted.length > 0) {
+    return accepted[0];
+  } else {
+    return submissions[0];
+  }
+};
+
+export const timePassageString = (submission: Submission | null) => {
+  if (submission === null || submission.date === 0) {
+    return "";
+  }
+  const now = Math.floor(new Date().getTime() / 1000);
+  const elapsed = now - submission.date;
+  if (elapsed >= 24 * 60 * 60) {
+    if (elapsed < 2 * 24 * 60 * 60) {
+      return `1 day ago`;
+    }
+    return `${String(Math.floor(elapsed / (24 * 60 * 60)))} days ago`;
+  }
+  if (elapsed >= 60 * 60) {
+    if (elapsed < 2 * 60 * 60) {
+      return `1 hour ago`;
+    }
+    return `${String(Math.floor(elapsed / (60 * 60)))} hours ago`;
+  }
+  if (elapsed >= 60) {
+    if (elapsed < 2 * 60) {
+      return `1 minute ago`;
+    }
+    return `${String(Math.floor(elapsed / 60))} minutes ago`;
+  }
+  return "Recent";
 };
