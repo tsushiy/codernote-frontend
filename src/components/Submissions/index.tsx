@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
 import { Table, Pagination, Badge } from "react-bootstrap";
 import styled from "styled-components";
 import { MainContainer } from "../Styles";
@@ -9,6 +8,7 @@ import { serviceName } from "../../utils/problemUtil";
 import { submissionUrl, isAccepted } from "../../utils/submissionUtil";
 import { GlobalState } from "../../types/globalState";
 import { ProblemLinkWithID } from "../Elements/ProblemLink";
+import { EditLink, ViewLink } from "../Elements/NoteLink";
 
 const SubmissionsPage: React.FC<{}> = () => {
   const [currPage, setCurrPage] = useState(1);
@@ -66,14 +66,18 @@ const SubmissionsPage: React.FC<{}> = () => {
             {limitedSubmisions &&
               limitedSubmisions.map((submission, i) => (
                 <tr key={i}>
-                  <td>{new Date(submission.date * 1000).toLocaleString()}</td>
-                  <td>{serviceName(submission.domain)}</td>
+                  <td className="text-center">
+                    {new Date(submission.date * 1000).toLocaleString()}
+                  </td>
+                  <td className="text-center">
+                    {serviceName(submission.domain)}
+                  </td>
                   <td>
                     <ProblemLinkWithID
                       problem={problemMap.get(submission.problemNo)}
                     />
                   </td>
-                  <td style={{ textAlign: "center" }}>
+                  <td className="text-center">
                     <Badge
                       pill
                       variant={isAccepted(submission) ? "success" : "warning"}
@@ -82,7 +86,7 @@ const SubmissionsPage: React.FC<{}> = () => {
                     </Badge>
                   </td>
                   <td>{submission.language}</td>
-                  <td>
+                  <td className="text-center">
                     {submission.id !== 0 && (
                       <a
                         href={submissionUrl(submission, aojID)}
@@ -93,18 +97,12 @@ const SubmissionsPage: React.FC<{}> = () => {
                       </a>
                     )}
                   </td>
-                  <td>
-                    <Link to={`/edit/${submission.problemNo}`}>Edit</Link>
+                  <td className="text-center">
+                    <EditLink problemNo={submission.problemNo} />
                     {myNotesMap.has(submission.problemNo) && (
                       <React.Fragment>
                         {" / "}
-                        <Link
-                          to={`/notes/${
-                            myNotesMap.get(submission.problemNo)?.ID
-                          }`}
-                        >
-                          View
-                        </Link>
+                        <ViewLink note={myNotesMap.get(submission.problemNo)} />
                       </React.Fragment>
                     )}
                   </td>

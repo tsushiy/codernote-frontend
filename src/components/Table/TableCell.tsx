@@ -1,8 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { publicNoteColor, privateNoteColor } from "../../components/Styles";
 import { GlobalState } from "../../types/globalState";
 import {
   isAccepted,
@@ -10,8 +8,8 @@ import {
   timePassageString,
 } from "../../utils/submissionUtil";
 import { Submission } from "../../types/submissions";
-import { isPublicNote } from "../../types/apiResponse";
 import { ProblemLink } from "../Elements/ProblemLink";
+import { EditButton, ViewButton } from "../Elements/NoteLink";
 
 type Props = {
   problemNo: number;
@@ -41,8 +39,6 @@ const TableCell: React.FC<Props> = (props: Props) => {
 
   const note = myNotesMap.get(problemNo);
   const problem = problemMap.get(problemNo);
-  const editUrl = `/edit/${problemNo}`;
-  const viewUrl = note ? `/notes/${myNotesMap.get(problemNo)?.ID}` : "";
 
   const submissions = submissionMap.get(problemNo);
   const acceptedOrLatest = acceptedOrLatestSubmission(submissions);
@@ -54,13 +50,10 @@ const TableCell: React.FC<Props> = (props: Props) => {
       style={{ position: "relative" }}
     >
       <div style={{ display: "block", marginBottom: "2px" }}>
-        <EditButton to={editUrl}>Edit</EditButton>
-        {note && isPublicNote(note) && (
-          <PublicViewButton to={viewUrl}>View</PublicViewButton>
-        )}
-        {note && !isPublicNote(note) && (
-          <PrivateViewButton to={viewUrl}>View</PrivateViewButton>
-        )}
+        <ButtonsWrapper>
+          <EditButton problemNo={problemNo} />
+          <ViewButton note={note} />
+        </ButtonsWrapper>
       </div>
       <ProblemLinkContainer>
         <ProblemLink problem={problem} />
@@ -77,33 +70,11 @@ const ProblemLinkContainer = styled.div`
   overflow: hidden;
 `;
 
-const BaseButton = styled(Link)`
-  &&& {
-    color: #fff;
-    white-space: nowrap;
-    font-size: 0.83em;
-    font-weight: bold;
-    padding: 2px 4px;
-    margin-right: 3px;
-    border-radius: 0.4em;
-  }
-`;
-
-const EditButton = styled(BaseButton)`
-  &&& {
-    background-color: #707070;
-  }
-`;
-
-const PrivateViewButton = styled(BaseButton)`
-  &&& {
-    background-color: ${privateNoteColor};
-  }
-`;
-
-const PublicViewButton = styled(BaseButton)`
-  &&& {
-    background-color: ${publicNoteColor};
+const ButtonsWrapper = styled.div`
+  a {
+    font-size: 0.8em;
+    padding: 0.15em 0.4em;
+    margin-right: 0.2em;
   }
 `;
 

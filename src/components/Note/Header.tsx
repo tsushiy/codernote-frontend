@@ -1,12 +1,12 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { GlobalState } from "../../types/globalState";
 import { Problem, Contest } from "../../types/apiResponse";
 import { serviceName } from "../../utils/problemUtil";
 import { ProblemLink } from "../Elements/ProblemLink";
 import { ContestLink } from "../Elements/ContestLink";
+import { EditButton } from "../Elements/NoteLink";
 
 type Props = {
   problem: Problem | undefined;
@@ -22,7 +22,9 @@ const NoteHeader: React.FC<Props> = (props: Props) => {
   return (
     <Container>
       {userName === props.userName && (
-        <EditButton to={`/edit/${props.problem?.No}`}>Edit</EditButton>
+        <EditButtonContainer>
+          <EditButton problemNo={props.problem?.No}>Edit</EditButton>
+        </EditButtonContainer>
       )}
       <ContestTitle>
         {serviceName(props.problem?.Domain)}
@@ -52,17 +54,14 @@ const Container = styled.div`
   word-wrap: break-word;
 `;
 
-const EditButton = styled(Link)`
-  &&& {
-    position: absolute;
-    white-space: nowrap;
-    font-weight: bold;
-    top: 24px;
-    right: 16px;
-    padding: 3px 10px;
-    border-radius: 0.4em;
-    color: #fff;
-    background-color: #707070;
+const EditButtonContainer = styled.div`
+  position: absolute;
+  top: 24px;
+  right: 16px;
+
+  a {
+    font-size: 1em;
+    padding: 0.3em 0.5em;
   }
 `;
 

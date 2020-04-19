@@ -16,5 +16,6 @@ export const MainContainer = styled.div`
   }
 `;
 
-export const publicNoteColor = "#ff8800";
-export const privateNoteColor = "#39c";
+export const editColor = "#707070";
+export const publicNoteColor = "#ffa316";
+export const privateNoteColor = "#3aafea";
