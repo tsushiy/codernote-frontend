@@ -6,7 +6,9 @@ import styled from "styled-components";
 import { publicNoteColor, privateNoteColor } from "../Styles";
 import { Note, isPublicNote } from "../../types/apiResponse";
 import { GlobalState } from "../../types/globalState";
-import { problemUrl, serviceName } from "../../utils/problemUtil";
+import { serviceName } from "../../utils/problemUtil";
+import { ProblemLinkWithID } from "../Elements/ProblemLink";
+import { ContestLink } from "../Elements/ContestLink";
 
 type Props = {
   notes: Note[] | undefined;
@@ -49,24 +51,14 @@ const NotesTable: React.FC<Props> = (props: Props) => {
               {!isMyNotes && <td>{note.User.Name}</td>}
               <td>{serviceName(note.Problem.Domain)}</td>
               <td>
-                {
-                  contestMap.get(note.Problem.Domain + note.Problem.ContestID)
-                    ?.Title
-                }
+                <ContestLink
+                  contest={contestMap.get(
+                    note.Problem.Domain + note.Problem.ContestID
+                  )}
+                />
               </td>
               <td>
-                <a
-                  href={problemUrl(note.Problem)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {note.Problem.Domain === "aoj" &&
-                    `${note.Problem.ProblemID}. `}
-                  {(note.Problem.Domain === "leetcode" ||
-                    note.Problem.Domain === "yukicoder") &&
-                    `${note.Problem.FrontendID}. `}
-                  {note.Problem.Title}
-                </a>
+                <ProblemLinkWithID problem={note.Problem} />
               </td>
               <td>{new Date(note.UpdatedAt).toLocaleString()}</td>
             </tr>

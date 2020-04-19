@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { publicNoteColor, privateNoteColor } from "../../components/Styles";
 import { GlobalState } from "../../types/globalState";
-import { problemUrl, problemColorClass } from "../../utils/problemUtil";
 import {
   isAccepted,
   acceptedOrLatestSubmission,
@@ -12,6 +11,7 @@ import {
 } from "../../utils/submissionUtil";
 import { Submission } from "../../types/submissions";
 import { isPublicNote } from "../../types/apiResponse";
+import { ProblemLink } from "../Elements/ProblemLink";
 
 type Props = {
   problemNo: number;
@@ -41,7 +41,6 @@ const TableCell: React.FC<Props> = (props: Props) => {
 
   const note = myNotesMap.get(problemNo);
   const problem = problemMap.get(problemNo);
-  const title = problem?.Title;
   const editUrl = `/edit/${problemNo}`;
   const viewUrl = note ? `/notes/${myNotesMap.get(problemNo)?.ID}` : "";
 
@@ -63,20 +62,15 @@ const TableCell: React.FC<Props> = (props: Props) => {
           <PrivateViewButton to={viewUrl}>View</PrivateViewButton>
         )}
       </div>
-      <ProblemLink
-        className={problemColorClass(problem)}
-        href={problemUrl(problem)}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        {title}
-      </ProblemLink>
+      <ProblemLinkContainer>
+        <ProblemLink problem={problem} />
+      </ProblemLinkContainer>
       {timePassed && <TimePassage>{timePassed}</TimePassage>}
     </td>
   );
 };
 
-const ProblemLink = styled.a`
+const ProblemLinkContainer = styled.div`
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;

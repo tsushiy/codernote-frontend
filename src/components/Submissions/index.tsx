@@ -5,9 +5,10 @@ import { Table, Pagination, Badge } from "react-bootstrap";
 import styled from "styled-components";
 import { MainContainer } from "../Styles";
 import { paginationList } from "../../utils/filter";
-import { serviceName, problemUrl } from "../../utils/problemUtil";
+import { serviceName } from "../../utils/problemUtil";
 import { submissionUrl, isAccepted } from "../../utils/submissionUtil";
 import { GlobalState } from "../../types/globalState";
+import { ProblemLinkWithID } from "../Elements/ProblemLink";
 
 const SubmissionsPage: React.FC<{}> = () => {
   const [currPage, setCurrPage] = useState(1);
@@ -68,22 +69,9 @@ const SubmissionsPage: React.FC<{}> = () => {
                   <td>{new Date(submission.date * 1000).toLocaleString()}</td>
                   <td>{serviceName(submission.domain)}</td>
                   <td>
-                    {(() => {
-                      const problem = problemMap.get(submission.problemNo);
-                      if (problem !== undefined) {
-                        return (
-                          <a
-                            href={problemUrl(problem)}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            {problem.Title}
-                          </a>
-                        );
-                      } else {
-                        return null;
-                      }
-                    })()}
+                    <ProblemLinkWithID
+                      problem={problemMap.get(submission.problemNo)}
+                    />
                   </td>
                   <td style={{ textAlign: "center" }}>
                     <Badge
@@ -106,21 +94,19 @@ const SubmissionsPage: React.FC<{}> = () => {
                     )}
                   </td>
                   <td>
-                    <React.Fragment>
-                      <Link to={`/edit/${submission.problemNo}`}>Edit</Link>
-                      {myNotesMap.has(submission.problemNo) && (
-                        <React.Fragment>
-                          {" / "}
-                          <Link
-                            to={`/notes/${
-                              myNotesMap.get(submission.problemNo)?.ID
-                            }`}
-                          >
-                            View
-                          </Link>
-                        </React.Fragment>
-                      )}
-                    </React.Fragment>
+                    <Link to={`/edit/${submission.problemNo}`}>Edit</Link>
+                    {myNotesMap.has(submission.problemNo) && (
+                      <React.Fragment>
+                        {" / "}
+                        <Link
+                          to={`/notes/${
+                            myNotesMap.get(submission.problemNo)?.ID
+                          }`}
+                        >
+                          View
+                        </Link>
+                      </React.Fragment>
+                    )}
                   </td>
                 </tr>
               ))}

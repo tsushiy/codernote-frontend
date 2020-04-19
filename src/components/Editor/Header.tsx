@@ -3,7 +3,8 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { Button } from "react-bootstrap";
 import { Problem, Contest } from "../../types/apiResponse";
-import { problemUrl, serviceName } from "../../utils/problemUtil";
+import { serviceName } from "../../utils/problemUtil";
+import { ProblemLink } from "../Elements/ProblemLink";
 
 type Props = {
   problem: Problem | undefined;
@@ -25,13 +26,7 @@ const EditorHeader: React.FC<Props> = (props: Props) => {
       </ContestTitle>
       <div style={{ display: "flex" }}>
         <ProblemTitle>
-          <a
-            href={problemUrl(props.problem)}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {props.problem?.Title}
-          </a>
+          <ProblemLink problem={props.problem} />
         </ProblemTitle>
       </div>
       <div style={{ display: "flex" }}>

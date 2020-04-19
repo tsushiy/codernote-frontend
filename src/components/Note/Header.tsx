@@ -4,7 +4,9 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { GlobalState } from "../../types/globalState";
 import { Problem, Contest } from "../../types/apiResponse";
-import { problemUrl, serviceName } from "../../utils/problemUtil";
+import { serviceName } from "../../utils/problemUtil";
+import { ProblemLink } from "../Elements/ProblemLink";
+import { ContestLink } from "../Elements/ContestLink";
 
 type Props = {
   problem: Problem | undefined;
@@ -23,17 +25,13 @@ const NoteHeader: React.FC<Props> = (props: Props) => {
         <EditButton to={`/edit/${props.problem?.No}`}>Edit</EditButton>
       )}
       <ContestTitle>
-        {serviceName(props.problem?.Domain)} : {props.contest?.Title}
+        {serviceName(props.problem?.Domain)}
+        {" : "}
+        <ContestLink contest={props.contest} />
       </ContestTitle>
       <div style={{ display: "flex" }}>
         <ProblemTitle>
-          <a
-            href={problemUrl(props.problem)}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {props.problem?.Title}
-          </a>
+          <ProblemLink problem={props.problem} />
         </ProblemTitle>
       </div>
       <div>Author : {props.userName}</div>

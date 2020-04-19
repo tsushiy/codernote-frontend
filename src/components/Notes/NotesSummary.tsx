@@ -5,7 +5,9 @@ import styled from "styled-components";
 import { publicNoteColor, privateNoteColor } from "../Styles";
 import { Note, isPublicNote } from "../../types/apiResponse";
 import { GlobalState } from "../../types/globalState";
-import { problemUrl, serviceName } from "../../utils/problemUtil";
+import { serviceName } from "../../utils/problemUtil";
+import { ProblemLinkWithID } from "../Elements/ProblemLink";
+import { ContestLink } from "../Elements/ContestLink";
 
 type Props = {
   notes: Note[] | undefined;
@@ -37,26 +39,17 @@ const NotesSummary: React.FC<Props> = (props: Props) => {
               <Link to={`/notes/${note.ID}`}>{note.ID.slice(0, 8)}</Link>
             </h5>
             <h6>
-              {"Problem: "}
-              <a
-                href={problemUrl(note.Problem)}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {note.Problem.Domain === "aoj" && `${note.Problem.ProblemID}. `}
-                {(note.Problem.Domain === "leetcode" ||
-                  note.Problem.Domain === "yukicoder") &&
-                  `${note.Problem.FrontendID}. `}
-                {note.Problem.Title}
-              </a>
+              {serviceName(note.Problem.Domain)}
+              {" : "}
+              <ContestLink
+                contest={contestMap.get(
+                  note.Problem.Domain + note.Problem.ContestID
+                )}
+              />
             </h6>
             <h6>
-              {serviceName(note.Problem.Domain)}
-              {": "}
-              {
-                contestMap.get(note.Problem.Domain + note.Problem.ContestID)
-                  ?.Title
-              }
+              {"Problem: "}
+              <ProblemLinkWithID problem={note.Problem} />
             </h6>
             <TextContainer>
               {note.Text.slice(0, 300)}

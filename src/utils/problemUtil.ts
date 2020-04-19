@@ -1,27 +1,41 @@
-import { Problem } from "../types/apiResponse";
+import { Problem, Contest } from "../types/apiResponse";
 
 export const problemUrl = (problem: Problem | undefined): string => {
-  let url = "";
-  if (problem) {
+  if (problem === undefined) {
+    return "";
+  } else {
     switch (problem.Domain) {
       case "atcoder":
-        url = `https://atcoder.jp/contests/${problem.ContestID}/tasks/${problem.ProblemID}`;
-        break;
+        return `https://atcoder.jp/contests/${problem.ContestID}/tasks/${problem.ProblemID}`;
       case "codeforces":
-        url = `https://codeforces.com/contest/${problem.ContestID}/problem/${problem.ProblemID}`;
-        break;
+        return `https://codeforces.com/contest/${problem.ContestID}/problem/${problem.ProblemID}`;
       case "yukicoder":
-        url = `https://yukicoder.me/problems/no/${problem.FrontendID}`;
-        break;
+        return `https://yukicoder.me/problems/no/${problem.FrontendID}`;
       case "aoj":
-        url = `https://onlinejudge.u-aizu.ac.jp/problems/${problem.ProblemID}`;
-        break;
+        return `https://onlinejudge.u-aizu.ac.jp/problems/${problem.ProblemID}`;
       case "leetcode":
-        url = `https://leetcode.com/problems/${problem.Slug}/`;
-        break;
+        return `https://leetcode.com/problems/${problem.Slug}/`;
+      default:
+        return "";
     }
   }
-  return url;
+};
+
+export const contestUrl = (contest: Contest | undefined) => {
+  if (contest === undefined) {
+    return "";
+  } else {
+    switch (contest.Domain) {
+      case "atcoder":
+        return `https://atcoder.jp/contests/${contest.ContestID}`;
+      case "codeforces":
+        return `https://codeforces.com/contest/${contest.ContestID}`;
+      case "yukicoder":
+        return `https://yukicoder.me/contests/${contest.ContestID}`;
+      default:
+        return "";
+    }
+  }
 };
 
 export const problemColorClass = (problem: Problem | undefined) => {
@@ -30,7 +44,7 @@ export const problemColorClass = (problem: Problem | undefined) => {
     switch (problem.Domain) {
       case "atcoder":
         if (difficulty === 0) {
-          return "";
+          return "difficulty-none";
         } else if (difficulty < 400) {
           return "atcoder-grey";
         } else if (difficulty < 800) {
@@ -50,7 +64,7 @@ export const problemColorClass = (problem: Problem | undefined) => {
         }
       case "codeforces":
         if (difficulty === 0) {
-          return "";
+          return "difficulty-none";
         } else if (difficulty < 1200) {
           return "codeforces-grey";
         } else if (difficulty < 1400) {
@@ -68,7 +82,7 @@ export const problemColorClass = (problem: Problem | undefined) => {
         }
       case "yukicoder":
         if (difficulty === 0) {
-          return "";
+          return "difficulty-none";
         } else if (difficulty === 1) {
           return "yukicoder-grey";
         } else if (difficulty === 1.5) {
@@ -87,7 +101,7 @@ export const problemColorClass = (problem: Problem | undefined) => {
           return "yukicoder-red";
         }
       case "aoj":
-        return "";
+        return "difficulty-none";
       case "leetcode":
         if (difficulty === 1) {
           return "leetcode-easy";
@@ -95,6 +109,35 @@ export const problemColorClass = (problem: Problem | undefined) => {
           return "leetcode-medium";
         } else if (difficulty === 3) {
           return "leetcode-hard";
+        } else {
+          return "difficulty-none";
+        }
+    }
+  }
+  return "difficulty-none";
+};
+
+export const contestColorClass = (contest: Contest | undefined) => {
+  if (contest) {
+    const rated = contest.Rated;
+    switch (contest.Domain) {
+      case "atcoder":
+        if (rated === " ~ 1999") {
+          return "atcoder-blue";
+        } else if (rated === " ~ 2799") {
+          return "atcoder-orange";
+        } else if (rated === "All") {
+          return "atcoder-red";
+        } else {
+          return "";
+        }
+      case "codeforces":
+        if (rated === "1" || rated === "12") {
+          return "codeforces-red";
+        } else if (rated === "2") {
+          return "codeforces-blue";
+        } else if (rated === "3") {
+          return "codeforces-cyan";
         } else {
           return "";
         }

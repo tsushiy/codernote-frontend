@@ -4,6 +4,7 @@ import { Table } from "react-bootstrap";
 import styled from "styled-components";
 import { GlobalState } from "../../types/globalState";
 import { Contest } from "../../types/apiResponse";
+import { ContestLink } from "../Elements/ContestLink";
 import TableCell from "./TableCell";
 
 type RowTableProps = {
@@ -24,7 +25,7 @@ type OthersTableProps = {
 export const RegularTable: React.FC<RegularTableProps> = (
   props: RegularTableProps
 ) => {
-  const { domain, contests } = props;
+  const { contests } = props;
   const maxProblemCount = contests.reduce(
     (currentCount, { ProblemNoList }) =>
       Math.max(ProblemNoList.length, currentCount),
@@ -47,14 +48,6 @@ export const RegularTable: React.FC<RegularTableProps> = (
     "N",
   ].slice(0, maxProblemCount);
 
-  const title = (contest: Contest) => {
-    if (domain === "codeforces") {
-      return contest.Title.match(/#[0-9]{1,3}/);
-    } else {
-      return contest.ContestID.toUpperCase();
-    }
-  };
-
   return (
     <StyledRegularTable className="table-responsive-sm table-bordered">
       <thead>
@@ -68,7 +61,9 @@ export const RegularTable: React.FC<RegularTableProps> = (
       <tbody>
         {contests.map((contest, i) => (
           <tr key={i}>
-            <th scope="row">{title(contest)}</th>
+            <th scope="row">
+              <ContestLink contest={contest} useShortName={true} />
+            </th>
             {header.map((_, j) => (
               <React.Fragment key={j}>
                 {contest.ProblemNoList[j] !== undefined ? (
@@ -92,7 +87,9 @@ export const OthersTable: React.FC<OthersTableProps> = (
       {contests &&
         Object.values(contests).map((contest, k) => (
           <div key={k}>
-            <div className="other-contest-title">{contest.Title}</div>
+            <div className="other-contest-title">
+              <ContestLink contest={contest} />
+            </div>
             <StyledOthersTable className="table-responsive-sm">
               <tbody>
                 <tr>
@@ -197,7 +194,7 @@ const OthersTableContainer = styled.div`
   padding-top: "12px";
 
   .other-contest-title {
-    font-size: 1.1em;
+    font-weight: bold;
     padding-top: 0.75em;
     padding-bottom: 0.3em;
   }
