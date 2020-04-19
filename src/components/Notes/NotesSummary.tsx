@@ -51,7 +51,7 @@ const NotesSummary: React.FC<Props> = (props: Props) => {
               <div
                 style={{
                   fontSize: ".9em",
-                  color: "#555"
+                  color: "#555",
                 }}
               >
                 {"by "}
@@ -103,13 +103,13 @@ const TopRightContainer = styled.div`
 
 const TextContainer = styled.div`
   color: #444;
-  font-size: .95em;
-  padding: .4em 0 1.3em;
+  font-size: 0.95em;
+  padding: 0.4em 0 1.3em;
 `;
 
 const LeftFooterContainer = styled.div`
   position: absolute;
-  font-size: .9em;
+  font-size: 0.9em;
   left: 8px;
   bottom: 10px;
 `;
@@ -117,7 +117,7 @@ const LeftFooterContainer = styled.div`
 const RightFooterContainer = styled.div`
   color: #555;
   position: absolute;
-  font-size: .85em;
+  font-size: 0.85em;
   right: 6px;
   bottom: 10px;
 `;
