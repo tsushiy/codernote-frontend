@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import {
   BrowserRouter as Router,
   Switch,
@@ -8,8 +8,13 @@ import {
 } from "react-router-dom";
 import firebase from "./utils/firebase";
 import { setUser, unsetUser } from "./reducers/authReducer";
-import { setContestsAndProblems } from "./reducers/problemReducer";
+import {
+  setContestsAndProblems,
+  setSubmissions,
+  unsetSubmissions,
+} from "./reducers/problemReducer";
 import { setMyNotes, unsetMyNotes } from "./reducers/noteReducer";
+import { GlobalState } from "./types/globalState";
 import NavigationBar from "./components/NavigationBar";
 import AppFooter from "./components/AppFooter";
 import TablePage from "./components/Table";
@@ -34,6 +39,16 @@ const InitWrapper: React.FC<WrapperProps> = (props) => {
 
 const AuthWrapper: React.FC<WrapperProps> = (props) => {
   const dispatch = useDispatch();
+  const { isProblemFetched } = useSelector(
+    (state: GlobalState) => state.problem
+  );
+  const {
+    isLoggedIn,
+    atcoderID,
+    codeforcesID,
+    yukicoderID,
+    aojID,
+  } = useSelector((state: GlobalState) => state.auth);
 
   useEffect(() => {
     firebase.auth().onAuthStateChanged((user) => {
@@ -46,6 +61,23 @@ const AuthWrapper: React.FC<WrapperProps> = (props) => {
       }
     });
   }, [dispatch]);
+
+  useEffect(() => {
+    if (!isProblemFetched) return;
+    if (isLoggedIn) {
+      dispatch(setSubmissions());
+    } else {
+      dispatch(unsetSubmissions());
+    }
+  }, [
+    dispatch,
+    isProblemFetched,
+    isLoggedIn,
+    atcoderID,
+    codeforcesID,
+    yukicoderID,
+    aojID,
+  ]);
 
   return props.children;
 };

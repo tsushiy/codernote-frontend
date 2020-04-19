@@ -11,7 +11,7 @@ import firebase from "../utils/firebase";
 
 const API_BASE_URL = "https://apiv1.codernote.tsushiy.com";
 
-const fetchTypedArray = async <T>(
+export const fetchTypedArray = async <T>(
   url: string,
   typeGuardFn: (obj: T) => obj is T
 ) => {

@@ -7,6 +7,8 @@ import {
   ProblemNo,
 } from "./apiResponse";
 
+import { Submission } from "./submissions";
+
 export type AuthState = {
   isLoggedIn: boolean;
   userName: string;
@@ -18,10 +20,13 @@ export type AuthState = {
 };
 
 export type ProblemState = {
+  isProblemFetched: boolean;
   contests: Contest[];
   problems: Problem[];
   contestMap: ContestMap;
   problemMap: ProblemMap;
+  submissions: Submission[];
+  submissionMap: Map<ProblemNo, Submission[]>;
 };
 
 export type AppState = {
