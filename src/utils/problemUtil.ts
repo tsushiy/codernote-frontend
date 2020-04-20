@@ -163,3 +163,11 @@ export const serviceName = (domain: string | undefined) => {
   }
   return "";
 };
+
+export const aojProblemDifficultyString = (problem: Problem) => {
+  if (problem.Domain !== "aoj") {
+    return "";
+  } else {
+    return `👤× ${problem.Difficulty}`;
+  }
+};

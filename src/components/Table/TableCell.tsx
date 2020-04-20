@@ -7,6 +7,7 @@ import {
   acceptedOrLatestSubmission,
   timePassageString,
 } from "../../utils/submissionUtil";
+import { aojProblemDifficultyString } from "../../utils/problemUtil";
 import { Submission } from "../../types/submissions";
 import { ProblemLink } from "../Elements/ProblemLink";
 import { EditButton, ViewButton } from "../Elements/NoteLink";
@@ -57,6 +58,14 @@ const TableCell: React.FC<Props> = (props: Props) => {
       </div>
       <ProblemLinkContainer>
         <ProblemLink problem={problem} />
+        {problem && problem.Domain === "aoj" && (
+          <span
+            className="difficulty-none"
+            style={{ fontSize: "0.85em", float: "right" }}
+          >
+            {aojProblemDifficultyString(problem)}
+          </span>
+        )}
       </ProblemLinkContainer>
       {timePassed && <TimePassage>{timePassed}</TimePassage>}
     </td>
@@ -68,6 +77,7 @@ const ProblemLinkContainer = styled.div`
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
   overflow: hidden;
+  padding-bottom: 6px;
 `;
 
 const ButtonsWrapper = styled.div`
