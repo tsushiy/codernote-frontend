@@ -1,7 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { Button } from "react-bootstrap";
 import { Problem, Contest } from "../../types/apiResponse";
 import { serviceName } from "../../utils/problemUtil";
 import { ProblemLink } from "../Elements/ProblemLink";
@@ -11,7 +10,6 @@ import { NotesLinkButton } from "../Elements/NotesLink";
 type Props = {
   problem: Problem | undefined;
   contest: Contest | undefined;
-  onClickPreview: (ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   noteId: string;
 };
 
@@ -33,9 +31,6 @@ const EditorHeader: React.FC<Props> = (props: Props) => {
           <ProblemLink problem={props.problem} />
           <NotesLinkButton problemNo={props.problem?.No} />
         </ProblemTitle>
-      </div>
-      <div style={{ display: "flex" }}>
-        <Button onClick={props.onClickPreview}>Preview</Button>
       </div>
     </Container>
   );

@@ -1,12 +1,13 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RouteComponentProps } from "react-router-dom";
-import { Toast } from "react-bootstrap";
+import { Toast, Nav } from "react-bootstrap";
 import styled from "styled-components";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { getMyNote, postMyNote, deleteMyNote } from "../../utils/apiClient";
 import { GlobalState } from "../../types/globalState";
 import { Note, isPublicNote } from "../../types/apiResponse";
-import { setShowPreview } from "../../reducers/appReducer";
+import { setEditorPreviewMode } from "../../reducers/appReducer";
 import { setMyNote, unsetMyNote } from "../../reducers/noteReducer";
 import { messageColor } from "../Styles";
 import MarkdownEditor from "./MarkdownEditor";
@@ -44,7 +45,7 @@ const EditorPage: React.FC<Props> = (props: Props) => {
   const [message, setMessage] = useState("");
   const [showMessage, setShowMessage] = useState(false);
 
-  const { showPreview } = useSelector((state: GlobalState) => state.app);
+  const { editorPreviewMode } = useSelector((state: GlobalState) => state.app);
   const { isLoggedIn } = useSelector((state: GlobalState) => state.auth);
   const { problemMap, contestMap } = useSelector(
     (state: GlobalState) => state.problem
@@ -123,14 +124,6 @@ const EditorPage: React.FC<Props> = (props: Props) => {
   const onChangeText = (txt: string) => setRawText(txt);
   const onChangePublic = (pub: boolean) => setIsPublic(pub);
 
-  const onClickPreview = useCallback(
-    (ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-      ev.preventDefault();
-      dispatch(setShowPreview(!showPreview));
-    },
-    [dispatch, showPreview]
-  );
-
   return (
     <EditorWrapper problemExists={problemExists} isFetchTried={isFetchTried}>
       <Container>
@@ -153,25 +146,54 @@ const EditorPage: React.FC<Props> = (props: Props) => {
           <Header
             problem={problemMap.get(problemNo)}
             contest={contest}
-            onClickPreview={onClickPreview}
             noteId={noteId}
           />
         </EditorHeaderContainer>
-        <MarkdownEditorContainer>
+        <NavContainer>
+          <Nav
+            variant="tabs"
+            defaultActiveKey={editorPreviewMode}
+            onSelect={(eventKey: string) => {
+              dispatch(setEditorPreviewMode(eventKey));
+            }}
+          >
+            <Nav.Item>
+              <Nav.Link eventKey="edit">
+                <FontAwesomeIcon
+                  icon={["fas", "edit"]}
+                  size="sm"
+                  color="#777"
+                />
+              </Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link eventKey="both">
+                <FontAwesomeIcon
+                  icon={["fas", "arrows-alt-h"]}
+                  size="sm"
+                  color="#777"
+                />
+              </Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link eventKey="preview">
+                <FontAwesomeIcon icon={["fas", "eye"]} size="sm" color="#777" />
+              </Nav.Link>
+            </Nav.Item>
+          </Nav>
+        </NavContainer>
+        <EditorContainer>
           <MarkdownEditor
-            showPreview={showPreview}
+            editorPreviewMode={editorPreviewMode}
             rawText={rawText}
             onChangeText={onChangeText}
           />
-        </MarkdownEditorContainer>
-        {showPreview && (
-          <EditorPreviewContainer>
-            <EditorPreview
-              rawText={rawText}
-              setAndShowMessage={setAndShowMessage}
-            />
-          </EditorPreviewContainer>
-        )}
+          <EditorPreview
+            editorPreviewMode={editorPreviewMode}
+            rawText={rawText}
+            setAndShowMessage={setAndShowMessage}
+          />
+        </EditorContainer>
         <FooterContainer>
           <Footer
             onSubmitText={onSubmitText}
@@ -216,24 +238,33 @@ const EditorHeaderContainer = styled.div`
   padding-left: 20px;
 `;
 
-const MarkdownEditorContainer = styled.div`
+const NavContainer = styled.div`
   position: absolute;
-  overflow: auto;
+  width: calc(100vw - 20px);
+  height: 32px;
+  top: 118px;
+  left: 5px;
+
+  .nav-tabs {
+    border-color: #ccc;
+  }
+
+  .nav-link.active {
+    border-color: #ccc #ccc #fff;
+  }
+
+  .nav-link {
+    height: 32px;
+    padding: 4px 8px;
+  }
+`;
+
+const EditorContainer = styled.div`
+  position: absolute;
   width: calc(100vw - 20px);
   top: 150px;
   bottom: 42px;
-  left: 5px;
-  border: solid thin #ccc;
-`;
-
-const EditorPreviewContainer = styled.div`
-  position: absolute;
-  overflow: auto;
-  width: calc(50% - 5px);
-  top: 150px;
-  bottom: 42px;
   right: 5px;
-  border: solid thin #ccc;
 `;
 
 const FooterContainer = styled.div`

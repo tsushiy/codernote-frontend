@@ -4,7 +4,9 @@ import { AppState } from "../types/globalState";
 
 const actionCreator = actionCreatorFactory();
 
-export const setShowPreview = actionCreator<boolean>("SetShowPreview");
+export const setEditorPreviewMode = actionCreator<string>(
+  "SetEditorPreviewMode"
+);
 export const setLargeTableCategory = actionCreator<string>(
   "SetLargeTableCategory"
 );
@@ -17,7 +19,7 @@ export const setShowTableInfoMessage = actionCreator<boolean>(
 export const setNotesShowMode = actionCreator<string>("SetNotesShowMode");
 
 const initialState: AppState = {
-  showPreview: true,
+  editorPreviewMode: "both",
   largeTableCategory: "atcoder",
   smallTableCategory: "abc",
   showTableInfoMessage: true,
@@ -25,9 +27,9 @@ const initialState: AppState = {
 };
 
 const appReducer = reducerWithInitialState(initialState)
-  .case(setShowPreview, (state, showPreview) => ({
+  .case(setEditorPreviewMode, (state, editorPreviewMode) => ({
     ...state,
-    showPreview,
+    editorPreviewMode,
   }))
   .case(setLargeTableCategory, (state, largeTableCategory) => ({
     ...state,

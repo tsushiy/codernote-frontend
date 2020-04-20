@@ -30,7 +30,7 @@ export type ProblemState = {
 };
 
 export type AppState = {
-  showPreview: boolean;
+  editorPreviewMode: string;
   largeTableCategory: string;
   smallTableCategory: string;
   showTableInfoMessage: boolean;
