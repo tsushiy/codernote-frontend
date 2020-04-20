@@ -62,7 +62,7 @@ const CodeforcesTable: React.FC<Props> = (props: Props) => {
           <Nav.Link eventKey="educational">Educational</Nav.Link>
         </Nav.Item>
         <Nav.Item>
-          <Nav.Link eventKey="others-rated">Other Rated</Nav.Link>
+          <Nav.Link eventKey="others-rated">Others Rated</Nav.Link>
         </Nav.Item>
         <Nav.Item>
           <Nav.Link eventKey="others">Others</Nav.Link>
