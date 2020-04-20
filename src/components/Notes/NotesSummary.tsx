@@ -6,6 +6,7 @@ import { publicNoteColor, privateNoteColor } from "../Styles";
 import { Note, isPublicNote } from "../../types/apiResponse";
 import { GlobalState } from "../../types/globalState";
 import { serviceName } from "../../utils/problemUtil";
+import { timePassageString } from "../../utils/time";
 import { ProblemLinkWithID } from "../Elements/ProblemLink";
 import { ContestLink } from "../Elements/ContestLink";
 import { NotesLinkButton } from "../Elements/NotesLink";
@@ -66,12 +67,12 @@ const NotesSummary: React.FC<Props> = (props: Props) => {
               {note.Text.length > 300 && " ..."}
             </TextContainer>
             <LeftFooterContainer>
-              <Link to={`/notes/${note.ID}`}>Read Note »</Link>
+              <Link to={`/notes/${note.ID}`}>Read note »</Link>
             </LeftFooterContainer>
             <RightFooterContainer>
               <div>
-                {"Updated At: "}
-                {new Date(note.UpdatedAt).toLocaleString()}
+                {"Updated at "}
+                {timePassageString(new Date(note.UpdatedAt).getTime() / 1000)}
               </div>
             </RightFooterContainer>
           </SummaryContainer>

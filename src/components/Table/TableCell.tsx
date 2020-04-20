@@ -5,9 +5,9 @@ import { GlobalState } from "../../types/globalState";
 import {
   isAccepted,
   acceptedOrLatestSubmission,
-  timePassageString,
 } from "../../utils/submissionUtil";
 import { aojProblemDifficultyString } from "../../utils/problemUtil";
+import { timePassageString } from "../../utils/time";
 import { Submission } from "../../types/submissions";
 import { ProblemLink } from "../Elements/ProblemLink";
 import { EditButton, ViewButton } from "../Elements/NoteLink";
@@ -43,7 +43,7 @@ const TableCell: React.FC<Props> = (props: Props) => {
 
   const submissions = submissionMap.get(problemNo);
   const acceptedOrLatest = acceptedOrLatestSubmission(submissions);
-  const timePassed = timePassageString(acceptedOrLatest);
+  const timePassed = timePassageString(acceptedOrLatest?.date);
 
   return (
     <td
