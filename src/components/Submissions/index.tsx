@@ -34,7 +34,7 @@ const SubmissionsPage: React.FC<{}> = () => {
   return (
     <MainContainer>
       <Container>
-        <h1 style={{ padding: "22px" }}>Submissions</h1>
+        <h1 style={{ padding: "22px 12px 10px" }}>Submissions</h1>
         <FilterContainer>
           <PaginationContainer>
             <Pagination style={{ justifyContent: "center" }}>

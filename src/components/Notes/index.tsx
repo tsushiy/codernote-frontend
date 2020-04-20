@@ -111,7 +111,7 @@ const NotesPage: React.FC<Props> = (props: Props) => {
   return (
     <MainContainer>
       <Container>
-        <h1 style={{ padding: "22px" }}>
+        <h1 style={{ padding: "22px 12px 10px" }}>
           {isMyNotes ? "My Notes" : "Public Notes"}
         </h1>
         <Filter isMyNotes={isMyNotes} query={query} maxPage={maxPage} />

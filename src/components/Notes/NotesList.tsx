@@ -8,6 +8,7 @@ import { serviceName } from "../../utils/problemUtil";
 import { ProblemLinkWithID } from "../Elements/ProblemLink";
 import { ContestLink } from "../Elements/ContestLink";
 import { EditLink, ViewLink } from "../Elements/NoteLink";
+import { NotesLinkButton, MyNotesLinkButton } from "../Elements/NotesLink";
 
 type Props = {
   notes: Note[] | undefined;
@@ -22,11 +23,11 @@ const NotesTable: React.FC<Props> = (props: Props) => {
       <thead>
         <tr>
           <th style={{ width: "17%" }}>UpdatedAt</th>
-          <th style={{ width: "10%" }}>Note</th>
-          {!isMyNotes && <th style={{ width: "10%" }}>User</th>}
-          <th style={{ width: "10%" }}>Service</th>
+          {!isMyNotes && <th style={{ width: "12%" }}>User</th>}
+          <th style={{ width: "13%" }}>Service</th>
           <th style={{ width: "22%" }}>Contest</th>
           <th>Problem</th>
+          <th style={{ width: "10%" }}>Note</th>
         </tr>
       </thead>
       <tbody>
@@ -36,18 +37,18 @@ const NotesTable: React.FC<Props> = (props: Props) => {
               <td className="text-center">
                 {new Date(note.UpdatedAt).toLocaleString()}
               </td>
-              <td className="text-center">
-                {isMyNotes && (
-                  <React.Fragment>
-                    <EditLink problemNo={note.Problem.No} />
-                    {" / "}
-                  </React.Fragment>
-                )}
-                <ViewLink note={note} />
-              </td>
-              {!isMyNotes && <td>{note.User.Name}</td>}
+              {!isMyNotes && (
+                <td>
+                  {note.User.Name}
+                  <NotesLinkButton userName={note.User.Name} />
+                </td>
+              )}
               <td className="text-center">
                 {serviceName(note.Problem.Domain)}
+                {isMyNotes && (
+                  <MyNotesLinkButton domain={note.Problem.Domain} />
+                )}
+                {!isMyNotes && <NotesLinkButton domain={note.Problem.Domain} />}
               </td>
               <td>
                 <ContestLink
@@ -58,6 +59,16 @@ const NotesTable: React.FC<Props> = (props: Props) => {
               </td>
               <td>
                 <ProblemLinkWithID problem={note.Problem} />
+                <NotesLinkButton problemNo={note.Problem.No} />
+              </td>
+              <td className="text-center">
+                {isMyNotes && (
+                  <React.Fragment>
+                    <EditLink problemNo={note.Problem.No} />
+                    {" / "}
+                  </React.Fragment>
+                )}
+                <ViewLink note={note} />
               </td>
             </tr>
           ))}

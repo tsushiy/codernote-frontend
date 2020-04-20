@@ -8,6 +8,7 @@ import { GlobalState } from "../../types/globalState";
 import { serviceName } from "../../utils/problemUtil";
 import { ProblemLinkWithID } from "../Elements/ProblemLink";
 import { ContestLink } from "../Elements/ContestLink";
+import { NotesLinkButton } from "../Elements/NotesLink";
 
 type Props = {
   notes: Note[] | undefined;
@@ -46,6 +47,7 @@ const NotesSummary: React.FC<Props> = (props: Props) => {
             <div style={{ fontSize: "1.25em", fontWeight: 500 }}>
               {"Problem: "}
               <ProblemLinkWithID problem={note.Problem} />
+              <NotesLinkButton problemNo={note.Problem.No} />
             </div>
             {!isMyNotes && (
               <div
@@ -56,6 +58,7 @@ const NotesSummary: React.FC<Props> = (props: Props) => {
               >
                 {"by "}
                 {note.User.Name}
+                <NotesLinkButton userName={note.User.Name} />
               </div>
             )}
             <TextContainer>
