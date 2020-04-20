@@ -9,7 +9,7 @@ import { getPublicNotes, getMyNotes } from "../../utils/apiClient";
 import { Note } from "../../types/apiResponse";
 import { GlobalState } from "../../types/globalState";
 import { setNotesShowMode } from "../../reducers/appReducer";
-import NotesFilter from "./NotesFilter";
+import Filter from "./Filter";
 import NotesSummary from "./NotesSummary";
 import NotesList from "./NotesList";
 
@@ -114,7 +114,7 @@ const NotesPage: React.FC<Props> = (props: Props) => {
         <h1 style={{ padding: "22px" }}>
           {isMyNotes ? "My Notes" : "Public Notes"}
         </h1>
-        <NotesFilter isMyNotes={isMyNotes} query={query} maxPage={maxPage} />
+        <Filter isMyNotes={isMyNotes} query={query} maxPage={maxPage} />
         <Nav
           variant="tabs"
           className="flex-row"

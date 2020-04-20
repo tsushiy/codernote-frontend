@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Button, Form, Toast, Alert } from "react-bootstrap";
 import styled from "styled-components";
-import { MainContainer } from "./Styles";
-import { GlobalState } from "../types/globalState";
-import { setUser } from "../reducers/authReducer";
-import { setMyNotes } from "../reducers/noteReducer";
-import { postChangeName, postUserSetting } from "../utils/apiClient";
+import { MainContainer } from "../Styles";
+import { GlobalState } from "../../types/globalState";
+import { setUser } from "../../reducers/authReducer";
+import { setMyNotes } from "../../reducers/noteReducer";
+import { postChangeName, postUserSetting } from "../../utils/apiClient";
 
 const SettingsPage: React.FC<{}> = () => {
   const dispatch = useDispatch();
