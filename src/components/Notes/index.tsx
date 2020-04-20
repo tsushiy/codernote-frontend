@@ -137,6 +137,7 @@ const NotesPage: React.FC<Props> = (props: Props) => {
         {activeTab === "list" && (
           <NotesList notes={notes} isMyNotes={isMyNotes} />
         )}
+        {notes && notes.length === 0 && <span>No notes found.</span>}
       </Container>
     </MainContainer>
   );
