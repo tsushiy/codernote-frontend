@@ -6,10 +6,10 @@ export const paginationList = (currPage: number, maxPage: number) => {
   if (currPage !== 1 && currPage !== maxPage) pages.push(currPage);
 
   let cur = currPage - 1;
-  let p = 1;
+  let p = 2;
   while (cur > 1) {
     pages.push(cur);
-    cur -= Math.pow(2, p);
+    cur -= p;
     p *= 2;
   }
   pages.push(1);
@@ -17,10 +17,10 @@ export const paginationList = (currPage: number, maxPage: number) => {
   pages = pages.reverse();
 
   cur = currPage + 1;
-  p = 1;
+  p = 2;
   while (cur < maxPage) {
     pages.push(cur);
-    cur += Math.pow(2, p);
+    cur += p;
     p *= 2;
   }
   pages.push(maxPage);
