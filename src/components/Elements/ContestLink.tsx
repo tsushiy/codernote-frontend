@@ -54,8 +54,8 @@ export const ContestLink: React.FC<Props> = (props: Props) => {
           <a
             href={contestUrl(contest)}
             className="contest-title"
-            target="_blank"
-            rel="noopener noreferrer"
+            target="_blank" // eslint-disable-line react/jsx-no-target-blank
+            rel="noopener"
           >
             {title === undefined ? contest.Title : title}
           </a>

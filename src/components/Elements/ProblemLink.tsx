@@ -43,8 +43,8 @@ export const ProblemLinkWithID: React.FC<Props> = (props: Props) => {
       <a
         href={problemUrl(problem)}
         className={problemColorClass(problem)}
-        target="_blank"
-        rel="noopener noreferrer"
+        target="_blank" // eslint-disable-line react/jsx-no-target-blank
+        rel="noopener"
       >
         {id !== "" && `${id}. `}
         {problem.Title}
