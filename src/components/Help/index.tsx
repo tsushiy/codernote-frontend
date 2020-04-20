@@ -25,7 +25,7 @@ const SettingsPage: React.FC<{}> = () => {
           <div style={{ padding: "18px 12px" }}>
             <p>
               AtCoder, Codeforces, yukicoder, AOJ,
-              LeetCodeの各問題に1対1でMarkdownノートを作成できるWebアプリケーションです。
+              LeetCodeの各問題に1対1でMarkdownノートを作成できるサービスです。
             </p>
             <p>
               ノートを作成するには、GitHubアカウントでのログインが必要です。
@@ -34,6 +34,7 @@ const SettingsPage: React.FC<{}> = () => {
               AtCoder, Codeforces, yukicoder,
               AOJの各ユーザIDを登録することで、自分の提出を取得することができます。
             </p>
+            <p>自身のブログ記事へのURLのみを書く利用方法も推奨しています。</p>
             <p>
               バグ報告や要望は
               <a
