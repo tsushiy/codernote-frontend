@@ -11,6 +11,7 @@ import { timePassageString } from "../../utils/time";
 import { Submission } from "../../types/submissions";
 import { ProblemLink } from "../Elements/ProblemLink";
 import { EditButton, ViewButton } from "../Elements/NoteLink";
+import { NotesLinkButton } from "../Elements/NotesLink";
 
 type Props = {
   problemNo: number;
@@ -54,6 +55,7 @@ const TableCell: React.FC<Props> = (props: Props) => {
         <ButtonsWrapper>
           <EditButton problemNo={problemNo} />
           <ViewButton note={note} />
+          <NotesLinkButton problemNo={problemNo} />
         </ButtonsWrapper>
       </div>
       <ProblemLinkContainer>

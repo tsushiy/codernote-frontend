@@ -9,6 +9,7 @@ import { submissionUrl, isAccepted } from "../../utils/submissionUtil";
 import { GlobalState } from "../../types/globalState";
 import { ProblemLinkWithID } from "../Elements/ProblemLink";
 import { EditLink, ViewLink } from "../Elements/NoteLink";
+import { NotesLinkButton } from "../Elements/NotesLink";
 
 const SubmissionsPage: React.FC<{}> = () => {
   const [currPage, setCurrPage] = useState(1);
@@ -76,6 +77,7 @@ const SubmissionsPage: React.FC<{}> = () => {
                     <ProblemLinkWithID
                       problem={problemMap.get(submission.problemNo)}
                     />
+                    <NotesLinkButton problemNo={submission.problemNo} />
                   </td>
                   <td className="text-center">
                     <Badge

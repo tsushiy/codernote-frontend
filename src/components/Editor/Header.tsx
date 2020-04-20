@@ -5,6 +5,8 @@ import { Button } from "react-bootstrap";
 import { Problem, Contest } from "../../types/apiResponse";
 import { serviceName } from "../../utils/problemUtil";
 import { ProblemLink } from "../Elements/ProblemLink";
+import { ContestLink } from "../Elements/ContestLink";
+import { NotesLinkButton } from "../Elements/NotesLink";
 
 type Props = {
   problem: Problem | undefined;
@@ -22,11 +24,14 @@ const EditorHeader: React.FC<Props> = (props: Props) => {
         </NoteID>
       )}
       <ContestTitle>
-        {serviceName(props.problem?.Domain)} : {props.contest?.Title}
+        {serviceName(props.problem?.Domain)}
+        {" : "}
+        <ContestLink contest={props.contest} />
       </ContestTitle>
       <div style={{ display: "flex" }}>
         <ProblemTitle>
           <ProblemLink problem={props.problem} />
+          <NotesLinkButton problemNo={props.problem?.No} />
         </ProblemTitle>
       </div>
       <div style={{ display: "flex" }}>
