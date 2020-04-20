@@ -8,6 +8,7 @@ import { GlobalState } from "../../types/globalState";
 import { Note, isPublicNote } from "../../types/apiResponse";
 import { setShowPreview } from "../../reducers/appReducer";
 import { setMyNote, unsetMyNote } from "../../reducers/noteReducer";
+import { messageColor } from "../Styles";
 import MarkdownEditor from "./MarkdownEditor";
 import EditorPreview from "./EditorPreview";
 import Header from "./Header";
@@ -136,7 +137,7 @@ const EditorPage: React.FC<Props> = (props: Props) => {
         <StyledToast
           style={{
             display: showMessage ? "block" : "none",
-            backgroundColor: message.match(/^Success/) ? "#394" : "red",
+            backgroundColor: messageColor(message),
           }}
           onClose={() => {
             setShowMessage(false);

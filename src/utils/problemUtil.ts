@@ -147,25 +147,19 @@ export const contestColorClass = (contest: Contest | undefined) => {
 };
 
 export const serviceName = (domain: string | undefined) => {
-  let name = "";
   if (domain) {
     switch (domain) {
       case "atcoder":
-        name = "AtCoder";
-        break;
+        return "AtCoder";
       case "codeforces":
-        name = "Codeforces";
-        break;
+        return "Codeforces";
       case "yukicoder":
-        name = "yukicoder";
-        break;
+        return "yukicoder";
       case "aoj":
-        name = "AOJ";
-        break;
+        return "AOJ";
       case "leetcode":
-        name = "LeetCode";
-        break;
+        return "LeetCode";
     }
   }
-  return name;
+  return "";
 };

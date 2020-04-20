@@ -39,7 +39,7 @@ export type AppState = {
 
 export type NoteState = {
   myNoteCount: number;
-  myNotesMap: Map<ProblemNo, Note>; // <ProblemNo, Note>
+  myNotesMap: Map<ProblemNo, Note>;
 };
 
 export type GlobalState = {

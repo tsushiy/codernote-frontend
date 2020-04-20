@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Button, Form, Toast, Alert } from "react-bootstrap";
 import styled from "styled-components";
-import { MainContainer } from "../Styles";
+import { MainContainer, messageColor } from "../Styles";
 import { GlobalState } from "../../types/globalState";
 import { setUser } from "../../reducers/authReducer";
 import { setMyNotes } from "../../reducers/noteReducer";
@@ -70,7 +70,7 @@ const SettingsPage: React.FC<{}> = () => {
         <StyledToast
           style={{
             display: showMessage ? "block" : "none",
-            backgroundColor: message.match(/^Success/) ? "#394" : "red",
+            backgroundColor: messageColor(message),
           }}
           onClose={() => {
             setShowMessage(false);
@@ -197,7 +197,6 @@ const StyledToast = styled(Toast)`
     top: 10px;
     right: 0;
     color: #fff;
-    background-color: red;
     font-size: 1.1em;
     font-weight: bold;
     border-radius: 0.5em;

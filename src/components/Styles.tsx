@@ -19,3 +19,11 @@ export const MainContainer = styled.div`
 export const editColor = "#707070";
 export const publicNoteColor = "#ffa316";
 export const privateNoteColor = "#3aafea";
+
+export const messageColor = (message: string) => {
+  if (message.match(/^Success/)) {
+    return "#394";
+  } else {
+    return "red";
+  }
+};
