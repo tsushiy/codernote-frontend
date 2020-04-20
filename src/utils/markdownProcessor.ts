@@ -1,6 +1,7 @@
 import unified from "unified";
 import markdown from "remark-parse";
 import breaks from "remark-breaks";
+import externalLinks from "remark-external-links";
 import math from "remark-math";
 import htmlKatex from "remark-html-katex";
 import hljs from "remark-highlight.js";
@@ -16,6 +17,7 @@ const schema = merge(gh, {
 
 export const markdownProcessor = unified()
   .use(markdown)
+  .use(externalLinks, { rel: ["nofollow", "noopener", "noreferrer"] })
   .use(breaks)
   .use(math)
   .use(htmlKatex)
