@@ -39,7 +39,7 @@ const TablePage: React.FC<{}> = () => {
         )}
         {!isLoggedIn && (
           <Alert variant="warning" style={{ marginBottom: "8px" }}>
-            You must be logged in to take a note.
+            You must be logged in to create notes.
           </Alert>
         )}
         <Nav

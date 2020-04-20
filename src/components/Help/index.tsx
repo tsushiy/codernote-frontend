@@ -8,7 +8,7 @@ const SettingsPage: React.FC<{}> = () => {
   return (
     <MainContainer>
       <Container>
-        <h1 style={{marginBottom: "14px"}}>Help</h1>
+        <h1 style={{ marginBottom: "14px" }}>Help</h1>
         <Nav
           variant="tabs"
           className="flex-row"
@@ -30,8 +30,9 @@ const SettingsPage: React.FC<{}> = () => {
             <p>
               ノートを作成するには、GitHubアカウントでのログインが必要です。
               ノートの公開、非公開設定や、他の人のノートの検索ができます。
-              <br/>
-              AtCoder, Codeforces, yukicoder, AOJの各ユーザIDを登録することで、自分の提出を取得することができます。
+              <br />
+              AtCoder, Codeforces, yukicoder,
+              AOJの各ユーザIDを登録することで、自分の提出を取得することができます。
             </p>
             <p>
               バグ報告や要望は
