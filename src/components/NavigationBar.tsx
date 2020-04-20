@@ -43,6 +43,9 @@ const NavigationBar: React.FC<{}> = () => {
           <LinkContainer to="/settings">
             <Nav.Link>Settings</Nav.Link>
           </LinkContainer>
+          <LinkContainer to="/help">
+            <Nav.Link>Help</Nav.Link>
+          </LinkContainer>
         </Nav>
         <Nav>
           <Nav.Link onClick={isLoggedIn ? onClickLogout : onClickLogin}>

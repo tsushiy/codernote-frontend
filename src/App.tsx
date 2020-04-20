@@ -23,6 +23,7 @@ import NotesPage from "./components/Notes";
 import NotePage from "./components/Note";
 import SubmissionsPage from "./components/Submissions";
 import SettingsPage from "./components/Settings";
+import HelpPage from "./components/Help";
 
 type WrapperProps = {
   children: React.ReactElement;
@@ -108,6 +109,7 @@ const App: React.FC<{}> = () => {
             <Route exact path="/submissions" component={SubmissionsPage} />
             <Route exact path="/edit/:problemNo" component={EditorPage} />
             <Route exact path="/settings" component={SettingsPage} />
+            <Route exact path="/help" component={HelpPage} />
           </Switch>
           <Switch>
             <Route exact path="/edit/:problemNo" />
