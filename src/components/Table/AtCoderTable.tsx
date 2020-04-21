@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Nav } from "react-bootstrap";
+import { Nav, NavDropdown } from "react-bootstrap";
 import { GlobalState } from "../../types/globalState";
 import { Contest } from "../../types/apiResponse";
 import { setSmallTableCategory } from "../../reducers/appReducer";
@@ -21,60 +21,179 @@ const AtCoderTable: React.FC<Props> = (props: Props) => {
     <React.Fragment>
       <Nav
         variant="tabs"
-        className="flex-row"
         defaultActiveKey={activeTab}
         onSelect={(eventKey: string) => {
           setActiveTab(eventKey);
           dispatch(setSmallTableCategory(eventKey));
         }}
       >
-        <Nav.Item>
-          <Nav.Link eventKey="abc">ABC</Nav.Link>
-        </Nav.Item>
-        <Nav.Item>
-          <Nav.Link eventKey="arc">ARC</Nav.Link>
-        </Nav.Item>
-        <Nav.Item>
-          <Nav.Link eventKey="agc">AGC</Nav.Link>
-        </Nav.Item>
-        <Nav.Item>
-          <Nav.Link eventKey="others-rated">Others Rated</Nav.Link>
-        </Nav.Item>
-        <Nav.Item>
-          <Nav.Link eventKey="others">Others</Nav.Link>
-        </Nav.Item>
+        <NavDropdown title="ABC Class" id="nav-dropdown">
+          <NavDropdown.Item eventKey="abc-1999">
+            ABC Rated ~1999
+          </NavDropdown.Item>
+          <NavDropdown.Item eventKey="abc-sponsored">
+            ABC Sponsored
+          </NavDropdown.Item>
+          <NavDropdown.Item eventKey="abc-1199">
+            ABC Rated ~1199
+          </NavDropdown.Item>
+          <NavDropdown.Item eventKey="abc-unrated">
+            ABC Unrated
+          </NavDropdown.Item>
+        </NavDropdown>
+        <NavDropdown title="ARC Class" id="nav-dropdown">
+          <NavDropdown.Item eventKey="arc-rated">ARC Rated</NavDropdown.Item>
+          <NavDropdown.Item eventKey="arc-sponsored">
+            ARC Sponsored
+          </NavDropdown.Item>
+          <NavDropdown.Item eventKey="arc-unrated">
+            ARC Unrated
+          </NavDropdown.Item>
+        </NavDropdown>
+        <NavDropdown title="AGC Class" id="nav-dropdown">
+          <NavDropdown.Item eventKey="agc-regular">
+            AGC Regular
+          </NavDropdown.Item>
+          <NavDropdown.Item eventKey="agc-others">AGC Others</NavDropdown.Item>
+        </NavDropdown>
+        <NavDropdown title="Others" id="nav-dropdown">
+          <NavDropdown.Item eventKey="others-2018">
+            Others 2018-
+          </NavDropdown.Item>
+          <NavDropdown.Item eventKey="others-2016">
+            Others 2016-2017
+          </NavDropdown.Item>
+          <NavDropdown.Item eventKey="others-2015">
+            Others -2015
+          </NavDropdown.Item>
+          <NavDropdown.Item eventKey="joi">JOI</NavDropdown.Item>
+        </NavDropdown>
       </Nav>
-      {activeTab === "abc" && (
+      {activeTab === "abc-1999" && (
         <RegularTable
           domain="atcoder"
-          contests={contests.filter((v) => v.ContestID.match(/^abc\d{3}$/))}
+          contests={contests
+            .filter((v) => v.ContestID.match(/^abc\d{3}$/))
+            .filter((v) => v.Rated === " ~ 1999")}
         />
       )}
-      {activeTab === "arc" && (
+      {activeTab === "abc-sponsored" && (
+        <OthersTable
+          domain="atcoder"
+          contests={contests
+            .filter((v) => !v.ContestID.match(/^abc\d{3}$/))
+            .filter((v) => v.Rated === " ~ 1199" || v.Rated === " ~ 1999")}
+        />
+      )}
+      {activeTab === "abc-1199" && (
         <RegularTable
           domain="atcoder"
-          contests={contests.filter((v) => v.ContestID.match(/^arc\d{3}$/))}
+          contests={contests
+            .filter((v) => v.ContestID.match(/^abc\d{3}$/))
+            .filter((v) => v.Rated === " ~ 1199")}
         />
       )}
-      {activeTab === "agc" && (
+      {activeTab === "abc-unrated" && (
+        <RegularTable
+          domain="atcoder"
+          contests={contests
+            .filter((v) => v.ContestID.match(/^abc\d{3}$/))
+            .filter((v) => v.Rated === "-")}
+        />
+      )}
+      {activeTab === "arc-rated" && (
+        <RegularTable
+          domain="atcoder"
+          contests={contests
+            .filter((v) => v.ContestID.match(/^arc\d{3}$/))
+            .filter((v) => v.Rated === " ~ 2799")}
+        />
+      )}
+      {activeTab === "arc-sponsored" && (
+        <OthersTable
+          domain="atcoder"
+          contests={contests
+            .filter((v) => !v.ContestID.match(/^arc\d{3}$/))
+            .filter((v) => v.Rated === " ~ 2799")}
+        />
+      )}
+      {activeTab === "arc-unrated" && (
+        <RegularTable
+          domain="atcoder"
+          contests={contests
+            .filter((v) => v.ContestID.match(/^arc\d{3}$/))
+            .filter((v) => v.Rated === "-")}
+        />
+      )}
+      {activeTab === "agc-regular" && (
         <RegularTable
           domain="atcoder"
           contests={contests.filter((v) => v.ContestID.match(/^agc\d{3}$/))}
         />
       )}
-      {activeTab === "others-rated" && (
+      {activeTab === "agc-others" && (
         <OthersTable
           domain="atcoder"
-          contests={contests.filter(
-            (v) => !v.ContestID.match(/^a[brg]c\d{3}$/) && v.Rated !== "-"
-          )}
+          contests={contests
+            .filter((v) => !v.ContestID.match(/^agc\d{3}$/))
+            .filter((v) => v.Rated === "All")}
         />
       )}
-      {activeTab === "others" && (
+      {activeTab === "others-2018" && (
+        <OthersTable
+          domain="atcoder"
+          contests={contests
+            .filter((v) => !v.ContestID.match(/^a[brg]c\d{3}$/))
+            .filter((v) => v.Rated === "-")
+            .filter(
+              (v) =>
+                !(
+                  v.Title.match(/^JOI/) || v.Title.match(/日本情報オリンピック/)
+                )
+            )
+            .filter((v) => 1514732400 <= v.StartTimeSeconds)}
+        />
+      )}
+      {activeTab === "others-2016" && (
+        <OthersTable
+          domain="atcoder"
+          contests={contests
+            .filter((v) => !v.ContestID.match(/^a[brg]c\d{3}$/))
+            .filter((v) => v.Rated === "-")
+            .filter(
+              (v) =>
+                !(
+                  v.Title.match(/^JOI/) || v.Title.match(/日本情報オリンピック/)
+                )
+            )
+            .filter(
+              (v) =>
+                1451574000 <= v.StartTimeSeconds &&
+                v.StartTimeSeconds < 1514732400
+            )}
+        />
+      )}
+      {activeTab === "others-2015" && (
+        <OthersTable
+          domain="atcoder"
+          contests={contests
+            .filter((v) => !v.ContestID.match(/^a[brg]c\d{3}$/))
+            .filter((v) => v.Rated === "-")
+            .filter(
+              (v) =>
+                !(
+                  v.Title.match(/^JOI/) || v.Title.match(/日本情報オリンピック/)
+                )
+            )
+            .filter((v) => v.StartTimeSeconds < 1451574000)}
+        />
+      )}
+      {activeTab === "joi" && (
         <OthersTable
           domain="atcoder"
           contests={contests.filter(
-            (v) => !v.ContestID.match(/^a[brg]c\d{3}$/) && v.Rated === "-"
+            (v) =>
+              v.Title.match(/^JOI/) || v.Title.match(/日本情報オリンピック/)
           )}
         />
       )}

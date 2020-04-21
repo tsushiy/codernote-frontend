@@ -117,7 +117,6 @@ const NotesPage: React.FC<Props> = (props: Props) => {
         <Filter isMyNotes={isMyNotes} query={query} maxPage={maxPage} />
         <Nav
           variant="tabs"
-          className="flex-row"
           defaultActiveKey={activeTab}
           onSelect={(eventKey: string) => {
             setActiveTab(eventKey);

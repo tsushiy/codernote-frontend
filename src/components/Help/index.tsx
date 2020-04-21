@@ -11,7 +11,6 @@ const SettingsPage: React.FC<{}> = () => {
         <h1 style={{ marginBottom: "14px" }}>Help</h1>
         <Nav
           variant="tabs"
-          className="flex-row"
           defaultActiveKey={activeTab}
           onSelect={(eventKey: string) => {
             setActiveTab(eventKey);

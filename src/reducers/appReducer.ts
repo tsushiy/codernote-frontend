@@ -21,7 +21,7 @@ export const setNotesShowMode = actionCreator<string>("SetNotesShowMode");
 const initialState: AppState = {
   editorPreviewMode: "both",
   largeTableCategory: "atcoder",
-  smallTableCategory: "abc",
+  smallTableCategory: "abc-1999",
   showTableInfoMessage: true,
   notesShowMode: "summary",
 };

@@ -23,7 +23,6 @@ const LeetCodeTable: React.FC<Props> = (props: Props) => {
     <React.Fragment>
       <Nav
         variant="tabs"
-        className="flex-row"
         defaultActiveKey={activeTab}
         onSelect={(eventKey: string) => {
           setActiveTab(eventKey);

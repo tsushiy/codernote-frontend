@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Nav } from "react-bootstrap";
+import { Nav, NavDropdown } from "react-bootstrap";
 import { GlobalState } from "../../types/globalState";
 import { Contest } from "../../types/apiResponse";
 import { setSmallTableCategory } from "../../reducers/appReducer";
@@ -24,23 +24,26 @@ const AOJTable: React.FC<Props> = (props: Props) => {
     <React.Fragment>
       <Nav
         variant="tabs"
-        className="flex-row"
         defaultActiveKey={activeTab}
         onSelect={(eventKey: string) => {
           setActiveTab(eventKey);
           dispatch(setSmallTableCategory(eventKey));
         }}
       >
-        {cl.map((v, k) => (
-          <Nav.Item key={k}>
-            <Nav.Link eventKey={v.toLowerCase()}>{v}</Nav.Link>
-          </Nav.Item>
-        ))}
-        {courses.map((v, k) => (
-          <Nav.Item key={k}>
-            <Nav.Link eventKey={v.toLowerCase()}>{v}</Nav.Link>
-          </Nav.Item>
-        ))}
+        <NavDropdown title="Challenges" id="nav-dropdown">
+          {cl.map((v, k) => (
+            <NavDropdown.Item key={k} eventKey={v.toLowerCase()}>
+              {v}
+            </NavDropdown.Item>
+          ))}
+        </NavDropdown>
+        <NavDropdown title="Courses" id="nav-dropdown">
+          {courses.map((v, k) => (
+            <NavDropdown.Item key={k} eventKey={v.toLowerCase()}>
+              {v}
+            </NavDropdown.Item>
+          ))}
+        </NavDropdown>
       </Nav>
       {cl.map((v, k) => (
         <React.Fragment key={k}>

@@ -44,20 +44,19 @@ const TablePage: React.FC<{}> = () => {
         )}
         <Nav
           variant="tabs"
-          className="flex-row"
           defaultActiveKey={activeTab}
           onSelect={(eventKey: string) => {
             setActiveTab(eventKey);
             dispatch(setLargeTableCategory(eventKey));
             switch (eventKey) {
               case "atcoder":
-                dispatch(setSmallTableCategory("abc"));
+                dispatch(setSmallTableCategory("abc-1999"));
                 break;
               case "codeforces":
-                dispatch(setSmallTableCategory("cr1"));
+                dispatch(setSmallTableCategory("div1-2018"));
                 break;
               case "yukicoder":
-                dispatch(setSmallTableCategory("regular"));
+                dispatch(setSmallTableCategory("regular-201"));
                 break;
               case "aoj":
                 dispatch(setSmallTableCategory("joi"));

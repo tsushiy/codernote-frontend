@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Nav } from "react-bootstrap";
+import { Nav, NavDropdown } from "react-bootstrap";
 import { GlobalState } from "../../types/globalState";
 import { Contest } from "../../types/apiResponse";
 import { setSmallTableCategory } from "../../reducers/appReducer";
@@ -21,24 +21,57 @@ const YukicoderTable: React.FC<Props> = (props: Props) => {
     <React.Fragment>
       <Nav
         variant="tabs"
-        className="flex-row"
         defaultActiveKey={activeTab}
         onSelect={(eventKey: string) => {
           setActiveTab(eventKey);
           dispatch(setSmallTableCategory(eventKey));
         }}
       >
-        <Nav.Item>
-          <Nav.Link eventKey="regular">Regular</Nav.Link>
-        </Nav.Item>
+        <NavDropdown title="Regular" id="nav-dropdown">
+          <NavDropdown.Item eventKey="regular-201">
+            Regular 201-
+          </NavDropdown.Item>
+          <NavDropdown.Item eventKey="regular-101">
+            Regular 101-200
+          </NavDropdown.Item>
+          <NavDropdown.Item eventKey="regular-001">
+            Regular -100
+          </NavDropdown.Item>
+        </NavDropdown>
         <Nav.Item>
           <Nav.Link eventKey="others">Others</Nav.Link>
         </Nav.Item>
       </Nav>
-      {activeTab === "regular" && (
+      {activeTab === "regular-201" && (
         <RegularTable
           domain="yukicoder"
-          contests={contests.filter((v) => v.Title.match(/^yukicoder contest/))}
+          contests={contests
+            .filter((v) => v.Title.match(/^yukicoder contest/))
+            .filter(
+              (v) => 201 <= Number(v.Title.match(/[0-9]{1,3}/)?.toString())
+            )}
+        />
+      )}
+      {activeTab === "regular-101" && (
+        <RegularTable
+          domain="yukicoder"
+          contests={contests
+            .filter((v) => v.Title.match(/^yukicoder contest/))
+            .filter(
+              (v) =>
+                101 <= Number(v.Title.match(/[0-9]{1,3}/)?.toString()) &&
+                Number(v.Title.match(/[0-9]{1,3}/)?.toString()) < 201
+            )}
+        />
+      )}
+      {activeTab === "regular-001" && (
+        <RegularTable
+          domain="yukicoder"
+          contests={contests
+            .filter((v) => v.Title.match(/^yukicoder contest/))
+            .filter(
+              (v) => Number(v.Title.match(/[0-9]{1,3}/)?.toString()) < 101
+            )}
         />
       )}
       {activeTab === "others" && (
