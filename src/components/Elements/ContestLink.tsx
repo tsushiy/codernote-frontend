@@ -33,6 +33,9 @@ export const ContestLink: React.FC<Props> = (props: Props) => {
       if (contest.Domain === "codeforces") {
         const tmpTitle = contest.Title.match(/#[0-9]{1,3}/)?.toString();
         title = tmpTitle ? tmpTitle : title;
+      } else if (contest.Domain === "yukicoder") {
+        const tmpTitle = contest.Title.match(/[0-9]{1,3}/)?.toString();
+        title = tmpTitle ? tmpTitle : title;
       } else {
         title = contest.ContestID.toUpperCase();
       }
