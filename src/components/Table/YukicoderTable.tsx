@@ -27,7 +27,7 @@ const YukicoderTable: React.FC<Props> = (props: Props) => {
           dispatch(setSmallTableCategory(eventKey));
         }}
       >
-        <NavDropdown title="Regular" id="nav-dropdown">
+        <NavDropdown title="Regular" id="regular-dropdown">
           <NavDropdown.Item eventKey="regular-201">
             Regular 201-
           </NavDropdown.Item>

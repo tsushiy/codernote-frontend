@@ -27,7 +27,7 @@ const CodeforcesTable: React.FC<Props> = (props: Props) => {
           dispatch(setSmallTableCategory(eventKey));
         }}
       >
-        <NavDropdown title="Div1" id="nav-dropdown">
+        <NavDropdown title="Div1" id="div1-dropdown">
           <NavDropdown.Item eventKey="div1-2018">
             Div1 Regular 2018-
           </NavDropdown.Item>
@@ -44,7 +44,7 @@ const CodeforcesTable: React.FC<Props> = (props: Props) => {
             Div1 Others
           </NavDropdown.Item>
         </NavDropdown>
-        <NavDropdown title="Div2" id="nav-dropdown">
+        <NavDropdown title="Div2" id="div2-dropdown">
           <NavDropdown.Item eventKey="div2-2018">
             Div2 Regular 2018-
           </NavDropdown.Item>
@@ -67,7 +67,7 @@ const CodeforcesTable: React.FC<Props> = (props: Props) => {
         <Nav.Item>
           <Nav.Link eventKey="educational">Educational</Nav.Link>
         </Nav.Item>
-        <NavDropdown title="Others" id="nav-dropdown">
+        <NavDropdown title="Others" id="others-dropdown">
           <NavDropdown.Item eventKey="others-2018">
             Others 2018-
           </NavDropdown.Item>

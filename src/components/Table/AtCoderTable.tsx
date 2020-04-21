@@ -27,7 +27,7 @@ const AtCoderTable: React.FC<Props> = (props: Props) => {
           dispatch(setSmallTableCategory(eventKey));
         }}
       >
-        <NavDropdown title="ABC Class" id="nav-dropdown">
+        <NavDropdown title="ABC Class" id="abc-dropdown">
           <NavDropdown.Item eventKey="abc-1999">
             ABC Rated ~1999
           </NavDropdown.Item>
@@ -41,7 +41,7 @@ const AtCoderTable: React.FC<Props> = (props: Props) => {
             ABC Unrated
           </NavDropdown.Item>
         </NavDropdown>
-        <NavDropdown title="ARC Class" id="nav-dropdown">
+        <NavDropdown title="ARC Class" id="arc-dropdown">
           <NavDropdown.Item eventKey="arc-rated">ARC Rated</NavDropdown.Item>
           <NavDropdown.Item eventKey="arc-sponsored">
             ARC Sponsored
@@ -50,13 +50,13 @@ const AtCoderTable: React.FC<Props> = (props: Props) => {
             ARC Unrated
           </NavDropdown.Item>
         </NavDropdown>
-        <NavDropdown title="AGC Class" id="nav-dropdown">
+        <NavDropdown title="AGC Class" id="agc-dropdown">
           <NavDropdown.Item eventKey="agc-regular">
             AGC Regular
           </NavDropdown.Item>
           <NavDropdown.Item eventKey="agc-others">AGC Others</NavDropdown.Item>
         </NavDropdown>
-        <NavDropdown title="Others" id="nav-dropdown">
+        <NavDropdown title="Others" id="others-dropdown">
           <NavDropdown.Item eventKey="others-2018">
             Others 2018-
           </NavDropdown.Item>

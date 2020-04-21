@@ -30,14 +30,14 @@ const AOJTable: React.FC<Props> = (props: Props) => {
           dispatch(setSmallTableCategory(eventKey));
         }}
       >
-        <NavDropdown title="Challenges" id="nav-dropdown">
+        <NavDropdown title="Challenges" id="challenges-dropdown">
           {cl.map((v, k) => (
             <NavDropdown.Item key={k} eventKey={v.toLowerCase()}>
               {v}
             </NavDropdown.Item>
           ))}
         </NavDropdown>
-        <NavDropdown title="Courses" id="nav-dropdown">
+        <NavDropdown title="Courses" id="courses-dropdown">
           {courses.map((v, k) => (
             <NavDropdown.Item key={k} eventKey={v.toLowerCase()}>
               {v}
