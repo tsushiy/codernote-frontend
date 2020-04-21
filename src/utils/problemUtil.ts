@@ -122,7 +122,9 @@ export const contestColorClass = (contest: Contest | undefined) => {
     const rated = contest.Rated;
     switch (contest.Domain) {
       case "atcoder":
-        if (rated === " ~ 1999") {
+        if (rated === " ~ 1199") {
+          return "atcoder-green";
+        } else if (rated === " ~ 1999") {
           return "atcoder-blue";
         } else if (rated === " ~ 2799") {
           return "atcoder-orange";
