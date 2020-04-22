@@ -51,10 +51,10 @@ const SearchTable: React.FC<{}> = () => {
           </Pagination.Item>
         ))}
       </Pagination>
-      <StyledTable className="table-sm table-responsive-sm">
+      <StyledTable className="table-sm table-responsive-sm table-bordered">
         <thead>
           <tr>
-            <th style={{ width: "90px" }}>Service</th>
+            <th style={{ width: "100px" }}>Service</th>
             <th style={{ width: "35%" }}>Contest</th>
             <th>Problem</th>
           </tr>
