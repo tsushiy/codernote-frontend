@@ -27,3 +27,9 @@ export const paginationList = (currPage: number, maxPage: number) => {
 
   return pages;
 };
+
+const specialCharRegExp = new RegExp(/[\\^$.*+?()[\]{}|]/, "g");
+
+export const escapedText = (text: string) => {
+  return text.replace(specialCharRegExp, "\\$&");
+};

@@ -14,6 +14,7 @@ import CodeforcesTable from "./CodeforcesTable";
 import AOJTable from "./AOJTable";
 import YukicoderTable from "./YukicoderTable";
 import LeetCodeTable from "./LeetCodeTable";
+import SearchTable from "./SearchTable";
 
 const TablePage: React.FC<{}> = () => {
   const dispatch = useDispatch();
@@ -82,6 +83,9 @@ const TablePage: React.FC<{}> = () => {
           <Nav.Item>
             <Nav.Link eventKey="leetcode">LeetCode</Nav.Link>
           </Nav.Item>
+          <Nav.Item>
+            <Nav.Link eventKey="search">Search</Nav.Link>
+          </Nav.Item>
         </Nav>
         {activeTab === "atcoder" && (
           <AtCoderTable
@@ -116,6 +120,7 @@ const TablePage: React.FC<{}> = () => {
             )}
           />
         )}
+        {activeTab === "search" && <SearchTable />}
       </Container>
     </MainContainer>
   );
