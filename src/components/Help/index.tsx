@@ -45,48 +45,46 @@ const SettingsPage: React.FC<{}> = () => {
               </a>
               からお願いします。Contributionも歓迎です。
             </p>
-            <p>
-              以下のAPIを使用しています。提供元に感謝いたします。
-              <ul>
-                <li>
-                  <a
-                    href="https://github.com/kenkoooo/AtCoderProblems"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    kenkoooo/AtCoderProblems
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="https://codeforces.com/apiHelp"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Codeforces API
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="https://petstore.swagger.io/?url=https://yukicoder.me/api/swagger.yaml"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    yukicoder API
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="http://developers.u-aizu.ac.jp/index"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    AOJ API
-                  </a>
-                </li>
-                <li>LeetCode API</li>
-              </ul>
-            </p>
+            <p>以下のAPIを使用しています。提供元に感謝します。</p>
+            <ul>
+              <li>
+                <a
+                  href="https://github.com/kenkoooo/AtCoderProblems"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  kenkoooo/AtCoderProblems
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://codeforces.com/apiHelp"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Codeforces API
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://petstore.swagger.io/?url=https://yukicoder.me/api/swagger.yaml"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  yukicoder API
+                </a>
+              </li>
+              <li>
+                <a
+                  href="http://developers.u-aizu.ac.jp/index"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  AOJ API
+                </a>
+              </li>
+              <li>LeetCode API</li>
+            </ul>
             <p>
               <a
                 href="https://kenkoooo.com/atcoder"
