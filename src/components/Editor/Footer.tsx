@@ -5,9 +5,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { publicNoteColor, privateNoteColor } from "../Styles";
 
 type Props = {
-  onSubmitText: () => Promise<void>;
-  onChangePublic: (pub: boolean) => void;
-  onDeleteText: () => Promise<void>;
+  submitNote: () => void;
+  deleteNote: () => void;
+  setIsPublic: (pub: React.SetStateAction<boolean>) => void;
   noteExists: boolean;
   isPublic: boolean;
 };
@@ -36,7 +36,7 @@ const Footer: React.FC<Props> = (props: Props) => {
   return (
     <ButtonsContainer>
       {props.noteExists && (
-        <Button variant="danger" onClick={props.onDeleteText}>
+        <Button variant="danger" onClick={props.deleteNote}>
           Delete
         </Button>
       )}
@@ -46,10 +46,10 @@ const Footer: React.FC<Props> = (props: Props) => {
         onSelect={(eventKey: string) => {
           switch (eventKey) {
             case "public":
-              props.onChangePublic(true);
+              props.setIsPublic(true);
               break;
             case "private":
-              props.onChangePublic(false);
+              props.setIsPublic(false);
               break;
           }
         }}
@@ -62,7 +62,7 @@ const Footer: React.FC<Props> = (props: Props) => {
           <Dropdown.Item eventKey="private">{privateButton}</Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>
-      <Button onClick={props.onSubmitText}>
+      <Button onClick={props.submitNote}>
         <FontAwesomeIcon
           icon={["fas", "edit"]}
           style={{ width: "16px", height: "16px" }}

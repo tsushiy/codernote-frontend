@@ -58,10 +58,38 @@ const EditorPage: React.FC<Props> = (props: Props) => {
     contest = contestMap.get(problem?.Domain + problem?.ContestID);
   }
 
-  const setAndShowMessage = (message: string) => {
-    setMessage(message);
-    setShowMessage(true);
-  };
+  useEffect(() => {
+    setIsFetchTried(false);
+  }, [isLoggedIn]);
+
+  useEffect(() => {
+    let unmounted = false;
+    if (isFetchTried) return;
+    getMyNote(problemNo)
+      .then((note) => {
+        if (!unmounted) {
+          setNote(note);
+          setIsFetchTried(true);
+        }
+      })
+      .catch(() => {
+        if (!unmounted) {
+          unsetNote();
+          setIsFetchTried(true);
+        }
+      });
+    return () => {
+      unmounted = true;
+    };
+  }, [dispatch, isFetchTried, isLoggedIn, problemNo]);
+
+  useEffect(() => {
+    let timerId: number;
+    if (!showMessage) {
+      timerId = setTimeout(() => setMessage(""), 200);
+    }
+    return () => clearTimeout(timerId);
+  }, [showMessage]);
 
   const setNote = (note: Note) => {
     setNoteId(note.ID);
@@ -77,65 +105,41 @@ const EditorPage: React.FC<Props> = (props: Props) => {
     setNoteExists(false);
   };
 
-  useEffect(() => {
-    setIsFetchTried(false);
-  }, [isLoggedIn]);
+  const setAndShowMessage = (message: string) => {
+    setMessage(message);
+    setShowMessage(true);
+  };
 
-  useEffect(() => {
-    if (isFetchTried) return;
-    setIsFetchTried(true);
-    if (!isLoggedIn) return;
-    (async () => {
-      try {
-        const note = await getMyNote(problemNo);
-        if (note) {
-          setNote(note);
-        }
-      } catch (error) {
-        setNoteExists(false);
-      }
-    })();
-  }, [dispatch, isFetchTried, isLoggedIn, problemNo]);
-
-  const onSubmitText = async () => {
-    try {
-      const note = await postMyNote(problemNo, rawText, isPublic);
-      if (note) {
+  const submitNote = () => {
+    postMyNote(problemNo, rawText, isPublic)
+      .then((note) => {
         dispatch(setMyNote({ problemNo, newNote: note }));
         setNote(note);
         setAndShowMessage("Successfully submitted.");
-      }
-    } catch (error) {
-      setAndShowMessage("Failed to submit.");
-    }
+      })
+      .catch(() => {
+        setAndShowMessage("Failed to submit.");
+      });
   };
 
-  const onDeleteText = async () => {
-    const res = await deleteMyNote(problemNo);
-    if (res.status === 200) {
-      dispatch(unsetMyNote({ problemNo }));
-      unsetNote();
-      setAndShowMessage("Successfully deleted.");
-    } else {
-      setAndShowMessage("Failed to delete.");
-    }
+  const deleteNote = () => {
+    deleteMyNote(problemNo)
+      .then(() => {
+        dispatch(unsetMyNote({ problemNo }));
+        unsetNote();
+        setAndShowMessage("Successfully deleted.");
+      })
+      .catch(() => {
+        setAndShowMessage("Failed to delete.");
+      });
   };
-
-  const onChangeText = (txt: string) => setRawText(txt);
-  const onChangePublic = (pub: boolean) => setIsPublic(pub);
 
   return (
     <EditorWrapper problemExists={problemExists} isFetchTried={isFetchTried}>
       <Container>
         <StyledToast
-          style={{
-            display: showMessage ? "block" : "none",
-            backgroundColor: messageColor(message),
-          }}
-          onClose={() => {
-            setShowMessage(false);
-            setMessage("");
-          }}
+          style={{ backgroundColor: messageColor(message) }}
+          onClose={() => setShowMessage(false)}
           show={showMessage}
           delay={3000}
           autohide
@@ -186,7 +190,7 @@ const EditorPage: React.FC<Props> = (props: Props) => {
           <MarkdownEditor
             editorPreviewMode={editorPreviewMode}
             rawText={rawText}
-            onChangeText={onChangeText}
+            setRawText={setRawText}
           />
           <EditorPreview
             editorPreviewMode={editorPreviewMode}
@@ -196,9 +200,9 @@ const EditorPage: React.FC<Props> = (props: Props) => {
         </EditorContainer>
         <FooterContainer>
           <Footer
-            onSubmitText={onSubmitText}
-            onChangePublic={onChangePublic}
-            onDeleteText={onDeleteText}
+            submitNote={submitNote}
+            deleteNote={deleteNote}
+            setIsPublic={setIsPublic}
             noteExists={noteExists}
             isPublic={isPublic}
           />

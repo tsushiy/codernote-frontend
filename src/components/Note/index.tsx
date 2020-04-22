@@ -42,26 +42,25 @@ const NotePage: React.FC<Props> = (props: Props) => {
   }
 
   useEffect(() => {
-    (async () => {
-      try {
-        if (isLoggedIn) {
-          const note = await authGetNote(noteId);
-          if (note) {
-            setNote(note);
-            setNoteExists(true);
-          }
-        } else {
-          const note = await nonAuthGetNote(noteId);
-          if (note) {
-            setNote(note);
-            setNoteExists(true);
-          }
+    let unmounted = false;
+    const getNote = isLoggedIn ? authGetNote : nonAuthGetNote;
+    getNote(noteId)
+      .then((note) => {
+        if (!unmounted) {
+          setNote(note);
+          setNoteExists(true);
+          setIsFetchTried(true);
         }
-      } catch (error) {
-        setNoteExists(false);
-      }
-      setIsFetchTried(true);
-    })();
+      })
+      .catch(() => {
+        if (!unmounted) {
+          setNoteExists(false);
+          setIsFetchTried(true);
+        }
+      });
+    return () => {
+      unmounted = true;
+    };
   }, [isLoggedIn, noteId]);
 
   return (

@@ -12,29 +12,40 @@ import firebase from "../utils/firebase";
 const API_BASE_URL = "https://apiv1.codernote.tsushiy.com";
 
 export const fetchTypedArray = async <T>(
+  typeGuardFn: (obj: T) => obj is T,
   url: string,
-  typeGuardFn: (obj: T) => obj is T
+  init?: RequestInit
 ) => {
-  return fetch(url)
+  return fetch(url, init)
     .then((res) => res.json())
     .then((array: T[]) => array.filter(typeGuardFn));
 };
 
+export const fetchTypedData = async <T>(
+  typeGuardFn: (obj: T) => obj is T,
+  url: string,
+  init?: RequestInit
+) => {
+  return fetch(url, init)
+    .then((res) => res.json())
+    .then((obj) => {
+      if (typeGuardFn(obj)) {
+        return obj;
+      } else {
+        return Promise.reject(new Error("Fetched data type mismatched"));
+      }
+    });
+};
+
 export const fetchProblems = () =>
-  fetchTypedArray(`${API_BASE_URL}/problems`, isProblem);
+  fetchTypedArray(isProblem, `${API_BASE_URL}/problems`);
 export const fetchContests = () =>
-  fetchTypedArray(`${API_BASE_URL}/contests?order=-started`, isContest);
+  fetchTypedArray(isContest, `${API_BASE_URL}/contests?order=-started`);
 
 export const nonAuthGetNote = async (noteId: string) => {
   const params = new URLSearchParams({ noteId });
   const url = `${API_BASE_URL}/note?${params}`;
-  return fetch(url)
-    .then((res) => res.json())
-    .then((note) => {
-      if (isNote(note)) {
-        return note;
-      }
-    });
+  return fetchTypedData(isNote, url);
 };
 
 export const getPublicNotes = async ({
@@ -56,13 +67,7 @@ export const getPublicNotes = async ({
     order,
   });
   const url = `${API_BASE_URL}/notes?${params.toString()}`;
-  return fetch(url)
-    .then((res) => res.json())
-    .then((noteList) => {
-      if (isNoteList(noteList)) {
-        return noteList;
-      }
-    });
+  return fetchTypedData(isNoteList, url);
 };
 
 export const postLogin = async () => {
@@ -72,13 +77,7 @@ export const postLogin = async () => {
   const headers = {
     Authorization: `Bearer ${token}`,
   };
-  return fetch(url, { method, headers })
-    .then((res) => res.json())
-    .then((user) => {
-      if (isUser(user)) {
-        return user;
-      }
-    });
+  return fetchTypedData(isUser, url, { method, headers });
 };
 
 export const postChangeName = async (name: string) => {
@@ -92,13 +91,7 @@ export const postChangeName = async (name: string) => {
   const body = JSON.stringify({
     Name: name,
   });
-  return fetch(url, { method, headers, body })
-    .then((res) => res.json())
-    .then((user) => {
-      if (isUser(user)) {
-        return user;
-      }
-    });
+  return fetchTypedData(isUser, url, { method, headers, body });
 };
 
 export const getUserSetting = async () => {
@@ -107,13 +100,7 @@ export const getUserSetting = async () => {
   const headers = {
     Authorization: `Bearer ${token}`,
   };
-  return fetch(url, { headers })
-    .then((res) => res.json())
-    .then((userDetail) => {
-      if (isUserDetail(userDetail)) {
-        return userDetail;
-      }
-    });
+  return fetchTypedData(isUserDetail, url, { headers });
 };
 
 export const postUserSetting = async ({
@@ -137,13 +124,7 @@ export const postUserSetting = async ({
     AOJID: aojID,
     LeetCodeID: leetcodeID,
   });
-  return fetch(url, { method, headers, body })
-    .then((res) => res.json())
-    .then((userDetail) => {
-      if (isUserDetail(userDetail)) {
-        return userDetail;
-      }
-    });
+  return fetchTypedData(isUserDetail, url, { method, headers, body });
 };
 
 export const authGetNote = async (noteId: string) => {
@@ -153,13 +134,7 @@ export const authGetNote = async (noteId: string) => {
   const headers = {
     Authorization: `Bearer ${token}`,
   };
-  return fetch(url, { headers })
-    .then((res) => res.json())
-    .then((note) => {
-      if (isNote(note)) {
-        return note;
-      }
-    });
+  return fetchTypedData(isNote, url, { headers });
 };
 
 export const getMyNote = async (problemNo: number) => {
@@ -168,13 +143,7 @@ export const getMyNote = async (problemNo: number) => {
   const headers = {
     Authorization: `Bearer ${token}`,
   };
-  return fetch(url, { headers })
-    .then((res) => res.json())
-    .then((note) => {
-      if (isNote(note)) {
-        return note;
-      }
-    });
+  return fetchTypedData(isNote, url, { headers });
 };
 
 export const postMyNote = async (
@@ -192,13 +161,7 @@ export const postMyNote = async (
     Text: text,
     Public: isPublic,
   });
-  return fetch(url, { method, headers, body })
-    .then((res) => res.json())
-    .then((note) => {
-      if (isNote(note)) {
-        return note;
-      }
-    });
+  return fetchTypedData(isNote, url, { method, headers, body });
 };
 
 export const deleteMyNote = async (problemNo: number) => {
@@ -208,7 +171,13 @@ export const deleteMyNote = async (problemNo: number) => {
   const headers = {
     Authorization: `Bearer ${token}`,
   };
-  return fetch(url, { method, headers });
+  return fetch(url, { method, headers }).then((res) => {
+    if (res.status === 200) {
+      return Promise.resolve();
+    } else {
+      return Promise.reject(new Error("Failed to delete"));
+    }
+  });
 };
 
 export const getMyNotes = async ({
@@ -230,13 +199,7 @@ export const getMyNotes = async ({
   const headers = {
     Authorization: `Bearer ${token}`,
   };
-  return fetch(url, { headers })
-    .then((res) => res.json())
-    .then((noteList) => {
-      if (isNoteList(noteList)) {
-        return noteList;
-      }
-    });
+  return fetchTypedData(isNoteList, url, { headers });
 };
 
 export const getMyNoteTag = async (problemNo: number) => {
@@ -245,13 +208,7 @@ export const getMyNoteTag = async (problemNo: number) => {
   const headers = {
     Authorization: `Bearer ${token}`,
   };
-  return fetch(url, { headers })
-    .then((res) => res.json())
-    .then((tags) => {
-      if (isTagList(tags)) {
-        return tags;
-      }
-    });
+  return fetchTypedData(isTagList, url, { headers });
 };
 
 export const postMyNoteTag = async (problemNo: number, tag: string) => {
@@ -264,7 +221,13 @@ export const postMyNoteTag = async (problemNo: number, tag: string) => {
   const body = JSON.stringify({
     Tag: tag,
   });
-  return fetch(url, { method, headers, body });
+  return fetch(url, { method, headers, body }).then((res) => {
+    if (res.status === 200) {
+      return Promise.resolve();
+    } else {
+      return Promise.reject(new Error("Failed to post"));
+    }
+  });
 };
 
 export const deleteMyNoteTag = async (problemNo: number, tag: string) => {
@@ -277,5 +240,11 @@ export const deleteMyNoteTag = async (problemNo: number, tag: string) => {
   const body = JSON.stringify({
     Tag: tag,
   });
-  return fetch(url, { method, headers, body });
+  return fetch(url, { method, headers, body }).then((res) => {
+    if (res.status === 200) {
+      return Promise.resolve();
+    } else {
+      return Promise.reject(new Error("Failed to delete"));
+    }
+  });
 };

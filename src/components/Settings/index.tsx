@@ -22,16 +22,11 @@ const SettingsPage: React.FC<{}> = () => {
   }, [isLoggedIn, initialSettings]);
 
   useEffect(() => {
-    let unmounted = false;
-    if (!showMessage)
-      setTimeout(() => {
-        if (!unmounted) {
-          setMessage("");
-        }
-      }, 200);
-    return () => {
-      unmounted = true;
-    };
+    let timerId: number;
+    if (!showMessage) {
+      timerId = setTimeout(() => setMessage(""), 200);
+    }
+    return () => clearTimeout(timerId);
   }, [showMessage]);
 
   const dispatchSettings = () => {
@@ -44,26 +39,28 @@ const SettingsPage: React.FC<{}> = () => {
     setShowMessage(true);
   };
 
-  const onSubmitUserName = async (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmitUserName = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    try {
-      await postChangeName(settings.userName);
-      dispatchSettings();
-      setAndShowMessage("Successfully changed UserName.");
-    } catch (e) {
-      setAndShowMessage("Failed to change UserName.");
-    }
+    postChangeName(settings.userName)
+      .then(() => {
+        dispatchSettings();
+        setAndShowMessage("Successfully changed UserName.");
+      })
+      .catch(() => {
+        setAndShowMessage("Failed to change UserName.");
+      });
   };
 
-  const onSubmitOtherSettings = async (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmitOtherSettings = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    try {
-      await postUserSetting({ ...settings });
-      dispatchSettings();
-      setAndShowMessage("Successfully changed User Settings.");
-    } catch (e) {
-      setAndShowMessage("Failed to change User Settings.");
-    }
+    postUserSetting({ ...settings })
+      .then(() => {
+        dispatchSettings();
+        setAndShowMessage("Successfully changed User Settings.");
+      })
+      .catch(() => {
+        setAndShowMessage("Failed to change User Settings.");
+      });
   };
 
   return (

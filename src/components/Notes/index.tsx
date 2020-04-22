@@ -41,7 +41,7 @@ export const queryToParams = (query: queryType) => {
 const NotesPage: React.FC<Props> = (props: Props) => {
   const { isMyNotes } = props;
 
-  const [notes, setNotes] = useState<Note[]>();
+  const [notes, setNotes] = useState<Note[]>([]);
   const [query, setQuery] = useState<queryType>({
     domain: "",
     problemNo: 0,
@@ -59,7 +59,7 @@ const NotesPage: React.FC<Props> = (props: Props) => {
   const [activeTab, setActiveTab] = useState(notesShowMode);
 
   useEffect(() => {
-    setNotes(undefined);
+    setNotes([]);
     setQuery({
       domain: "",
       problemNo: 0,
@@ -72,6 +72,7 @@ const NotesPage: React.FC<Props> = (props: Props) => {
   }, [props, isLoggedIn, isMyNotes]);
 
   useEffect(() => {
+    let unmounted = false;
     if (isFetchTried) return;
     const urlQuery = parse(props.location.search);
     let page = typeof urlQuery.page === "string" ? parseInt(urlQuery.page) : 1;
@@ -93,19 +94,17 @@ const NotesPage: React.FC<Props> = (props: Props) => {
     };
     setQuery(Object.assign({}, currentQuery));
 
-    (async () => {
-      setIsFetchTried(true);
-      let noteList;
-      if (isMyNotes) {
-        noteList = await getMyNotes({ ...currentQuery, skip, limit });
-      } else {
-        noteList = await getPublicNotes({ ...currentQuery, skip, limit });
-      }
-      if (noteList) {
+    const getNotes = isMyNotes ? getMyNotes : getPublicNotes;
+    getNotes({ ...currentQuery, skip, limit }).then((noteList) => {
+      if (!unmounted) {
         setNotes(noteList.Notes);
         setMaxPage(Math.max(1, Math.ceil(noteList.Count / limit)));
+        setIsFetchTried(true);
       }
-    })();
+    });
+    return () => {
+      unmounted = true;
+    };
   }, [props, isFetchTried, isMyNotes]);
 
   return (

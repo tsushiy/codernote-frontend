@@ -4,7 +4,7 @@ import styled from "styled-components";
 type Props = {
   editorPreviewMode: string;
   rawText: string;
-  onChangeText: (txt: string) => void;
+  setRawText: (text: React.SetStateAction<string>) => void;
 };
 
 const MarkdownEditor: React.FC<Props> = (props: Props) => {
@@ -25,7 +25,7 @@ const MarkdownEditor: React.FC<Props> = (props: Props) => {
         defaultValue={props.rawText}
         placeholder={"Write something in Markdown."}
         onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
-          props.onChangeText(e.target.value);
+          props.setRawText(e.target.value);
         }}
       />
     </Container>
