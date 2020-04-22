@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { LinkContainer } from "react-router-bootstrap";
-import { Form, Button, FormControl, Pagination } from "react-bootstrap";
+import { Form, Button, Pagination } from "react-bootstrap";
 import styled from "styled-components";
 import { paginationList } from "../../utils/filter";
 import { queryType, queryToParams } from "./index";
@@ -21,30 +21,6 @@ const NotesFilter: React.FC<Props> = (props: Props) => {
 
   const pages = paginationList(query.page, maxPage);
 
-  const onChangeService = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setFilterQuery({ ...filterQuery, domain: e.target.value });
-  };
-
-  const onChangeProblemNo = (
-    e: React.FormEvent<FormControl & HTMLInputElement>
-  ) => {
-    let problemNo = parseInt(e.currentTarget.value);
-    if (isNaN(problemNo)) {
-      problemNo = 0;
-    }
-    setFilterQuery({ ...filterQuery, problemNo });
-  };
-
-  const onChangeUserName = (
-    e: React.FormEvent<FormControl & HTMLInputElement>
-  ) => {
-    setFilterQuery({ ...filterQuery, userName: e.currentTarget.value });
-  };
-
-  const onChangeTag = (e: React.FormEvent<FormControl & HTMLInputElement>) => {
-    setFilterQuery({ ...filterQuery, tag: e.currentTarget.value });
-  };
-
   const resetFilter = () => {
     setFilterQuery({
       domain: "",
@@ -62,7 +38,9 @@ const NotesFilter: React.FC<Props> = (props: Props) => {
         <div style={{ width: "15%", minWidth: "80px" }}>
           <Form.Control
             as="select"
-            onChange={onChangeService}
+            onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+              setFilterQuery({ ...filterQuery, domain: e.target.value })
+            }
             value={filterQuery.domain}
           >
             <option value="" disabled style={{ display: "none" }}>
@@ -79,8 +57,14 @@ const NotesFilter: React.FC<Props> = (props: Props) => {
         {!isMyNotes && (
           <div style={{ width: "18%", minWidth: "80px" }}>
             <Form.Control
+              type="text"
               placeholder="User"
-              onChange={onChangeUserName}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setFilterQuery({
+                  ...filterQuery,
+                  userName: e.target.value,
+                })
+              }
               value={filterQuery.userName}
             />
           </div>
@@ -88,20 +72,29 @@ const NotesFilter: React.FC<Props> = (props: Props) => {
         {!isMyNotes && (
           <div style={{ width: "15%", minWidth: "80px" }}>
             <Form.Control
+              type="text"
               placeholder="ProblemNo"
-              onChange={onChangeProblemNo}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setFilterQuery({
+                  ...filterQuery,
+                  problemNo: parseInt(e.target.value),
+                })
+              }
               value={
-                filterQuery.problemNo !== 0
-                  ? filterQuery.problemNo.toString()
-                  : ""
+                filterQuery.problemNo === 0 || isNaN(filterQuery.problemNo)
+                  ? ""
+                  : filterQuery.problemNo.toString()
               }
             />
           </div>
         )}
         <div style={{ width: "22%", minWidth: "80px" }}>
           <Form.Control
+            type="text"
             placeholder="Tag"
-            onChange={onChangeTag}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setFilterQuery({ ...filterQuery, tag: e.target.value })
+            }
             value={filterQuery.tag}
           />
         </div>

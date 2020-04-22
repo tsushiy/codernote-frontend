@@ -13,7 +13,6 @@ const SettingsPage: React.FC<{}> = () => {
   const initialSettings = useSelector((state: GlobalState) => state.auth);
   const { isLoggedIn } = initialSettings;
 
-  const [isSettingChanged, setIsSettingChanged] = useState(false);
   const [message, setMessage] = useState("");
   const [showMessage, setShowMessage] = useState(false);
   const [settings, setSettings] = useState(initialSettings);
@@ -23,22 +22,36 @@ const SettingsPage: React.FC<{}> = () => {
   }, [isLoggedIn, initialSettings]);
 
   useEffect(() => {
-    if (!isSettingChanged) return;
+    let unmounted = false;
+    if (!showMessage)
+      setTimeout(() => {
+        if (!unmounted) {
+          setMessage("");
+        }
+      }, 200);
+    return () => {
+      unmounted = true;
+    };
+  }, [showMessage]);
+
+  const dispatchSettings = () => {
     dispatch(setUser());
     dispatch(setMyNotes());
-    setIsSettingChanged(false);
-  }, [dispatch, isSettingChanged]);
+  };
+
+  const setAndShowMessage = (message: string) => {
+    setMessage(message);
+    setShowMessage(true);
+  };
 
   const onSubmitUserName = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       await postChangeName(settings.userName);
-      setIsSettingChanged(true);
-      setMessage("Successfully changed UserName.");
-      setShowMessage(true);
-    } catch (error) {
-      setMessage("Failed to change UserName.");
-      setShowMessage(true);
+      dispatchSettings();
+      setAndShowMessage("Successfully changed UserName.");
+    } catch (e) {
+      setAndShowMessage("Failed to change UserName.");
     }
   };
 
@@ -46,12 +59,10 @@ const SettingsPage: React.FC<{}> = () => {
     e.preventDefault();
     try {
       await postUserSetting({ ...settings });
-      setIsSettingChanged(true);
-      setMessage("Successfully changed User Settings.");
-      setShowMessage(true);
-    } catch (error) {
-      setMessage("Failed to change User Settings.");
-      setShowMessage(true);
+      dispatchSettings();
+      setAndShowMessage("Successfully changed User Settings.");
+    } catch (e) {
+      setAndShowMessage("Failed to change User Settings.");
     }
   };
 
@@ -68,14 +79,8 @@ const SettingsPage: React.FC<{}> = () => {
           </Alert>
         )}
         <StyledToast
-          style={{
-            display: showMessage ? "block" : "none",
-            backgroundColor: messageColor(message),
-          }}
-          onClose={() => {
-            setShowMessage(false);
-            setMessage("");
-          }}
+          style={{ backgroundColor: messageColor(message) }}
+          onClose={() => setShowMessage(false)}
           show={showMessage}
           delay={3000}
           autohide
@@ -89,7 +94,7 @@ const SettingsPage: React.FC<{}> = () => {
               <Form.Control
                 type="text"
                 defaultValue={settings.userName}
-                onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   setSettings({ ...settings, userName: e.target.value })
                 }
               />
@@ -110,7 +115,7 @@ const SettingsPage: React.FC<{}> = () => {
               <Form.Control
                 type="text"
                 defaultValue={settings.atcoderID}
-                onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   setSettings({ ...settings, atcoderID: e.target.value })
                 }
               />
@@ -120,7 +125,7 @@ const SettingsPage: React.FC<{}> = () => {
               <Form.Control
                 type="text"
                 defaultValue={settings.codeforcesID}
-                onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   setSettings({ ...settings, codeforcesID: e.target.value })
                 }
               />
@@ -130,7 +135,7 @@ const SettingsPage: React.FC<{}> = () => {
               <Form.Control
                 type="text"
                 defaultValue={settings.yukicoderID}
-                onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   setSettings({ ...settings, yukicoderID: e.target.value })
                 }
               />
@@ -149,7 +154,7 @@ const SettingsPage: React.FC<{}> = () => {
               <Form.Control
                 type="text"
                 defaultValue={settings.aojID}
-                onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   setSettings({ ...settings, aojID: e.target.value })
                 }
               />
@@ -159,7 +164,7 @@ const SettingsPage: React.FC<{}> = () => {
               <Form.Control
                 type="text"
                 defaultValue={settings.leetcodeID}
-                onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   setSettings({ ...settings, leetcodeID: e.target.value })
                 }
                 disabled

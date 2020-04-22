@@ -8,10 +8,6 @@ type Props = {
 };
 
 const MarkdownEditor: React.FC<Props> = (props: Props) => {
-  const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    props.onChangeText(e.target.value);
-  };
-
   const display = props.editorPreviewMode === "preview" ? "none" : "block";
   let width;
   switch (props.editorPreviewMode) {
@@ -28,7 +24,9 @@ const MarkdownEditor: React.FC<Props> = (props: Props) => {
       <StyledTextarea
         defaultValue={props.rawText}
         placeholder={"Write something in Markdown."}
-        onChange={onChange}
+        onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
+          props.onChangeText(e.target.value);
+        }}
       />
     </Container>
   );
