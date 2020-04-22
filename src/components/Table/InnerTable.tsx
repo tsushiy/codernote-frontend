@@ -9,7 +9,7 @@ import TableCell from "./TableCell";
 
 type RowTableProps = {
   domain: string;
-  contest: Contest;
+  contest: Contest | undefined;
 };
 
 type RegularTableProps = {

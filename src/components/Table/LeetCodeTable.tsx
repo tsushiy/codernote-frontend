@@ -40,11 +40,7 @@ const LeetCodeTable: React.FC<Props> = (props: Props) => {
           {activeTab === v.toLowerCase() && (
             <RowTable
               domain="leetcode"
-              contest={
-                contests.filter((contest) =>
-                  contest.ContestID.match(new RegExp(`^${v}$`))
-                )[0]
-              }
+              contest={contests.find((contest) => contest.ContestID === v)}
             />
           )}
         </React.Fragment>

@@ -17,8 +17,8 @@ const AOJTable: React.FC<Props> = (props: Props) => {
   const { smallTableCategory } = useSelector((state: GlobalState) => state.app);
   const [activeTab, setActiveTab] = useState(smallTableCategory);
 
-  const courses = ["ITP1", "ALDS1", "ITP2", "DSL", "DPL", "GRL", "CGL", "NTL"];
   const cl = ["JOI", "PCK", "ICPC", "JAG", "VPC", "UOA"];
+  const courses = ["ITP1", "ALDS1", "ITP2", "DSL", "DPL", "GRL", "CGL", "NTL"];
 
   return (
     <React.Fragment>
@@ -50,11 +50,7 @@ const AOJTable: React.FC<Props> = (props: Props) => {
           {activeTab === v.toLowerCase() && (
             <RowTable
               domain="aoj"
-              contest={
-                contests.filter((contest) =>
-                  contest.ContestID.match(new RegExp(`^${v}$`))
-                )[0]
-              }
+              contest={contests.find((contest) => contest.ContestID === v)}
             />
           )}
         </React.Fragment>
@@ -64,11 +60,7 @@ const AOJTable: React.FC<Props> = (props: Props) => {
           {activeTab === v.toLowerCase() && (
             <RowTable
               domain="aoj"
-              contest={
-                contests.filter((contest) =>
-                  contest.ContestID.match(new RegExp(`^${v}$`))
-                )[0]
-              }
+              contest={contests.find((contest) => contest.ContestID === v)}
             />
           )}
         </React.Fragment>
