@@ -162,7 +162,6 @@ export const RowTable: React.FC<RowTableProps> = (props: RowTableProps) => {
 const StyledRegularTable = styled(Table)`
   &&& {
     table-layout: fixed;
-    width: 100%;
     word-wrap: break-word;
 
     caption {
@@ -202,6 +201,8 @@ const OthersTableContainer = styled.div`
 
 const StyledOthersTable = styled(Table)`
   &&& {
+    table-layout: fixed;
+    word-wrap: break-word;
     border-top: 1px solid #dee2e6;
     border-left: 1px solid #dee2e6;
 
@@ -239,7 +240,6 @@ const StyledOthersTable = styled(Table)`
 const StyledRowTable = styled(Table)`
   &&& {
     table-layout: fixed;
-    width: 100%;
     word-wrap: break-word;
 
     caption {
