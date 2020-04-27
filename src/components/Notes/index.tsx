@@ -38,8 +38,19 @@ export const queryToParams = (query: queryType) => {
   return params.toString();
 };
 
+const pathToIsMyNotes = (path: string) => {
+  switch (path) {
+    case "/notes":
+      return false;
+    case "/mynotes":
+      return true;
+    default:
+      return false;
+  }
+};
+
 const NotesPage: React.FC<Props> = (props: Props) => {
-  const { isMyNotes } = props;
+  const isMyNotes = pathToIsMyNotes(props.location.pathname);
 
   const [notes, setNotes] = useState<Note[]>([]);
   const [query, setQuery] = useState<queryType>({

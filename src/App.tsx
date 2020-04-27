@@ -15,6 +15,7 @@ import {
 } from "./reducers/problemReducer";
 import { setMyNotes, unsetMyNotes } from "./reducers/noteReducer";
 import { GlobalState } from "./types/globalState";
+import withTracker from "./GATracker";
 import NavigationBar from "./components/NavigationBar";
 import AppFooter from "./components/AppFooter";
 import TablePage from "./components/Table";
@@ -94,22 +95,30 @@ const App: React.FC<{}> = () => {
             <Route exact path="/">
               <Redirect to="/table" />
             </Route>
-            <Route exact path="/table" component={TablePage} />
+            <Route exact path="/table" component={withTracker(TablePage)} />
+            <Route exact path="/notes" component={withTracker(NotesPage)} />
+            <Route exact path="/mynotes" component={withTracker(NotesPage)} />
             <Route
               exact
-              path="/notes"
-              render={(props) => <NotesPage isMyNotes={false} {...props} />}
+              path="/notes/:noteId"
+              component={withTracker(NotePage)}
             />
             <Route
               exact
-              path="/mynotes"
-              render={(props) => <NotesPage isMyNotes={true} {...props} />}
+              path="/submissions"
+              component={withTracker(SubmissionsPage)}
             />
-            <Route exact path="/notes/:noteId" component={NotePage} />
-            <Route exact path="/submissions" component={SubmissionsPage} />
-            <Route exact path="/edit/:problemNo" component={EditorPage} />
-            <Route exact path="/settings" component={SettingsPage} />
-            <Route exact path="/help" component={HelpPage} />
+            <Route
+              exact
+              path="/edit/:problemNo"
+              component={withTracker(EditorPage)}
+            />
+            <Route
+              exact
+              path="/settings"
+              component={withTracker(SettingsPage)}
+            />
+            <Route exact path="/help" component={withTracker(HelpPage)} />
           </Switch>
           <Switch>
             <Route exact path="/edit/:problemNo" />

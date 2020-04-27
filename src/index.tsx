@@ -4,6 +4,7 @@ import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import { Provider } from "react-redux";
 import store from "./reducers";
+import ReactGA from "react-ga";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fab } from "@fortawesome/free-brands-svg-icons";
 import { fas } from "@fortawesome/free-solid-svg-icons";
@@ -14,6 +15,7 @@ import "highlight.js/styles/atom-one-dark.css";
 import "katex/dist/katex.min.css";
 import "./index.css";
 
+ReactGA.initialize("UA-136429373-5");
 library.add(fab, fas);
 
 ReactDOM.render(
