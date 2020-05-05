@@ -13,7 +13,7 @@ import { Problem } from "../../types/apiResponse";
 import { mainButtonColor } from "../Styles";
 import { ProblemLink } from "../Elements/ProblemLink";
 import { EditButton, ViewButton } from "../Elements/NoteLink";
-import { NotesLinkButton } from "../Elements/NotesLink";
+import { NotesSearchButton } from "../Elements/NotesLink";
 
 type Props = {
   problemNo: number;
@@ -79,7 +79,7 @@ const TableCell: React.FC<Props> = (props: Props) => {
         <ButtonsWrapper>
           <EditButton problemNo={problemNo} />
           <ViewButton note={note} />
-          <NotesLinkButton problemNo={problemNo} />
+          <NotesSearchButton problemNo={problemNo} />
         </ButtonsWrapper>
       </div>
       <ProblemLinkContainer>

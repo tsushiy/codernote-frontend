@@ -7,7 +7,7 @@ import { serviceName } from "../../utils/problemUtil";
 import { ProblemLink } from "../Elements/ProblemLink";
 import { ContestLink } from "../Elements/ContestLink";
 import { EditButton } from "../Elements/NoteLink";
-import { NotesLinkButton } from "../Elements/NotesLink";
+import { NotesSearchButtonWithPadding } from "../Elements/NotesLink";
 
 type Props = {
   problem: Problem | undefined;
@@ -35,13 +35,13 @@ const NoteHeader: React.FC<Props> = (props: Props) => {
       <div style={{ display: "flex" }}>
         <ProblemTitle>
           <ProblemLink problem={props.problem} />
-          <NotesLinkButton problemNo={props.problem?.No} />
+          <NotesSearchButtonWithPadding problemNo={props.problem?.No} />
         </ProblemTitle>
       </div>
       <div style={{ fontSize: "0.95em", color: "#555" }}>
         {"by "}
         {props.userName}
-        <NotesLinkButton userName={props.userName} />
+        <NotesSearchButtonWithPadding userName={props.userName} />
       </div>
       <time
         dateTime={props.updatedAt}

@@ -9,7 +9,7 @@ import { submissionUrl, isAccepted } from "../../utils/submissionUtil";
 import { GlobalState } from "../../types/globalState";
 import { ProblemLinkWithID } from "../Elements/ProblemLink";
 import { EditButton, ViewButton } from "../Elements/NoteLink";
-import { NotesLinkButton } from "../Elements/NotesLink";
+import { NotesSearchButtonWithPadding } from "../Elements/NotesLink";
 
 const SubmissionsPage: React.FC<{}> = () => {
   const { aojID } = useSelector((state: GlobalState) => state.auth);
@@ -71,7 +71,9 @@ const SubmissionsPage: React.FC<{}> = () => {
                   <ProblemLinkWithID
                     problem={problemMap.get(submission.problemNo)}
                   />
-                  <NotesLinkButton problemNo={submission.problemNo} />
+                  <NotesSearchButtonWithPadding
+                    problemNo={submission.problemNo}
+                  />
                 </td>
                 <td className="text-center">
                   <Badge

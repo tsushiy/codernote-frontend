@@ -10,11 +10,11 @@ type Props = {
   tag?: string;
 };
 
-const LinkButton: React.FC<{ editUrl: string }> = (props: {
-  editUrl: string;
+const LinkButton: React.FC<{ searchUrl: string }> = (props: {
+  searchUrl: string;
 }) => {
   return (
-    <Link to={props.editUrl}>
+    <Link to={props.searchUrl}>
       <FontAwesomeIcon
         icon={["fas", "search"]}
         size="sm"
@@ -24,36 +24,54 @@ const LinkButton: React.FC<{ editUrl: string }> = (props: {
   );
 };
 
-export const NotesLinkButton: React.FC<Props> = (props: Props) => {
+export const NotesSearchButton: React.FC<Props> = (props: Props) => {
   const { domain, userName, problemNo, tag } = props;
   if (domain !== undefined) {
-    const editUrl = `/notes/?domain=${domain}`;
-    return <LinkButton editUrl={editUrl} />;
+    const searchUrl = `/notes/?domain=${domain}`;
+    return <LinkButton searchUrl={searchUrl} />;
   }
   if (userName !== undefined) {
-    const editUrl = `/notes/?userName=${userName}`;
-    return <LinkButton editUrl={editUrl} />;
+    const searchUrl = `/notes/?userName=${userName}`;
+    return <LinkButton searchUrl={searchUrl} />;
   }
   if (problemNo !== undefined) {
-    const editUrl = `/notes/?problemNo=${problemNo}`;
-    return <LinkButton editUrl={editUrl} />;
+    const searchUrl = `/notes/?problemNo=${problemNo}`;
+    return <LinkButton searchUrl={searchUrl} />;
   }
   if (tag !== undefined) {
-    const editUrl = `/notes/?tag=${tag}`;
-    return <LinkButton editUrl={editUrl} />;
+    const searchUrl = `/notes/?tag=${tag}`;
+    return <LinkButton searchUrl={searchUrl} />;
   }
   return null;
 };
 
-export const MyNotesLinkButton: React.FC<Props> = (props: Props) => {
+export const MyNotesSearchButton: React.FC<Props> = (props: Props) => {
   const { domain, tag } = props;
   if (domain !== undefined) {
-    const editUrl = `/mynotes/?domain=${domain}`;
-    return <LinkButton editUrl={editUrl} />;
+    const searchUrl = `/mynotes/?domain=${domain}`;
+    return <LinkButton searchUrl={searchUrl} />;
   }
   if (tag !== undefined) {
-    const editUrl = `/mynotes/?tag=${tag}`;
-    return <LinkButton editUrl={editUrl} />;
+    const searchUrl = `/mynotes/?tag=${tag}`;
+    return <LinkButton searchUrl={searchUrl} />;
   }
   return null;
+};
+
+export const NotesSearchButtonWithPadding: React.FC<Props> = (props: Props) => {
+  return (
+    <span style={{ padding: "0 0.1em" }}>
+      <NotesSearchButton {...props} />
+    </span>
+  );
+};
+
+export const MyNotesSearchButtonWithPadding: React.FC<Props> = (
+  props: Props
+) => {
+  return (
+    <span style={{ padding: "0 0.1em" }}>
+      <MyNotesSearchButton {...props} />
+    </span>
+  );
 };

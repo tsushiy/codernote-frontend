@@ -8,7 +8,10 @@ import { serviceName } from "../../utils/problemUtil";
 import { ProblemLinkWithID } from "../Elements/ProblemLink";
 import { ContestLink } from "../Elements/ContestLink";
 import { EditButton, ViewButton } from "../Elements/NoteLink";
-import { NotesLinkButton, MyNotesLinkButton } from "../Elements/NotesLink";
+import {
+  NotesSearchButtonWithPadding,
+  MyNotesSearchButtonWithPadding,
+} from "../Elements/NotesLink";
 
 type Props = {
   notes: Note[] | undefined;
@@ -40,15 +43,19 @@ const NotesTable: React.FC<Props> = (props: Props) => {
               {!isMyNotes && (
                 <td>
                   {note.User.Name}
-                  <NotesLinkButton userName={note.User.Name} />
+                  <NotesSearchButtonWithPadding userName={note.User.Name} />
                 </td>
               )}
               <td className="text-center">
                 {serviceName(note.Problem.Domain)}
                 {isMyNotes && (
-                  <MyNotesLinkButton domain={note.Problem.Domain} />
+                  <MyNotesSearchButtonWithPadding
+                    domain={note.Problem.Domain}
+                  />
                 )}
-                {!isMyNotes && <NotesLinkButton domain={note.Problem.Domain} />}
+                {!isMyNotes && (
+                  <NotesSearchButtonWithPadding domain={note.Problem.Domain} />
+                )}
               </td>
               <td>
                 <ContestLink
@@ -59,7 +66,7 @@ const NotesTable: React.FC<Props> = (props: Props) => {
               </td>
               <td>
                 <ProblemLinkWithID problem={note.Problem} />
-                <NotesLinkButton problemNo={note.Problem.No} />
+                <NotesSearchButtonWithPadding problemNo={note.Problem.No} />
               </td>
               <td className="text-center">
                 {isMyNotes && (
