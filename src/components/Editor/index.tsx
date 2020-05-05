@@ -9,7 +9,7 @@ import { GlobalState } from "../../types/globalState";
 import { Note, isPublicNote } from "../../types/apiResponse";
 import { setEditorPreviewMode } from "../../reducers/appReducer";
 import { setMyNote, unsetMyNote } from "../../reducers/noteReducer";
-import { messageColor } from "../Styles";
+import { mainButtonColor, messageColor } from "../Styles";
 import MarkdownEditor from "./MarkdownEditor";
 import EditorPreview from "./EditorPreview";
 import Header from "./Header";
@@ -164,9 +164,9 @@ const EditorPage: React.FC<Props> = (props: Props) => {
             <Nav.Item>
               <Nav.Link eventKey="edit">
                 <FontAwesomeIcon
-                  icon={["fas", "edit"]}
+                  icon={["fas", "pencil-alt"]}
                   size="sm"
-                  color="#777"
+                  color={mainButtonColor}
                 />
               </Nav.Link>
             </Nav.Item>
@@ -175,13 +175,17 @@ const EditorPage: React.FC<Props> = (props: Props) => {
                 <FontAwesomeIcon
                   icon={["fas", "arrows-alt-h"]}
                   size="sm"
-                  color="#777"
+                  color={mainButtonColor}
                 />
               </Nav.Link>
             </Nav.Item>
             <Nav.Item>
               <Nav.Link eventKey="preview">
-                <FontAwesomeIcon icon={["fas", "eye"]} size="sm" color="#777" />
+                <FontAwesomeIcon
+                  icon={["fas", "eye"]}
+                  size="sm"
+                  color={mainButtonColor}
+                />
               </Nav.Link>
             </Nav.Item>
           </Nav>

@@ -16,7 +16,7 @@ export const MainContainer = styled.div`
   }
 `;
 
-export const editColor = "#707070";
+export const mainButtonColor = "#666";
 export const publicNoteColor = "#ffa316";
 export const privateNoteColor = "#3aafea";
 

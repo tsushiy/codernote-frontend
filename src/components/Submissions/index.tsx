@@ -8,7 +8,7 @@ import { serviceName } from "../../utils/problemUtil";
 import { submissionUrl, isAccepted } from "../../utils/submissionUtil";
 import { GlobalState } from "../../types/globalState";
 import { ProblemLinkWithID } from "../Elements/ProblemLink";
-import { EditLink, ViewLink } from "../Elements/NoteLink";
+import { EditButton, ViewButton } from "../Elements/NoteLink";
 import { NotesLinkButton } from "../Elements/NotesLink";
 
 const SubmissionsPage: React.FC<{}> = () => {
@@ -94,11 +94,11 @@ const SubmissionsPage: React.FC<{}> = () => {
                   )}
                 </td>
                 <td className="text-center">
-                  <EditLink problemNo={submission.problemNo} />
+                  <EditButton problemNo={submission.problemNo} />
                   {myNotesMap.has(submission.problemNo) && (
                     <React.Fragment>
                       {" / "}
-                      <ViewLink note={myNotesMap.get(submission.problemNo)} />
+                      <ViewButton note={myNotesMap.get(submission.problemNo)} />
                     </React.Fragment>
                   )}
                 </td>

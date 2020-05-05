@@ -24,7 +24,7 @@ const NoteHeader: React.FC<Props> = (props: Props) => {
     <Container>
       {userName === props.userName && (
         <EditButtonContainer>
-          <EditButton problemNo={props.problem?.No}>Edit</EditButton>
+          <EditButton problemNo={props.problem?.No} />
         </EditButtonContainer>
       )}
       <ContestTitle>
@@ -66,7 +66,7 @@ const EditButtonContainer = styled.div`
   right: 16px;
 
   a {
-    font-size: 1em;
+    font-size: 1.2em;
     padding: 0.3em 0.5em;
   }
 `;

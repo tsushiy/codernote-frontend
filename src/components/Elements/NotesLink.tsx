@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import styled from "styled-components";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { mainButtonColor } from "../../components/Styles";
 
 type Props = {
   domain?: string;
@@ -13,11 +14,13 @@ const LinkButton: React.FC<{ editUrl: string }> = (props: {
   editUrl: string;
 }) => {
   return (
-    <StyledLink to={props.editUrl}>
-      <span role="img" aria-label="search">
-        🔍
-      </span>
-    </StyledLink>
+    <Link to={props.editUrl}>
+      <FontAwesomeIcon
+        icon={["fas", "search"]}
+        size="sm"
+        color={mainButtonColor}
+      />
+    </Link>
   );
 };
 
@@ -54,14 +57,3 @@ export const MyNotesLinkButton: React.FC<Props> = (props: Props) => {
   }
   return null;
 };
-
-const StyledLink = styled(Link)`
-  &&& {
-    padding: 0 0.15em;
-    text-decoration: none;
-
-    & > span {
-      font-size: 0.85em;
-    }
-  }
-`;

@@ -7,7 +7,7 @@ import { GlobalState } from "../../types/globalState";
 import { serviceName } from "../../utils/problemUtil";
 import { ProblemLinkWithID } from "../Elements/ProblemLink";
 import { ContestLink } from "../Elements/ContestLink";
-import { EditLink, ViewLink } from "../Elements/NoteLink";
+import { EditButton, ViewButton } from "../Elements/NoteLink";
 import { NotesLinkButton, MyNotesLinkButton } from "../Elements/NotesLink";
 
 type Props = {
@@ -64,11 +64,11 @@ const NotesTable: React.FC<Props> = (props: Props) => {
               <td className="text-center">
                 {isMyNotes && (
                   <React.Fragment>
-                    <EditLink problemNo={note.Problem.No} />
+                    <EditButton problemNo={note.Problem.No} />
                     {" / "}
                   </React.Fragment>
                 )}
-                <ViewLink note={note} />
+                <ViewButton note={note} />
               </td>
             </tr>
           ))}

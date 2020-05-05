@@ -6,8 +6,17 @@ import { Provider } from "react-redux";
 import store from "./reducers";
 import ReactGA from "react-ga";
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { fab } from "@fortawesome/free-brands-svg-icons";
-import { fas } from "@fortawesome/free-solid-svg-icons";
+import { faGithub } from "@fortawesome/free-brands-svg-icons";
+import {
+  faUsers,
+  faLock,
+  faEdit,
+  faArrowsAltH,
+  faEye,
+  faPencilAlt,
+  faSearch,
+  faUser,
+} from "@fortawesome/free-solid-svg-icons";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "github-markdown-css/github-markdown.css";
@@ -16,7 +25,17 @@ import "katex/dist/katex.min.css";
 import "./index.css";
 
 ReactGA.initialize("UA-136429373-5");
-library.add(fab, fas);
+library.add(faGithub);
+library.add(
+  faUsers,
+  faLock,
+  faEdit,
+  faArrowsAltH,
+  faEye,
+  faPencilAlt,
+  faSearch,
+  faUser
+);
 
 ReactDOM.render(
   <Provider store={store}>

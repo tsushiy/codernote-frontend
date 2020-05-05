@@ -1,14 +1,16 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { GlobalState } from "../../types/globalState";
 import {
   isAccepted,
   acceptedOrLatestSubmission,
 } from "../../utils/submissionUtil";
-import { aojProblemDifficultyString } from "../../utils/problemUtil";
 import { timePassageString } from "../../utils/time";
 import { Submission } from "../../types/submissions";
+import { Problem } from "../../types/apiResponse";
+import { mainButtonColor } from "../Styles";
 import { ProblemLink } from "../Elements/ProblemLink";
 import { EditButton, ViewButton } from "../Elements/NoteLink";
 import { NotesLinkButton } from "../Elements/NotesLink";
@@ -29,6 +31,28 @@ const cellColor = (submission: Submission | null, noteExists: boolean) => {
     return "tablecell-success";
   } else {
     return "tablecell-warning";
+  }
+};
+
+const AOJSolvedCount: React.FC<{ problem: Problem | undefined }> = (props: {
+  problem: Problem | undefined;
+}) => {
+  const { problem } = props;
+  if (problem === undefined || problem.Domain !== "aoj") {
+    return null;
+  } else {
+    return (
+      <span
+        style={{ fontSize: "0.9em", float: "right", color: mainButtonColor }}
+      >
+        <FontAwesomeIcon
+          icon={["fas", "user"]}
+          size="sm"
+          color={mainButtonColor}
+        />
+        {` × ${problem.Difficulty}`}
+      </span>
+    );
   }
 };
 
@@ -60,14 +84,7 @@ const TableCell: React.FC<Props> = (props: Props) => {
       </div>
       <ProblemLinkContainer>
         <ProblemLink problem={problem} />
-        {problem && problem.Domain === "aoj" && (
-          <span
-            className="difficulty-none"
-            style={{ fontSize: "0.85em", float: "right" }}
-          >
-            {aojProblemDifficultyString(problem)}
-          </span>
-        )}
+        <AOJSolvedCount problem={problem} />
       </ProblemLinkContainer>
       {timePassed && <TimePassage>{timePassed}</TimePassage>}
     </td>
@@ -84,9 +101,8 @@ const ProblemLinkContainer = styled.div`
 
 const ButtonsWrapper = styled.div`
   a {
-    font-size: 0.8em;
-    padding: 0.15em 0.4em;
-    margin-right: 0.2em;
+    font-size: 1em;
+    margin-right: 0.4em;
   }
 `;
 
