@@ -7,7 +7,7 @@ import { paginationList } from "../../utils/filter";
 import { serviceName } from "../../utils/problemUtil";
 import { submissionUrl, isAccepted } from "../../utils/submissionUtil";
 import { GlobalState } from "../../types/globalState";
-import { ProblemLinkWithID } from "../Elements/ProblemLink";
+import { ProblemLink } from "../Elements/ProblemLink";
 import { EditButton, ViewButton } from "../Elements/NoteLink";
 import { NotesSearchButtonWithPadding } from "../Elements/NotesLink";
 
@@ -68,8 +68,9 @@ const SubmissionsPage: React.FC<{}> = () => {
                   {serviceName(submission.domain)}
                 </td>
                 <td>
-                  <ProblemLinkWithID
+                  <ProblemLink
                     problem={problemMap.get(submission.problemNo)}
+                    showID={true}
                   />
                   <NotesSearchButtonWithPadding
                     problemNo={submission.problemNo}

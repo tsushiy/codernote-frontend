@@ -7,6 +7,7 @@ import { problemUrl, problemColor } from "../../utils/problemUtil";
 
 type Props = {
   problem: Problem | undefined;
+  showID?: boolean;
 };
 
 const DifficultyCircle: React.FC<Props> = (props: Props) => {
@@ -85,58 +86,36 @@ const DifficultyCircle: React.FC<Props> = (props: Props) => {
 };
 
 export const ProblemLink: React.FC<Props> = (props: Props) => {
-  const { problem } = props;
-  if (problem !== undefined) {
-    return (
-      <React.Fragment>
-        <DifficultyCircle problem={problem} />
-        <a
-          href={problemUrl(problem)}
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{ color: problemColor(problem) }}
-        >
-          {problem.Title}
-        </a>
-      </React.Fragment>
-    );
-  } else {
+  const { problem, showID } = props;
+  if (problem === undefined) {
     return null;
   }
-};
-
-export const ProblemLinkWithID: React.FC<Props> = (props: Props) => {
-  const { problem } = props;
-  if (problem !== undefined) {
-    let id = "";
-    switch (problem.Domain) {
-      case "aoj":
-        id = problem.ProblemID;
-        break;
-      case "yukicoder":
-        id = problem.FrontendID;
-        break;
-      case "leetcode":
-        id = problem.FrontendID;
-        break;
-    }
-    return (
-      <React.Fragment>
-        <DifficultyCircle problem={problem} />
-        <a
-          href={problemUrl(problem)}
-          target="_blank" // eslint-disable-line react/jsx-no-target-blank
-          rel="noopener"
-          style={{ color: problemColor(problem) }}
-        >
-          {id !== "" && `${id}. `}
-          {problem.Title}
-        </a>
-      </React.Fragment>
-    );
-  } else {
-    return null;
+  let id = "";
+  switch (problem.Domain) {
+    case "aoj":
+      id = problem.ProblemID;
+      break;
+    case "yukicoder":
+      id = problem.FrontendID;
+      break;
+    case "leetcode":
+      id = problem.FrontendID;
+      break;
   }
+  return (
+    <React.Fragment>
+      <DifficultyCircle problem={problem} />
+      <a
+        href={problemUrl(problem)}
+        target="_blank" // eslint-disable-line react/jsx-no-target-blank
+        rel="noopener"
+        style={{ color: problemColor(problem) }}
+      >
+        {showID && id !== "" && `${id}. `}
+        {problem.Title}
+      </a>
+    </React.Fragment>
+  );
 };
 
 const StyledDifficultyCircle = styled.span`

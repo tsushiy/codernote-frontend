@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { Note } from "../../types/apiResponse";
 import { GlobalState } from "../../types/globalState";
 import { serviceName } from "../../utils/problemUtil";
-import { ProblemLinkWithID } from "../Elements/ProblemLink";
+import { ProblemLink } from "../Elements/ProblemLink";
 import { ContestLink } from "../Elements/ContestLink";
 import { EditButton, ViewButton } from "../Elements/NoteLink";
 import {
@@ -65,7 +65,7 @@ const NotesTable: React.FC<Props> = (props: Props) => {
                 />
               </td>
               <td>
-                <ProblemLinkWithID problem={note.Problem} />
+                <ProblemLink problem={note.Problem} showID={true} />
                 <NotesSearchButtonWithPadding problemNo={note.Problem.No} />
               </td>
               <td className="text-center">

@@ -7,7 +7,7 @@ import { Note, isPublicNote } from "../../types/apiResponse";
 import { GlobalState } from "../../types/globalState";
 import { serviceName } from "../../utils/problemUtil";
 import { timePassageString } from "../../utils/time";
-import { ProblemLinkWithID } from "../Elements/ProblemLink";
+import { ProblemLink } from "../Elements/ProblemLink";
 import { ContestLink } from "../Elements/ContestLink";
 import { NotesSearchButtonWithPadding } from "../Elements/NotesLink";
 
@@ -47,7 +47,7 @@ const NotesSummary: React.FC<Props> = (props: Props) => {
             </div>
             <div style={{ fontSize: "1.25em", fontWeight: 500 }}>
               {"Problem: "}
-              <ProblemLinkWithID problem={note.Problem} />
+              <ProblemLink problem={note.Problem} showID={true} />
               <NotesSearchButtonWithPadding problemNo={note.Problem.No} />
             </div>
             {!isMyNotes && (
