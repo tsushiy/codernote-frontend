@@ -141,7 +141,7 @@ const SettingsPage: React.FC<{}> = () => {
                   {`https://yukicoder.me/users/{yukicoderID}`}
                   <br />
                   {
-                    "Only the information about solved problems will be fetched for yukicoder."
+                    "Only the information about solved problems is fetched for yukicoder."
                   }
                 </React.Fragment>
               </Form.Text>
@@ -171,7 +171,9 @@ const SettingsPage: React.FC<{}> = () => {
             <Form.Text>
               {"These settings are used for fetching your submissions."}
               <br />
-              {"If you have many submissions, it will take longer to load."}
+              {
+                "It takes longer to load if you have a large number of submissions."
+              }
             </Form.Text>
             <Button variant="primary" type="submit">
               Save
