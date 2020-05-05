@@ -38,108 +38,109 @@ export const contestUrl = (contest: Contest | undefined) => {
   }
 };
 
-export const problemColorClass = (problem: Problem | undefined) => {
-  if (problem) {
-    const difficulty = Number(problem.Difficulty);
-    switch (problem.Domain) {
-      case "atcoder":
-        if (difficulty === 0) {
-          return "difficulty-none";
-        } else if (difficulty < 400) {
-          return "atcoder-grey";
-        } else if (difficulty < 800) {
-          return "atcoder-brown";
-        } else if (difficulty < 1200) {
-          return "atcoder-green";
-        } else if (difficulty < 1600) {
-          return "atcoder-cyan";
-        } else if (difficulty < 2000) {
-          return "atcoder-blue";
-        } else if (difficulty < 2400) {
-          return "atcoder-yellow";
-        } else if (difficulty < 2800) {
-          return "atcoder-orange";
-        } else {
-          return "atcoder-red";
-        }
-      case "codeforces":
-        if (difficulty === 0) {
-          return "difficulty-none";
-        } else if (difficulty < 1200) {
-          return "codeforces-grey";
-        } else if (difficulty < 1400) {
-          return "codeforces-green";
-        } else if (difficulty < 1600) {
-          return "codeforces-cyan";
-        } else if (difficulty < 1900) {
-          return "codeforces-blue";
-        } else if (difficulty < 2100) {
-          return "codeforces-violet";
-        } else if (difficulty < 2400) {
-          return "codeforces-orange";
-        } else {
-          return "codeforces-red";
-        }
-      case "yukicoder":
-        if (difficulty === 0) {
-          return "difficulty-none";
-        } else if (difficulty === 1) {
-          return "yukicoder-grey";
-        } else if (difficulty === 1.5) {
-          return "yukicoder-brown";
-        } else if (difficulty === 2) {
-          return "yukicoder-green";
-        } else if (difficulty === 2.5) {
-          return "yukicoder-cyan";
-        } else if (difficulty === 3) {
-          return "yukicoder-blue";
-        } else if (difficulty === 3.5) {
-          return "yukicoder-yellow";
-        } else if (difficulty === 4) {
-          return "yukicoder-orange";
-        } else {
-          return "yukicoder-red";
-        }
-      case "aoj":
-        return "difficulty-none";
-      case "leetcode":
-        if (difficulty === 1) {
-          return "leetcode-easy";
-        } else if (difficulty === 2) {
-          return "leetcode-medium";
-        } else if (difficulty === 3) {
-          return "leetcode-hard";
-        } else {
-          return "difficulty-none";
-        }
-    }
+export const problemColor = (problem: Problem | undefined) => {
+  const difficulty = Number(problem?.Difficulty);
+  const defaultColor = "#4080d2";
+  if (problem === undefined || isNaN(difficulty)) {
+    return defaultColor;
   }
-  return "difficulty-none";
+  switch (problem.Domain) {
+    case "atcoder":
+      if (difficulty < 400) {
+        return "#808080";
+      } else if (difficulty < 800) {
+        return "#804000";
+      } else if (difficulty < 1200) {
+        return "#008000";
+      } else if (difficulty < 1600) {
+        return "#00c0c0";
+      } else if (difficulty < 2000) {
+        return "#0000ff";
+      } else if (difficulty < 2400) {
+        return "#c0c000";
+      } else if (difficulty < 2800) {
+        return "#ff8000";
+      } else {
+        return "#ff0000";
+      }
+    case "codeforces":
+      if (difficulty === 0) {
+        return defaultColor;
+      } else if (difficulty < 1200) {
+        return "#808080";
+      } else if (difficulty < 1400) {
+        return "#008000";
+      } else if (difficulty < 1600) {
+        return "#03a89e";
+      } else if (difficulty < 1900) {
+        return "#0000ff";
+      } else if (difficulty < 2100) {
+        return "#aa00aa";
+      } else if (difficulty < 2400) {
+        return "#ff8c00";
+      } else if (difficulty < 3000) {
+        return "#ff0000";
+      } else {
+        return "#aa0000";
+      }
+    case "yukicoder":
+      if (difficulty === 1) {
+        return "#808080";
+      } else if (difficulty === 1.5) {
+        return "#804000";
+      } else if (difficulty === 2) {
+        return "#008000";
+      } else if (difficulty === 2.5) {
+        return "#00c0c0";
+      } else if (difficulty === 3) {
+        return "#0000ff";
+      } else if (difficulty === 3.5) {
+        return "#c0c000";
+      } else if (difficulty === 4) {
+        return "#ff8000";
+      } else {
+        return "#ff0000";
+      }
+    case "aoj":
+      return defaultColor;
+    case "leetcode":
+      if (difficulty === 1) {
+        return "#5cb85c";
+      } else if (difficulty === 2) {
+        return "#f0ad4e";
+      } else if (difficulty === 3) {
+        return "#d9534f";
+      } else {
+        return defaultColor;
+      }
+    default:
+      return defaultColor;
+  }
 };
 
-export const contestColorClass = (contest: Contest | undefined) => {
+export const contestColor = (contest: Contest | undefined) => {
   if (contest) {
     const rated = contest.Rated;
     switch (contest.Domain) {
       case "atcoder":
         if (rated === " ~ 1199") {
-          return "atcoder-green";
+          return "#008000";
         } else if (rated === " ~ 1999") {
-          return "atcoder-blue";
+          return "#0000ff";
         } else if (rated === " ~ 2799") {
-          return "atcoder-orange";
+          return "#ff8000";
         } else if (rated === "All") {
-          return "atcoder-red";
+          return "#ff0000";
         } else {
           return "";
         }
       case "codeforces":
         if (rated === "1" || rated === "12") {
-          return "codeforces-red";
+          return "#ff0000";
         } else if (rated === "2") {
-          return "codeforces-blue";
+          return "#0000ff";
         } else if (rated === "3") {
-          return "codeforces-cyan";
+          return "#03a89e";
         } else {
           return "";
         }

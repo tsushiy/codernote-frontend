@@ -16,6 +16,7 @@ import {
   faPencilAlt,
   faSearch,
   faUser,
+  faStar,
 } from "@fortawesome/free-solid-svg-icons";
 
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -34,7 +35,8 @@ library.add(
   faEye,
   faPencilAlt,
   faSearch,
-  faUser
+  faUser,
+  faStar
 );
 
 ReactDOM.render(

@@ -1,6 +1,6 @@
 import React from "react";
 import { Contest } from "../../types/apiResponse";
-import { contestUrl, contestColorClass } from "../../utils/problemUtil";
+import { contestUrl, contestColor } from "../../utils/problemUtil";
 
 type Props = {
   contest: Contest | undefined;
@@ -48,8 +48,11 @@ export const ContestLink: React.FC<Props> = (props: Props) => {
         <React.Fragment>
           {showMark && (
             <span
-              className={contestColorClass(contest)}
-              style={{ fontSize: "85%", marginRight: "2px" }}
+              style={{
+                fontSize: "85%",
+                marginRight: "2px",
+                color: contestColor(contest),
+              }}
             >
               ◉
             </span>
