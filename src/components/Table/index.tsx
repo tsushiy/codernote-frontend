@@ -7,7 +7,6 @@ import { GlobalState } from "../../types/globalState";
 import {
   setLargeTableCategory,
   setSmallTableCategory,
-  setShowTableInfoMessage,
 } from "../../reducers/appReducer";
 import AtCoderTable from "./AtCoderTable";
 import CodeforcesTable from "./CodeforcesTable";
@@ -20,24 +19,12 @@ const TablePage: React.FC<{}> = () => {
   const dispatch = useDispatch();
   const { isLoggedIn } = useSelector((state: GlobalState) => state.auth);
   const { contests } = useSelector((state: GlobalState) => state.problem);
-  const { largeTableCategory, showTableInfoMessage } = useSelector(
-    (state: GlobalState) => state.app
-  );
+  const { largeTableCategory } = useSelector((state: GlobalState) => state.app);
   const [activeTab, setActiveTab] = useState(largeTableCategory);
 
   return (
     <MainContainer>
       <Container>
-        {showTableInfoMessage && (
-          <Alert
-            variant="info"
-            onClose={() => dispatch(setShowTableInfoMessage(false))}
-            style={{ marginBottom: "8px" }}
-            dismissible
-          >
-            The contest table is updated around 5:00 AM JST (UTC+9)
-          </Alert>
-        )}
         {!isLoggedIn && (
           <Alert variant="warning" style={{ marginBottom: "8px" }}>
             You must be logged in to create notes.

@@ -13,16 +13,12 @@ export const setLargeTableCategory = actionCreator<string>(
 export const setSmallTableCategory = actionCreator<string>(
   "SetSmallTableCategory"
 );
-export const setShowTableInfoMessage = actionCreator<boolean>(
-  "SetShowTableInfoMessage"
-);
 export const setNotesShowMode = actionCreator<string>("SetNotesShowMode");
 
 const initialState: AppState = {
   editorPreviewMode: "both",
   largeTableCategory: "atcoder",
   smallTableCategory: "abc-1999",
-  showTableInfoMessage: true,
   notesShowMode: "summary",
 };
 
@@ -38,10 +34,6 @@ const appReducer = reducerWithInitialState(initialState)
   .case(setSmallTableCategory, (state, smallTableCategory) => ({
     ...state,
     smallTableCategory,
-  }))
-  .case(setShowTableInfoMessage, (state, showTableInfoMessage) => ({
-    ...state,
-    showTableInfoMessage,
   }))
   .case(setNotesShowMode, (state, notesShowMode) => ({
     ...state,

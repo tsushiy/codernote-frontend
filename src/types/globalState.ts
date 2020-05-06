@@ -33,7 +33,6 @@ export type AppState = {
   editorPreviewMode: string;
   largeTableCategory: string;
   smallTableCategory: string;
-  showTableInfoMessage: boolean;
   notesShowMode: string;
 };
 
