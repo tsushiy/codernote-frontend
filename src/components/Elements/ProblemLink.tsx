@@ -37,9 +37,6 @@ const DifficultyCircle: React.FC<Props> = (props: Props) => {
         background = `linear-gradient(to bottom right, ${color}, #fff 25%, ${color} 70%)`;
       }
     } else if (problem.Domain === "codeforces") {
-      if (difficulty === 0) {
-        return null;
-      }
       let ratio;
       const diffs = [800, 1200, 1400, 1600, 1900, 2100, 2400, 3000, 3600];
       for (let i = 1; i < diffs.length; i++) {

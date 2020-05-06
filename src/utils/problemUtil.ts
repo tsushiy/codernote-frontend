@@ -64,9 +64,7 @@ export const problemColor = (problem: Problem | undefined) => {
         return "#ff0000";
       }
     case "codeforces":
-      if (difficulty === 0) {
-        return defaultColor;
-      } else if (difficulty < 1200) {
+      if (difficulty < 1200) {
         return "#808080";
       } else if (difficulty < 1400) {
         return "#008000";
