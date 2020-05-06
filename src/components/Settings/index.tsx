@@ -65,6 +65,15 @@ const SettingsPage: React.FC<{}> = () => {
 
   return (
     <MainContainer>
+      <StyledToast
+        style={{ backgroundColor: messageColor(message) }}
+        onClose={() => setShowMessage(false)}
+        show={showMessage}
+        delay={3000}
+        autohide
+      >
+        <Toast.Body>{message}</Toast.Body>
+      </StyledToast>
       <Container>
         <h1>Settings</h1>
         {!isLoggedIn && (
@@ -75,15 +84,6 @@ const SettingsPage: React.FC<{}> = () => {
             You must be logged in to change settings.
           </Alert>
         )}
-        <StyledToast
-          style={{ backgroundColor: messageColor(message) }}
-          onClose={() => setShowMessage(false)}
-          show={showMessage}
-          delay={3000}
-          autohide
-        >
-          <Toast.Body>{message}</Toast.Body>
-        </StyledToast>
         <UserNameContainer>
           <Form onSubmit={onSubmitUserName}>
             <Form.Group controlId="username">
@@ -197,9 +197,9 @@ const Container = styled.div`
 
 const StyledToast = styled(Toast)`
   &&& {
-    position: absolute;
-    top: 10px;
-    right: 0;
+    position: fixed;
+    top: 70px;
+    right: 30px;
     color: #fff;
     font-size: 1.1em;
     font-weight: bold;
