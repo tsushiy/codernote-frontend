@@ -8,17 +8,15 @@ import { ContestLink } from "../Elements/ContestLink";
 import TableCell from "./TableCell";
 
 type RowTableProps = {
-  domain: string;
-  contest: Contest | undefined;
+  problemNoList: number[] | undefined;
+  useFrontendID: boolean;
 };
 
 type RegularTableProps = {
-  domain: string;
   contests: Contest[];
 };
 
 type OthersTableProps = {
-  domain: string;
   contests: Contest[];
 };
 
@@ -107,19 +105,10 @@ export const OthersTable: React.FC<OthersTableProps> = (
 
 export const RowTable: React.FC<RowTableProps> = (props: RowTableProps) => {
   const { problemMap } = useSelector((state: GlobalState) => state.problem);
-  const { domain, contest } = props;
-  let useFrontendID = false;
-  switch (domain) {
-    case "aoj":
-      useFrontendID = false;
-      break;
-    case "leetcode":
-      useFrontendID = true;
-      break;
-  }
+  const { problemNoList, useFrontendID } = props;
 
-  if (contest !== undefined) {
-    contest.ProblemNoList.sort((a, b) => {
+  if (problemNoList !== undefined) {
+    problemNoList.sort((a, b) => {
       const x = useFrontendID
         ? Number(problemMap.get(a)?.FrontendID)
         : Number(problemMap.get(a)?.ProblemID);
@@ -143,8 +132,8 @@ export const RowTable: React.FC<RowTableProps> = (props: RowTableProps) => {
         </tr>
       </thead>
       <tbody>
-        {contest &&
-          contest.ProblemNoList.map((e, i) => (
+        {problemNoList &&
+          problemNoList.map((e, i) => (
             <tr key={i}>
               <th scope="row">
                 {useFrontendID

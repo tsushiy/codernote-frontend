@@ -134,10 +134,10 @@ const NotesPage: React.FC<Props> = (props: Props) => {
           }}
         >
           <Nav.Item>
-            <Nav.Link eventKey="summary">Summary</Nav.Link>
+            <Nav.Link eventKey="list">List</Nav.Link>
           </Nav.Item>
           <Nav.Item>
-            <Nav.Link eventKey="list">List</Nav.Link>
+            <Nav.Link eventKey="summary">Summary</Nav.Link>
           </Nav.Item>
         </Nav>
         {activeTab === "summary" && (

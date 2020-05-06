@@ -49,8 +49,11 @@ const AOJTable: React.FC<Props> = (props: Props) => {
         <React.Fragment key={k}>
           {activeTab === v.toLowerCase() && (
             <RowTable
-              domain="aoj"
-              contest={contests.find((contest) => contest.ContestID === v)}
+              problemNoList={
+                contests.find((contest) => contest.ContestID === v)
+                  ?.ProblemNoList
+              }
+              useFrontendID={false}
             />
           )}
         </React.Fragment>
@@ -59,8 +62,11 @@ const AOJTable: React.FC<Props> = (props: Props) => {
         <React.Fragment key={k}>
           {activeTab === v.toLowerCase() && (
             <RowTable
-              domain="aoj"
-              contest={contests.find((contest) => contest.ContestID === v)}
+              problemNoList={
+                contests.find((contest) => contest.ContestID === v)
+                  ?.ProblemNoList
+              }
+              useFrontendID={false}
             />
           )}
         </React.Fragment>

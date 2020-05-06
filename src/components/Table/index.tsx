@@ -41,7 +41,7 @@ const TablePage: React.FC<{}> = () => {
                 dispatch(setSmallTableCategory("abc-1999"));
                 break;
               case "codeforces":
-                dispatch(setSmallTableCategory("div1-2018"));
+                dispatch(setSmallTableCategory("div1-2020"));
                 break;
               case "yukicoder":
                 dispatch(setSmallTableCategory("regular-201"));
@@ -50,7 +50,7 @@ const TablePage: React.FC<{}> = () => {
                 dispatch(setSmallTableCategory("joi"));
                 break;
               case "leetcode":
-                dispatch(setSmallTableCategory("algorithms"));
+                dispatch(setSmallTableCategory("algorithms-1"));
                 break;
             }
           }}

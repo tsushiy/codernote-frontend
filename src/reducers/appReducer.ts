@@ -19,7 +19,7 @@ const initialState: AppState = {
   editorPreviewMode: "both",
   largeTableCategory: "atcoder",
   smallTableCategory: "abc-1999",
-  notesShowMode: "summary",
+  notesShowMode: "list",
 };
 
 const appReducer = reducerWithInitialState(initialState)
