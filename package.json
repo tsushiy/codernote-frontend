@@ -34,7 +34,7 @@
     "remark-breaks": "^1.0.3",
     "remark-external-links": "^6.0.0",
     "remark-highlight.js": "^5.2.0",
-    "remark-html": "^10.0.0",
+    "remark-html": "^13.0.2",
     "remark-html-katex": "^2.0.0",
     "remark-math": "^2.0.0",
     "remark-parse": "^7.0.2",
